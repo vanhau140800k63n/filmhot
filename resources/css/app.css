@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("all.css");
+@import url("header.css");
+@import url("home.css");
+@import url("movie.css");
