@@ -15,4 +15,9 @@ use App\Http\Controllers\MovieController;
 */
 
 Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
-Route::get('/category={category}&id={id}', [MovieController::class, 'getMovie'])->name('movie');
+Route::prefix('movies')->name('movie.')->group(function() {
+    Route::get('/category={category}&id={id}', [MovieController::class, 'getMovie'])->name('detail');
+    Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
+    Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
+});
+

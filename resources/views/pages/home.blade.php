@@ -23,7 +23,7 @@
 				</div>
 				<div class="grid grid-cols-5 gap-4">
 					@foreach($recommendItems['recommendContentVOList'] as $key => $movie)
-					<a href="./category={{$movie['category']}}&id={{$movie['id']}}" class="bg-[#27282d] rounded-xl"> 
+					<a href="movies/category={{$movie['category']}}&id={{$movie['id']}}" class="bg-[#27282d] rounded-xl"> 
 						<img class="object-cover w-full h-[230px] rounded-t-xl"
 						src="{{$movie['imageUrl']}}" alt="image" />
 						<div class="max-h-[40px] mx-4  text-ellipsis overflow-hidden">

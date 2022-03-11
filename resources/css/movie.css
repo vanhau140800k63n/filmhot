@@ -14,12 +14,61 @@
 	margin-top: 20px;
 }
 
+.movie__media {
+	position: relative;
+}
+
+.movie__media:hover .movie__quality {
+    display: block;
+}
+
+.movie__quality {
+	position: absolute;
+	background-color: transparent;
+	bottom: 35px;
+	right: 140px;
+	/*padding: 10px 0;*/
+	font-weight: 600;
+	-webkit-appearance: none;
+	/*display: none;*/
+	cursor: pointer;
+	padding: 0 10px;
+}
+
+.movie__quality option {
+	background-color: #000;
+	font-weight: 600;
+}
+
+
+.movie__cover {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /*display: none;*/
+}
+
+.movie__play {
+	font-size: 50px;
+}
+
+.movie__play:hover {
+	transition: 0.1s;
+	transform: scale(1.2);
+}
+
 .movie__screen {
 	width: 100%;
 }
 
 .movie__name {
-	font-size: 50px;
+	font-size: 40px;
 	font-weight: 700;
 	margin-top: 30px;
 }
