@@ -44,8 +44,8 @@ header .search {
 	width: 70%;
 }
 
-header input {
-	width: 50%;
+.search .search-form {
+	width: 70%;
 	float: right;
 }
 
@@ -90,6 +90,7 @@ header input {
 
 .movie .container {
 	display: flex;
+	justify-content: space-between;
 }
 
 .movie__container {
@@ -116,7 +117,7 @@ header input {
 	/*padding: 10px 0;*/
 	font-weight: 600;
 	-webkit-appearance: none;
-	/*display: none;*/
+	display: none;
 	cursor: pointer;
 	padding: 0 10px;
 }
@@ -199,7 +200,29 @@ header input {
 	margin-right: 20px;
 }
 
+.movie__similar {
+    width: 20%;
+}
 
+.similar__container {
+	display: flex;
+	transition: 0.2s;
+}
+
+.similar__container:hover {
+	transform: scale(1.05);
+}
+
+.similar__container img {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+.similar__name {
+	width: 50%;
+	margin-left: 20px;
+}
 
 @media only screen and (min-width: 1400px) {
 }

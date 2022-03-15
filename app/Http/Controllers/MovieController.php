@@ -15,7 +15,7 @@ class MovieController extends Controller
         $movie_detail = $movieService->getData($url);
         // dd($movie_detail);
         $episode_id = null;
-
+        $definitionList = [];
         if(!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][0]['definitionList'];
             $episode_id = 0;
@@ -40,10 +40,13 @@ class MovieController extends Controller
         $media = [];
         if(!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$req->episode_id]['definitionList'];
-            $media = $this->getEpisode($req->category, $req->id, $movie_detail['episodeVo'][$req->episode_id]['id'], $definitionList[0]['code']); 
+            if($req->definition == null) {
+                $media = $this->getEpisode($req->category, $req->id, $movie_detail['episodeVo'][$req->episode_id]['id'], $definitionList[0]['code']); 
+            } else {
+                $media = $this->getEpisode($req->category, $req->id, $movie_detail['episodeVo'][$req->episode_id]['id'], $req->definition);
+            }
         }
-        array_push($media, $definitionList);
-
+        array_push($media, $definitionList, $movie_detail['episodeVo'][$req->episode_id]['subtitlingList']);
         return $media;
     }
 
@@ -53,6 +56,7 @@ class MovieController extends Controller
 
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id='.$id.'&category='.$category;
         $movie_detail = $movieService->getData($url);
+        // dd($movie_detail);
 
         if(!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$episode]['definitionList'];

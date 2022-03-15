@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\StorageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +16,16 @@ use App\Http\Controllers\MovieController;
 */
 
 Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
+Route::get('/test', [HomeController::class, 'getHomePage1'])->name('home1');
+Route::get('/search={key}', [HomeController::class, 'searchMovie'])->name('search');
+Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
+Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
+
 Route::prefix('movies')->name('movie.')->group(function() {
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
 });
+
+Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 

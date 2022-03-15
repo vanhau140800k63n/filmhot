@@ -15,8 +15,8 @@ header .search {
 	width: 70%;
 }
 
-header input {
-	width: 50%;
+.search .search-form {
+	width: 70%;
 	float: right;
 }
 

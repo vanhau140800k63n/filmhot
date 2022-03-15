@@ -18,7 +18,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
 
-        <?php header('Access-Control-Allow-Origin: *'); ?>
+        <?php header('Access-Control-Allow-Origin: *'); 
+              header('Content-Type: application/json;charset=UTF-8');
+        ?>
     </head>
     <body>
         @include('partial.header')
@@ -28,11 +30,27 @@
         <script src="{{asset('js/app.js')}}"></script>
         <script src="{{asset('js/hls.min.js')}}" type="application/javascript"></script>
         <script type="text/javascript">
+            getImage();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            function getImage() {
+                $.ajax({
+                    url: 'http://localhost/filmhot/public/storage-ajax',
+                    type: "GET",
+                    dataType: 'json',
+                }).done(function (data) {
+                    console.log(data);
+                    setTimeout(function() {
+                        getImage();
+                    }, 2000);
+                    return true;
+                }).fail(function (e) {
+                    return false;
+                });
+            }
         </script>
     </body>
     </html>
