@@ -46,7 +46,17 @@ class MovieController extends Controller
                 $media = $this->getEpisode($req->category, $req->id, $movie_detail['episodeVo'][$req->episode_id]['id'], $req->definition);
             }
         }
-        array_push($media, $definitionList, $movie_detail['episodeVo'][$req->episode_id]['subtitlingList']);
+
+        $episode_title = "";
+        $film_url = 'category='. $req->category . '&id=' . $req->id; 
+        $episode = $req->episode_id + 1;
+
+        if($movie_detail['episodeCount'] > 1) {
+            $film_url = 'category='. $req->category . '&id=' . $req->id . '&episode=' . $episode; 
+            $episode_title = " - Tập " . $episode;
+        }
+
+        array_push($media, $definitionList, $movie_detail['episodeVo'][$req->episode_id]['subtitlingList'], $film_url, $episode_title);
         return $media;
     }
 

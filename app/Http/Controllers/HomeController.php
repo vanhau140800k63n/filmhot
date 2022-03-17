@@ -2,45 +2,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\MovieService;
 use Image;
 use Session;
 
 class HomeController extends Controller
 {
     public function getHomePage(Request $req) {
-        $image = Session('image')?Session::get('image'):null;
+        $movieService = new MovieService();
+        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0';
+        $movie_home = $movieService->getData($url_movie);
 
-        // $image = array(['a' => 1, 'b' => 2], ['c' => 3]);
+        $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
+        $top_search = $movieService->getData($url_top);
+        // dd($movie_home);
 
-        // 
-        // array_push($image, ['6' => 6]);
-        // unset($image[1]);
-        // array_pop($image);
-        // $req->session()->flush();
-        // dd(Session('image'));
-    
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'lang: vi',
-                'versioncode: 11',
-                'clienttype: ios_jike_default'
-            ),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $convert = json_decode($response,true);
-        return view('pages.home', compact('convert'));
+        return view('pages.home', compact('movie_home', 'top_search'));
 
-        dd($convert);
         // if(!empty($convert['data'])) {
         //     if($index + 1 <= sizeof($convert['data']['recommendItems'])) {
         //         $item = $convert['data']['recommendItems'][$index];
@@ -149,12 +127,11 @@ class HomeController extends Controller
                     $output .= '<div class="mt-8">
                     <div class="flex items-center mt-6 mb-2 justify-between">
                     <div class="flex items-center gap-2 text-[24px] font-semibold">
-                    <div class="fade-loading"></div>
                     <span>'.$recommendItems['homeSectionName'].'</span>
                     </div>
                     <div class="">
                     <a href="">
-                    <button class="flex items-center gap-1 text-[16px] font-medium bg-pink-400 hover:bg-pink-300 text-white rounded-full px-2 py-1">
+                    <button class="flex items-center gap-1 text-[16px] font-medium text-white rounded-[10px] px-2 py-1">
                     <h1>Xem thêm</h1>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -163,7 +140,7 @@ class HomeController extends Controller
                     </a>
                     </div>
                     </div>
-                    <div class="grid grid-cols-5 gap-4">';
+                    <div class="grid grid-cols-6 gap-4">';
                     foreach($recommendItems['recommendContentVOList'] as $key => $movie) {
                         $urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
                         if(!file_exists($urlImage)) {
@@ -171,7 +148,7 @@ class HomeController extends Controller
                             $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
                         }
                         $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="bg-[#27282d] rounded-xl"> 
-                        <img class="object-cover w-full h-[230px] rounded-t-xl"
+                        <img class="object-cover w-full rounded-t-xl"
                         src="'.$urlImage.'" />
                         <div class="max-h-[40px] mx-4  text-ellipsis overflow-hidden">
                         <h2 class="text-gray-100 py-1 text-[16px] whitespace-nowrap">'.$movie['title'].'</h2>
@@ -186,7 +163,7 @@ class HomeController extends Controller
             $req->session()->put('image', $image);
         }
         
-        $data = [$output, ++$req->page];
+        $data = [$output, $req->page + 1];
 
         return $data;
     }
