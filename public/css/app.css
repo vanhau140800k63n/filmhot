@@ -75,6 +75,71 @@ header .search {
     text-overflow: ellipsis;
     word-break: break-word;
 }
+.home__category {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 15px 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    /*background-color: #27282e;*/
+}
+
+.home__category:hover {
+    text-shadow: 2px 2px 10px #fff;
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
+.lds-facebook {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.lds-facebook div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #fff;
+    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+            animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+    left: 8px;
+    -webkit-animation-delay: -0.24s;
+            animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+    left: 32px;
+    -webkit-animation-delay: -0.12s;
+            animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+    left: 56px;
+    -webkit-animation-delay: 0;
+            animation-delay: 0;
+}
+@-webkit-keyframes lds-facebook {
+    0% {
+        top: 8px;
+        height: 64px;
+    }
+    50%, 100% {
+        top: 24px;
+        height: 32px;
+    }
+}
+@keyframes lds-facebook {
+    0% {
+        top: 8px;
+        height: 64px;
+    }
+    50%, 100% {
+        top: 24px;
+        height: 32px;
+    }
+}
 
 @media only screen and (min-width: 1400px) {
 }
@@ -751,6 +816,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 5%;
   margin-right: 5%;
 }
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -799,6 +868,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[350px\] {
   height: 350px;
 }
+.h-\[400px\] {
+  height: 400px;
+}
 .max-h-\[40px\] {
   max-height: 40px;
 }
@@ -826,8 +898,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-3\/12 {
   width: 25%;
 }
+.w-4\/12 {
+  width: 33.333333%;
+}
+.w-8\/12 {
+  width: 66.666667%;
+}
 .grid-cols-6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.flex-col {
+  flex-direction: column;
 }
 .items-center {
   align-items: center;
@@ -837,6 +918,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .justify-between {
   justify-content: space-between;
+}
+.justify-items-center {
+  justify-items: center;
 }
 .gap-2 {
   gap: 0.5rem;
@@ -865,6 +949,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .rounded-md {
   border-radius: 0.375rem;
 }
+.rounded-\[15px\] {
+  border-radius: 15px;
+}
 .rounded-t-xl {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
@@ -880,6 +967,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-\[\#ed5829\] {
   --tw-bg-opacity: 1;
   background-color: rgb(237 88 41 / var(--tw-bg-opacity));
+}
+.bg-\[\#27282e\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 40 46 / var(--tw-bg-opacity));
+}
+.bg-\[\#000\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 .object-cover {
   -o-object-fit: cover;
@@ -909,6 +1004,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 30px;
   padding-right: 30px;
 }
+.px-\[50px\] {
+  padding-left: 50px;
+  padding-right: 50px;
+}
 .pb-\[10px\] {
   padding-bottom: 10px;
 }
@@ -923,6 +1022,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .text-\[14px\] {
   font-size: 14px;
+}
+.text-\[30px\] {
+  font-size: 30px;
+}
+.text-\[25px\] {
+  font-size: 25px;
 }
 .font-semibold {
   font-weight: 600;
@@ -941,4 +1046,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+.text-\[\#ff8511\] {
+  --tw-text-opacity: 1;
+  color: rgb(255 133 17 / var(--tw-text-opacity));
 }

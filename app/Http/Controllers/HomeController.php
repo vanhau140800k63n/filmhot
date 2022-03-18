@@ -15,46 +15,16 @@ class HomeController extends Controller
 
         $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
         $top_search = $movieService->getData($url_top);
-        // dd($movie_home);
+
+        // $urltest = 'https://ga-mobile-api.loklok.tv/cms/app/search/list';
+        // $test = $movieService->getData($urltest);
+        // dd($test);
 
         return view('pages.home', compact('movie_home', 'top_search'));
+    }
 
-        // if(!empty($convert['data'])) {
-        //     if($index + 1 <= sizeof($convert['data']['recommendItems'])) {
-        //         $item = $convert['data']['recommendItems'][$index];
-        //         if($item['homeSectionType'] == 'SINGLE_ALBUM') {
-        //             foreach($item['recommendContentVOList'] as $recommendContentVOList) {
-        //                 $img = $recommendContentVOList['imageUrl'];
-        //                 $img = str_replace(' ', '%20', $img);
-        //                 $img = file_get_contents($img);
-        //                 $imgFile = Image::make($img);
+    public function getTest() {
 
-        //                 $imgFile->resize(300, null, function ($constraint) {
-        //                     $constraint->aspectRatio();
-        //                 });
-        //                 $imgFile->save('img/'.$recommendContentVOList['category'].$recommendContentVOList['id'].'.jpg');
-        //             }
-        //         }
-        //     } else {
-        //         ++$id;
-        //         $index = 0;
-        //         return view('pages.home', compact('convert', 'id', 'index'));
-        //     }
-
-        // }
-
-        // ++$index;
-
-        // return view('pages.home', compact('convert', 'id', 'index'));
-        
-
-        // dd($convert);
-
-        // foreach() {
-
-        // }
-        
-        // return view('pages.home', compact('convert'));
     }
 
     public function searchMovie($key) {
@@ -88,7 +58,59 @@ class HomeController extends Controller
         curl_close($curl);
 
         $convert=json_decode($response,true);
-        return view('pages.search', compact('convert'));
+        return view('pages.search', compact('convert', 'key'));
+    }
+
+    public function searchMovieCategory($id) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/search',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{
+                "size": 60,
+                "params": "MOVIE,TVSPECIAL",
+                "area": "",
+                "category": "'.$id.'",
+                "year": "",
+                "subtitles": "",
+                "order": "up"
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'lang: en',
+                'versioncode: 11',
+                'clienttype: ios_jike_default',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $convert=json_decode($response,true);
+        $key = $id;
+        return view('pages.search', compact('convert', 'key'));
+    }
+
+    public function searchMoreMovie($page, $id) {
+        $movieService = new MovieService();
+
+        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page='. $page;
+        $movie_home = $movieService->getData($url_movie);
+        $result = [];
+        foreach($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems) {
+            if($keyRecommendItems == $id) {
+                $result = $recommendItems;
+            }
+        }
+        return view('pages.moremovie', compact('result'));
     }
 
     public function searchKey(Request $req) {
@@ -124,7 +146,7 @@ class HomeController extends Controller
 
             foreach($convert['data']['recommendItems'] as $key => $recommendItems) {
                 if($recommendItems['homeSectionType'] == 'SINGLE_ALBUM') {
-                    $output .= '<div class="mt-8">
+                    $output .= '<div class="mb-8">
                     <div class="flex items-center mt-6 mb-2 justify-between">
                     <div class="flex items-center gap-2 text-[24px] font-semibold">
                     <span>'.$recommendItems['homeSectionName'].'</span>
@@ -142,18 +164,20 @@ class HomeController extends Controller
                     </div>
                     <div class="grid grid-cols-6 gap-4">';
                     foreach($recommendItems['recommendContentVOList'] as $key => $movie) {
-                        $urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
-                        if(!file_exists($urlImage)) {
-                            $urlImage = $movie['imageUrl'];
-                            $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
+                        if($key < 12) {
+                            $urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
+                            if(!file_exists($urlImage)) {
+                                $urlImage = $movie['imageUrl'];
+                                $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
+                            }
+                            $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="bg-[#27282d] rounded-xl"> 
+                            <img class="object-cover w-full rounded-t-xl" style="max-height:'. $req->width*14/10 .'px"
+                            src="'.$urlImage.'" />
+                            <div class="mx-4 text-center">
+                            <h2 class="text-gray-100 py-1 text-[14px] film__name">'.$movie['title'].'</h2>
+                            </div>
+                            </a>';
                         }
-                        $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="bg-[#27282d] rounded-xl"> 
-                        <img class="object-cover w-full rounded-t-xl"
-                        src="'.$urlImage.'" />
-                        <div class="max-h-[40px] mx-4  text-ellipsis overflow-hidden">
-                        <h2 class="text-gray-100 py-1 text-[16px] whitespace-nowrap">'.$movie['title'].'</h2>
-                        </div>
-                        </a>';
                     }
                     $output .=     '</div>
                     </div>';
@@ -162,6 +186,10 @@ class HomeController extends Controller
             }
             $req->session()->put('image', $image);
         }
+
+        $output .= '<div class="text-center">
+                <div class="lds-facebook"><div></div><div></div><div></div></div>
+            </div>';
         
         $data = [$output, $req->page + 1];
 

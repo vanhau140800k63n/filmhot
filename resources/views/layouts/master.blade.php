@@ -51,6 +51,19 @@
                     return false;
                 });
             }
+            var swiper = new Swiper(".mySwiper", {
+                cssMode: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+                mousewheel: true,
+                keyboard: true,
+            });
+            $('.image').css('max-height', $('.image').width()*1.4);
         </script>
     </body>
     </html>
