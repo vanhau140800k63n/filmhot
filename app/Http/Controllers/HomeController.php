@@ -16,15 +16,39 @@ class HomeController extends Controller
         $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
         $top_search = $movieService->getData($url_top);
 
-        // $urltest = 'https://ga-mobile-api.loklok.tv/cms/app/search/list';
-        // $test = $movieService->getData($urltest);
-        // dd($test);
+        // getimagesize('img/09079.jpg');
+
+        // dd(getimagesize('img/113215.jpg'));
 
         return view('pages.home', compact('movie_home', 'top_search'));
     }
 
     public function getTest() {
-
+        require_once 'HTTP/Request2.php';
+        $request = new HTTP_Request2();
+        $request->setUrl('https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0');
+        $request->setMethod(HTTP_Request2::METHOD_GET);
+        $request->setConfig(array(
+            'follow_redirects' => TRUE
+        ));
+        $request->setHeader(array(
+            'lang' => 'en',
+            'versioncode' => '11',
+            'clienttype' => 'ios_jike_default'
+        ));
+        try {
+            $response = $request->send();
+            if ($response->getStatus() == 200) {
+                echo $response->getBody();
+            }
+            else {
+                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+                $response->getReasonPhrase();
+            }
+        }
+        catch(HTTP_Request2_Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function searchMovie($key) {
@@ -132,7 +156,8 @@ class HomeController extends Controller
             CURLOPT_HTTPHEADER => array(
                 'lang: vi',
                 'versioncode: 11',
-                'clienttype: ios_jike_default'
+                'clienttype: ios_jike_default',
+                'Content-Type: application/json'
             ),
         ));
         $response = curl_exec($curl);
@@ -144,25 +169,21 @@ class HomeController extends Controller
         if(!empty($convert['data'])) {
             $image = Session('image')?Session::get('image'):[];
 
-            foreach($convert['data']['recommendItems'] as $key => $recommendItems) {
+            foreach($convert['data']['recommendItems'] as $keyRecommendItems => $recommendItems) {
                 if($recommendItems['homeSectionType'] == 'SINGLE_ALBUM') {
-                    $output .= '<div class="mb-8">
-                    <div class="flex items-center mt-6 mb-2 justify-between">
-                    <div class="flex items-center gap-2 text-[24px] font-semibold">
+                    $output .= '<div class="recommend__items">
+                    <div class="recommend__items__title">
+                    <div class="recommend__items__name">
                     <span>'.$recommendItems['homeSectionName'].'</span>
                     </div>
-                    <div class="">
-                    <a href="">
-                    <button class="flex items-center gap-1 text-[16px] font-medium text-white rounded-[10px] px-2 py-1">
-                    <h1>Xem thêm</h1>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <a href="page='.$req->page.'.'.$keyRecommendItems.'" class="recommend__items__btn">  
+                    <h1> Xem thêm </h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
-                    </button>
                     </a>
                     </div>
-                    </div>
-                    <div class="grid grid-cols-6 gap-4">';
+                    <div class="recommend__item">';
                     foreach($recommendItems['recommendContentVOList'] as $key => $movie) {
                         if($key < 12) {
                             $urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
@@ -170,16 +191,15 @@ class HomeController extends Controller
                                 $urlImage = $movie['imageUrl'];
                                 $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
                             }
-                            $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="bg-[#27282d] rounded-xl"> 
-                            <img class="object-cover w-full rounded-t-xl" style="max-height:'. $req->width*14/10 .'px"
+                            $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="card__film"> 
+                            <img class="image" style="max-height:'. $req->width*14/10 .'px"
                             src="'.$urlImage.'" />
-                            <div class="mx-4 text-center">
-                            <h2 class="text-gray-100 py-1 text-[14px] film__name">'.$movie['title'].'</h2>
-                            </div>
+                            
+                            <p class="film__name">'.$movie['title'].'</p>
                             </a>';
                         }
                     }
-                    $output .=     '</div>
+                    $output .= '</div>
                     </div>';
 
                 }

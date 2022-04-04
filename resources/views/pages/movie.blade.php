@@ -1,7 +1,10 @@
 @extends('layouts.master')
+@section('meta')
+<title>{{$movie_detail['name']}}</title>
+@endsection
 @section('content')
 <section class="movie">
-	<div class="container">
+	<div class="box">
 		<div class="movie__container">
 			<div class="movie__media" id="movie__media">
 				<input id="media" id_media="{{$movie_detail['id']}}" category="{{$movie_detail['category']}}" id_episode="{{$episode_id}}" class="hidden">
@@ -13,6 +16,9 @@
 					@endforeach
 				</video>
 				<i class="fa-solid fa-play movie__play"></i>
+				<div class="movie__load">
+					<div class="lds-ripple"><div></div><div></div></div>
+				</div>
 			</div>
 			<div class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail['name']}}</div>
 			<div class="movie__episodes">
@@ -92,7 +98,9 @@
 	}
 
 	
-    $('.movie__media').height($('.movie__media').width() * 1080 / 1920);
+	$('.movie__similar img').css('max-height', $('.movie__similar img').width()*1.4);
+	$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
+	$('.movie__load').height($('.movie__media').height() + 5);
 
 	$('.episode').each(function() {
 		if($(this).attr('id') == $('#media').attr('id_episode')) {
@@ -108,6 +116,7 @@
 	})
 
 	function load() {
+        $('.movie__load').css('display','flex');
 
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
@@ -150,6 +159,8 @@
             }
             $('.movie__screen').html(subtitle);
             $('.movie__name').html($('.movie__name').attr('id') + data[3]);
+            $('.movie__load').css('display','none');
+
             restart_media = setInterval(restart, 2000);
 
 			return true;
@@ -257,7 +268,7 @@
 		})
 		$(this).css('background', '#ed5829');
 		$('#media').attr('id_episode', $(this).attr('id'));
-
+        $('.movie__play').css('display', 'none');
 
 		load();
 	})

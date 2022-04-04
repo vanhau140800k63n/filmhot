@@ -10,19 +10,24 @@ class StorageController extends Controller
 {
     public function saveImage(Request $req) {
         $image = Session('image')?Session::get('image'):[];
-         
+        // return sizeof($image);
         $index = 0;
         foreach($image as $key => $url) {
             if(!file_exists('img/'.$key.'.jpg')) {
                 $url = str_replace(' ', '%20', $url);
-                $url = file_get_contents($url);
-                $imgFile = Image::make($url);
-                $imgFile->resize(300, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $imgFile->save('img/'.$key.'.jpg');
-                unset($image[$key]);
-                ++$index;
+                $size = getimagesize($url);
+                if($size[0] < $size[1]) {
+                    $url = file_get_contents($url);
+                    $imgFile = Image::make($url);
+                    $imgFile->resize(300, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $imgFile->save('img/'.$key.'.jpg');
+                    unset($image[$key]);
+                    ++$index;
+                } else {
+                    unset($image[$key]);
+                }
             } else {
                 unset($image[$key]);
             }

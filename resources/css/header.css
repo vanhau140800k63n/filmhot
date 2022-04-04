@@ -1,7 +1,8 @@
-header .container {
+header .box {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 header .logo {
@@ -17,20 +18,119 @@ header .search {
     justify-content: flex-end;
 }
 
+.search form {
+    display: flex;
+}
+
+.search__input {
+    background-color: #fff;
+    border-radius: 5px;
+    height: 45px;
+    padding: 5px 15px;
+    color: #000;
+}
+
+.search__btn {
+    background-color: #ed5829;
+    border-radius: 5px;
+    height: 45px;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
 @media only screen and (min-width: 1400px) {
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
+    header .logo {
+        font-size: 55px;
+    }
+    .search {
+        font-size: 13px;
+    }
+    .search__input {
+        height: 37px;
+    }
+    .search__btn {
+        height: 37px;
+    }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    header .logo {
+        font-size: 45px;
+    }
+    .search {
+        font-size: 13px;
+    }
+    .search__input {
+        height: 35px;
+    }
+    .search__btn {
+        height: 35px;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+    header .box {
+        padding: 20px 15px;
+    }
+    header .logo {
+        font-size: 40px;
+    }
+    .search {
+        font-size: 14px;
+    }
+    .search__input {
+        height: 40px;
+    }
+    .search__btn {
+        height: 40px;
+    }
 }
 
 @media only screen and (min-width: 577px) and (max-width: 767px) {
+    header .box {
+        padding: 20px 15px;
+    }
+    header .logo {
+        font-size: 35px;
+    }
+    .search {
+        font-size: 13px;
+    }
+    .search__input {
+        height: 35px;
+    }
+    .search__btn {
+        height: 35px;
+    }
 }
 
 @media only screen and (max-width: 576px) {
+    header .box {
+        padding: 10px 15px;
+    }
+    header .logo {
+        font-size: 30px;
+    }
+    .search {
+        font-size: 13px;
+    }
+    .search__input {
+        height: 35px;
+        width: 70%;
+    }
+    .search__btn {
+        height: 35px;
+        width: 25%;
+    }
+    header .search {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .search form {
+        width: 100%;
+        justify-content: space-between;
+    }
 }

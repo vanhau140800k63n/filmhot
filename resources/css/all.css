@@ -7,23 +7,42 @@ body {
 input, select {
 	outline: none;
 }
-.container {
+
+.box {
 	margin: 0 auto;
 	padding: 0 20px;
 }
 
 @media only screen and (min-width: 1400px) {
-	.container {
+	.box {
 		max-width: 1320px;
 	}
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
+	.box {
+		max-width: 1140px;
+	}
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.box {
+		max-width: 960px;
+	}
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+	.box {
+		max-width: 720px;
+	}
 }
 @media only screen and (min-width: 577px) and (max-width: 767px) {
+	.box {
+		max-width: 540px;
+	}
 }
 @media only screen and (max-width: 576px) {
+	.box {
+		width: 100%;
+		padding: 0 15px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
