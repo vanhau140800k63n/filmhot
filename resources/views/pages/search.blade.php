@@ -13,8 +13,8 @@
 			</div>
 			<div class="recommend__item">
 				<?php $image = Session('image')?Session::get('image'):[]; ?>
-				@foreach($convert['data']['searchResults'] as $movie)
-				<a href="movies/category={{$movie['domainType']}}&id={{$movie['id']}}" class="card__film"> 
+				@foreach($movieSearchWithKey['searchResults'] as $movie)
+				<a href="{{ route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) }}" class="card__film"> 
 					<?php 
 					$urlImage = 'img/'.$movie['domainType'].$movie['id'].'.jpg';
 					if(!file_exists($urlImage)) {
@@ -22,11 +22,12 @@
 						$image[$movie['domainType'].$movie['id']] = $movie['coverVerticalUrl'];
 					}
 					?>
-					<img class="image" src="{{$urlImage}}" alt="image" />
+					<img class="image" src="{{asset($urlImage)}}" alt="image" />
 					<p class="film__name">{{$movie['name']}}</p>
 				</a>
 				@endforeach
 				<?php Session()->put('image', $image); ?>
+
 			</div>
 		</div>
 	</div>

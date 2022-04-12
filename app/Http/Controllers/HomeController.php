@@ -16,9 +16,22 @@ class HomeController extends Controller
         $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
         $top_search = $movieService->getData($url_top);
 
-        // getimagesize('img/09079.jpg');
+        while ($movie_home == null) {
+            $movie_home = $movieService->getData($url_movie);
+        }
+        while ($top_search == null) {
+            $url_top = $movieService->getData($url_top);
+        }
 
-        // dd(getimagesize('img/113215.jpg'));
+        // dd($movie_home);
+
+
+        // getimagesize('img/09079.jpg');
+        // $url = 'https://img.netpop.app/cover/20220310/1646891823998_905d77e4004c1aaab5633a29fff51ed7我们的蓝调 13596竖版.png';
+        // $url = str_replace(' ', '%20', $url);
+        // dd(getimagesize($url));
+
+        // dd(route('home'));
 
         return view('pages.home', compact('movie_home', 'top_search'));
     }
@@ -52,40 +65,18 @@ class HomeController extends Controller
     }
 
     public function searchMovie($key) {
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchWithKeyWord',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-                "searchKeyWord": "'.$key.'",
-                "size": 50,
-                "sort": "",
-                "searchType": ""
-            }',
-            CURLOPT_HTTPHEADER => array(
-                'lang: en',
-                'versioncode: 11',
-                'clienttype: ios_jike_default',
-                'Content-Type: application/json'
-            ),
-        ));
+        $movieService = new MovieService();
+        $movieSearchWithKey = $movieService->searchWithKeyWord($key);
+        
+        while ($movieSearchWithKey == null) {
+            $movieSearchWithKey = $movieService->searchWithKeyWord($key);
+        }
 
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $convert=json_decode($response,true);
-        return view('pages.search', compact('convert', 'key'));
+        return view('pages.search', compact('movieSearchWithKey', 'key'));
     }
 
-    public function searchMovieCategory($id) {
+    public function searchMovieDetail($id) {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -176,7 +167,7 @@ class HomeController extends Controller
                     <div class="recommend__items__name">
                     <span>'.$recommendItems['homeSectionName'].'</span>
                     </div>
-                    <a href="page='.$req->page.'.'.$keyRecommendItems.'" class="recommend__items__btn">  
+                    <a href="'. route('moremovie', ['page' => $req->page, 'id' => $keyRecommendItems]).'" class="recommend__items__btn">  
                     <h1> Xem thêm </h1>
                     <svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -191,10 +182,8 @@ class HomeController extends Controller
                                 $urlImage = $movie['imageUrl'];
                                 $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
                             }
-                            $output .=     '<a href="movies/category='.$movie['category'].'&id='.$movie['id'].'" class="card__film"> 
-                            <img class="image" style="max-height:'. $req->width*14/10 .'px"
-                            src="'.$urlImage.'" />
-                            
+                            $output .=     '<a href="'. route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) .'" class="card__film"> 
+                            <img class="image" src="'.asset($urlImage).'" />
                             <p class="film__name">'.$movie['title'].'</p>
                             </a>';
                         }

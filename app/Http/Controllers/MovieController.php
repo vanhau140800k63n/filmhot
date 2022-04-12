@@ -13,7 +13,9 @@ class MovieController extends Controller
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id='.$id.'&category='.$category;
         $movie_detail = $movieService->getData($url);
-        // dd($movie_detail);
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
         $episode_id = null;
         $definitionList = [];
         if(!empty($movie_detail['episodeVo'])) {
@@ -37,6 +39,9 @@ class MovieController extends Controller
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id='.$req->id.'&category='.$req->category;
         $movie_detail = $movieService->getData($url);
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
         $media = [];
         if(!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$req->episode_id]['definitionList'];
@@ -66,6 +71,9 @@ class MovieController extends Controller
 
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id='.$id.'&category='.$category;
         $movie_detail = $movieService->getData($url);
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
         // dd($movie_detail);
 
         if(!empty($movie_detail['episodeVo'])) {

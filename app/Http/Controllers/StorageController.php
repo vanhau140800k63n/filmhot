@@ -23,14 +23,12 @@ class StorageController extends Controller
                         $constraint->aspectRatio();
                     });
                     $imgFile->save('img/'.$key.'.jpg');
-                    unset($image[$key]);
+
                     ++$index;
-                } else {
-                    unset($image[$key]);
-                }
-            } else {
-                unset($image[$key]);
-            }
+                } 
+            } 
+            unset($image[$key]);
+
             if($index == 10) {
                 break;
             }

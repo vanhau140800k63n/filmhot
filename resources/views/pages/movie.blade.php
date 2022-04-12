@@ -42,18 +42,16 @@
 		<div class="movie__similar">
 			<?php $image = Session('image')?Session::get('image'):[]; ?>
 			@foreach($movie_detail['likeList'] as $movie) 
-			<a class="similar__container" href="category={{$movie['category']}}&id={{$movie['id']}}">
-			<?php 
+			<a class="similar__container" href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}">
+				<?php 
 				$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
 				if(!file_exists($urlImage)) {
 					$urlImage = $movie['coverVerticalUrl'];
 					$image[$movie['category'].$movie['id']] = $movie['coverVerticalUrl'];
-					echo '<img src="'.$urlImage.'">';
-				} else {
-                    echo '<img src="../'.$urlImage.'">';
 				}
-			?>
-			    <div class="similar__name">{{$movie['name']}}</div>
+				?>
+				<img src="{{asset($urlImage)}}">
+				<div class="similar__name">{{$movie['name']}}</div>
 			</a>
 			@endforeach
 			<?php Session()->put('image', $image); ?>
@@ -120,7 +118,7 @@
 
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
-			url: 'episode-ajax',
+			url: "{{ route('movie.episode-ajax')}}",
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
@@ -173,7 +171,7 @@
 		
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
-			url: 'episode-ajax',
+			url: "{{ route('movie.episode-ajax')}}",
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
@@ -220,7 +218,7 @@
 		
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
-			url: 'episode-ajax',
+			url: "{{ route('movie.episode-ajax')}}",
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},

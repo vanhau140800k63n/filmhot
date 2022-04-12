@@ -14,7 +14,7 @@
 			<div class="recommend__item">
 				<?php $image = Session('image')?Session::get('image'):[]; ?>
 				@foreach($result['recommendContentVOList'] as $movie)
-				<a href="movies/category={{$movie['category']}}&id={{$movie['id']}}" class="card__film"> 
+				<a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film"> 
 					<?php 
 					$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
 					if(!file_exists($urlImage)) {
@@ -22,7 +22,7 @@
 						$image[$movie['category'].$movie['id']] = $movie['imageUrl'];
 					}
 					?>
-					<img class="image" src="{{$urlImage}}" alt="image" />
+					<img class="image" src="{{asset($urlImage)}}" alt="image" />
 					<p class="film__name">{{$movie['title']}}</p>
 				</a>
 				@endforeach

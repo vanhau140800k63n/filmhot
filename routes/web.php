@@ -19,7 +19,7 @@ Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
 Route::get('/test', [HomeController::class, 'getTest'])->name('home1');
 Route::get('/page={page}.{id}', [HomeController::class, 'searchMoreMovie'])->name('moremovie');
 Route::get('/search={key}', [HomeController::class, 'searchMovie'])->name('search');
-Route::get('/category={id}', [HomeController::class, 'searchMovieCategory'])->name('searchcategory');
+Route::get('/category={id}', [HomeController::class, 'searchMovieDetail'])->name('search_detail');
 Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
 Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
 
