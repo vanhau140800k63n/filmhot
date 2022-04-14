@@ -1,29 +1,43 @@
 @extends('layouts.master')
 @section('meta')
-<title>TOPFILM</title>
+<title>TOPFILM - KHÔNG QUẢNG CÁO</title>
 @endsection
 @section('content')
-<div class="box homepage" id="1"> 
+<div class="box homepage advanced" id="1">
+	<?php
+	$movieService = new \App\Services\MovieService();
+
+	$url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0';
+	$movie_home = $movieService->getData($url_movie);
+	while ($movie_home == null) {
+		$movie_home = $movieService->getData($url_movie);
+	}
+
+	$url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
+	$top_search = $movieService->getData($url_top);
+	while ($top_search == null) {
+		$top_search = $movieService->getData($url_top);
+	}
+	?>
 	<div class="listfilm">
 		@foreach($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems)
 		@if($recommendItems['homeSectionType'] == 'BANNER' && sizeof($recommendItems['recommendContentVOList']) > 1)
 		<div class="listfilm__top">
 			<div class="categorys">
-				<a href="{{route('search_detail', 1)}}" class="home__category">Phim hành động</a>
-				<a href="{{route('search_detail', 19)}}" class="home__category">Khoa học viễn tưởng</a>
-				<a href="{{route('search_detail', 3)}}" class="home__category">Hoạt hình</a>
-				<a href="{{route('search_detail', 13)}}" class="home__category">Kinh dị</a>
-				<a href="{{route('search_detail', 5)}}" class="home__category">Hài kịch</a>
-				<a href="{{route('search_detail', 64)}}" class="home__category">Thảm khốc</a>
-				<a href="{{route('search_detail', 24)}}" class="home__category">Chiến tranh</a>
+				<a href="" class="home__category">Phim hành động</a>
+				<a href="" class="home__category">Khoa học viễn tưởng</a>
+				<a href="" class="home__category">Hoạt hình</a>
+				<a href="" class="home__category">Kinh dị</a>
+				<a href="" class="home__category">Hài kịch</a>
+				<a href="" class="home__category">Thảm khốc</a>
+				<a href="" class="home__category">Chiến tranh</a>
 			</div>
 			<div class="swiper__slider">
 				<div class="swiper mySwiper">
 					<div class="swiper-wrapper">
 						@foreach($recommendItems['recommendContentVOList'] as $key => $banner)
 						<div class="swiper-slide rounded-xl">
-							<img class="object-cover w-full"
-							src="{{ $banner['imageUrl']}}"  alt="image" />
+							<img class="object-cover w-full" src="{{ $banner['imageUrl']}}" alt="image" />
 						</div>
 						@endforeach
 					</div>
@@ -41,7 +55,7 @@
 					<span>{{$recommendItems['homeSectionName']}}</span>
 				</div>
 
-				<a href="{{ route('moremovie', ['page' => 0, 'id' => $keyRecommendItems])}}" class="recommend__items__btn">	
+				<a href="{{ route('moremovie', ['page' => 0, 'id' => $keyRecommendItems])}}" class="recommend__items__btn">
 					Xem thêm
 					<svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -49,43 +63,45 @@
 				</a>
 			</div>
 			<div class="recommend__item">
-				<?php $image = Session('image')?Session::get('image'):[]; ?>
+				<?php $image = Session('image') ? Session::get('image') : []; ?>
 				@foreach($recommendItems['recommendContentVOList'] as $key => $movie)
-				@if($key < 6)
-				<a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film"> 
-					<?php 
-					$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
-					if(!file_exists($urlImage)) {
+				@if($key < 6) <a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film">
+					<?php
+					$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
+					if (!file_exists($urlImage)) {
 						$urlImage = $movie['imageUrl'];
-						$image[$movie['category'].$movie['id']] = $movie['imageUrl'];
+						$image[$movie['category'] . $movie['id']] = $movie['imageUrl'];
 					}
 					?>
 					<img class="image" src="{{asset($urlImage)}}" alt="image" />
 					<p class="film__name">{{$movie['title']}}</p>
-				</a>
-				@endif
-				@endforeach
-				<?php Session()->put('image', $image); ?>
+					</a>
+					@endif
+					@endforeach
+					<?php Session()->put('image', $image); ?>
 			</div>
 		</div>
-		@endif	
+		@endif
 		@endforeach
 		<div class="text-center">
-			<div class="lds-facebook"><div></div><div></div><div></div></div>
+			<div class="lds-facebook">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 		</div>
 	</div>
 	<div class="top_search">
 		<div class="top_search__title">Top tìm kiếm</div>
-		<?php $image = Session('image')?Session::get('image'):[]; ?>
+		<?php $image = Session('image') ? Session::get('image') : []; ?>
 		@foreach($top_search['list'] as $movie)
-		<!-- <a href="movies/category={{$movie['domainType']}}&id={{$movie['id']}}" class="top_search__card"> -->
 		<a href="{{ route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) }}" class="top_search__card">
-			<?php 
-			$urlImage = 'img/'.$movie['domainType'].$movie['id'].'top_search.jpg';
-			if(!file_exists($urlImage)) {
+			<?php
+			$urlImage = 'img/' . $movie['domainType'] . $movie['id'] . 'top_search.jpg';
+			if (!file_exists($urlImage)) {
 				$urlImage = $movie['cover'];
-				$image[$movie['domainType'].$movie['id'].'top_search'] = $movie['cover'];	
-			} 
+				$image[$movie['domainType'] . $movie['id'] . 'top_search'] = $movie['cover'];
+			}
 			?>
 			<img src="{{asset($urlImage)}}" class="top_search__card__img">
 			<div class="top_search__card__name">{{$movie['title']}}</div>
@@ -94,6 +110,4 @@
 		<?php Session()->put('image', $image); ?>
 	</div>
 </div>
-
-<script src="{{asset('js/home.js')}}"></script>
 @endsection

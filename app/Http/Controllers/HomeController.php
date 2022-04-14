@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,22 +9,9 @@ use Session;
 
 class HomeController extends Controller
 {
-    public function getHomePage(Request $req) {
-        $movieService = new MovieService();
-        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0';
-        $movie_home = $movieService->getData($url_movie);
-
-        $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
-        $top_search = $movieService->getData($url_top);
-
-        while ($movie_home == null) {
-            $movie_home = $movieService->getData($url_movie);
-        }
-        while ($top_search == null) {
-            $url_top = $movieService->getData($url_top);
-        }
-
-        // dd($movie_home);
+    public function getHomePage(Request $req)
+    {
+        // dd($search_advanced_list);
 
 
         // getimagesize('img/09079.jpg');
@@ -33,42 +21,20 @@ class HomeController extends Controller
 
         // dd(route('home'));
 
-        return view('pages.home', compact('movie_home', 'top_search'));
+        return view('pages.home');
     }
 
-    public function getTest() {
-        require_once 'HTTP/Request2.php';
-        $request = new HTTP_Request2();
-        $request->setUrl('https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0');
-        $request->setMethod(HTTP_Request2::METHOD_GET);
-        $request->setConfig(array(
-            'follow_redirects' => TRUE
-        ));
-        $request->setHeader(array(
-            'lang' => 'en',
-            'versioncode' => '11',
-            'clienttype' => 'ios_jike_default'
-        ));
-        try {
-            $response = $request->send();
-            if ($response->getStatus() == 200) {
-                echo $response->getBody();
-            }
-            else {
-                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
-                $response->getReasonPhrase();
-            }
-        }
-        catch(HTTP_Request2_Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
+    public function getTest()
+    {
+        $movieService = new MovieService();
     }
 
-    public function searchMovie($key) {
+    public function searchMovie($key)
+    {
 
         $movieService = new MovieService();
+
         $movieSearchWithKey = $movieService->searchWithKeyWord($key);
-        
         while ($movieSearchWithKey == null) {
             $movieSearchWithKey = $movieService->searchWithKeyWord($key);
         }
@@ -76,67 +42,136 @@ class HomeController extends Controller
         return view('pages.search', compact('movieSearchWithKey', 'key'));
     }
 
-    public function searchMovieDetail($id) {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/search',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-                "size": 60,
-                "params": "MOVIE,TVSPECIAL",
-                "area": "",
-                "category": "'.$id.'",
-                "year": "",
-                "subtitles": "",
-                "order": "up"
-            }',
-            CURLOPT_HTTPHEADER => array(
-                'lang: en',
-                'versioncode: 11',
-                'clienttype: ios_jike_default',
-                'Content-Type: application/json'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $convert=json_decode($response,true);
-        $key = $id;
-        return view('pages.search', compact('convert', 'key'));
-    }
-
-    public function searchMoreMovie($page, $id) {
+    public function searchMovieAdvanced(Request $req)
+    {
         $movieService = new MovieService();
 
-        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page='. $page;
+        $movie_search_advanced = $movieService->searchAdvanced($req);
+        while ($movie_search_advanced == null) {
+            $movie_search_advanced = $movieService->searchAdvanced($req);
+        }
+
+        $output = '<div class="listfilm" style="width: 100%;">
+		<div class="recommend__items">
+			<div class="recommend__items__title">
+				<div class="recommend__items__name">
+					<span>Tìm kiếm cho từ khóa:</span>
+				</div>
+			</div>
+			<div class="recommend__item">';
+        $image = Session('image') ? Session::get('image') : [];
+        foreach ($movie_search_advanced['searchResults'] as $movie) {
+            $urlImage = 'img/' . $movie['domainType'] . $movie['id'] . '.jpg';
+
+            if (!file_exists($urlImage)) {
+                $urlImage = $movie['coverVerticalUrl'];
+                $image[$movie['domainType'] . $movie['id']] = $movie['coverVerticalUrl'];
+            }
+
+            $output .= '
+					<a href="' . route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) . '" class="card__film">
+					<img class="image" src="' . asset($urlImage) . '" alt="image" />
+					<p class="film__name">' . $movie['name'] . '</p>
+				</a>';
+        }
+
+        Session()->put('image', $image);
+
+        $count = count($movie_search_advanced['searchResults']);
+
+        if($count == 0) {
+            return false;
+        }
+
+        $output .= '</div>
+        <div class="text-center">
+			<div class="lds-facebook">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+        <div id="info" count="'.$count.'" sort="'.$movie_search_advanced['searchResults'][$count - 1]['sort'] .'"></div>
+		       </div>
+	        </div>';
+
+        $data = [0 => $output, 1 => $count];
+
+        return response()->json($data);
+    }
+
+    public function searchMovieAdvancedMore(Request $req)
+    {
+        $movieService = new MovieService();
+
+        $movie_search_advanced = $movieService->searchAdvanced($req);
+        while ($movie_search_advanced == null) {
+            $movie_search_advanced = $movieService->searchAdvanced($req);
+        }
+
+        $output = '';
+        $image = Session('image') ? Session::get('image') : [];
+        foreach ($movie_search_advanced['searchResults'] as $movie) {
+            $urlImage = 'img/' . $movie['domainType'] . $movie['id'] . '.jpg';
+
+            if (!file_exists($urlImage)) {
+                $urlImage = $movie['coverVerticalUrl'];
+                $image[$movie['domainType'] . $movie['id']] = $movie['coverVerticalUrl'];
+            }
+
+            $output .= '
+					<a href="' . route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) . '" class="card__film">
+					<img class="image" src="' . asset($urlImage) . '" alt="image" />
+					<p class="film__name">' . $movie['name'] . '</p>
+				</a>';
+        }
+
+        Session()->put('image', $image);
+
+        $count = count($movie_search_advanced['searchResults']);
+        
+        if($count == 0) {
+            return false;
+        }
+
+        $info = '<div id="info" count="'.$count.'" sort="'.$movie_search_advanced['searchResults'][$count - 1]['sort'] .'"></div>';
+
+        $data = [0 => $output, 1 => $info, 2 => $count];
+
+        return response()->json($data);
+    }
+
+    public function searchMoreMovie($page, $id)
+    {
+        $movieService = new MovieService();
+
+        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=' . $page;
         $movie_home = $movieService->getData($url_movie);
+
+        while ($movie_home == null) {
+            $movie_home = $movieService->getData($url_movie);
+        }
+
         $result = [];
-        foreach($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems) {
-            if($keyRecommendItems == $id) {
+        foreach ($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems) {
+            if ($keyRecommendItems == $id) {
                 $result = $recommendItems;
             }
         }
         return view('pages.moremovie', compact('result'));
     }
 
-    public function searchKey(Request $req) {
+    public function searchKey(Request $req)
+    {
         $key = $req->input('keyword');
         return redirect()->route('search', $key);
     }
 
-    public function getHomeAjax(Request $req) {
+    public function getHomeAjax(Request $req)
+    {
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page='.$req->page,
+            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=' . $req->page,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -153,21 +188,21 @@ class HomeController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        $convert=json_decode($response,true);
+        $convert = json_decode($response, true);
 
         $output = '';
 
-        if(!empty($convert['data'])) {
-            $image = Session('image')?Session::get('image'):[];
+        if (!empty($convert['data'])) {
+            $image = Session('image') ? Session::get('image') : [];
 
-            foreach($convert['data']['recommendItems'] as $keyRecommendItems => $recommendItems) {
-                if($recommendItems['homeSectionType'] == 'SINGLE_ALBUM') {
+            foreach ($convert['data']['recommendItems'] as $keyRecommendItems => $recommendItems) {
+                if ($recommendItems['homeSectionType'] == 'SINGLE_ALBUM') {
                     $output .= '<div class="recommend__items">
                     <div class="recommend__items__title">
                     <div class="recommend__items__name">
-                    <span>'.$recommendItems['homeSectionName'].'</span>
+                    <span>' . $recommendItems['homeSectionName'] . '</span>
                     </div>
-                    <a href="'. route('moremovie', ['page' => $req->page, 'id' => $keyRecommendItems]).'" class="recommend__items__btn">  
+                    <a href="' . route('moremovie', ['page' => $req->page, 'id' => $keyRecommendItems]) . '" class="recommend__items__btn">  
                     <h1> Xem thêm </h1>
                     <svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -175,22 +210,21 @@ class HomeController extends Controller
                     </a>
                     </div>
                     <div class="recommend__item">';
-                    foreach($recommendItems['recommendContentVOList'] as $key => $movie) {
-                        if($key < 12) {
-                            $urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
-                            if(!file_exists($urlImage)) {
+                    foreach ($recommendItems['recommendContentVOList'] as $key => $movie) {
+                        if ($key < 12) {
+                            $urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
+                            if (!file_exists($urlImage)) {
                                 $urlImage = $movie['imageUrl'];
-                                $image[$movie['category'].$movie['id']] = $movie['imageUrl'];
+                                $image[$movie['category'] . $movie['id']] = $movie['imageUrl'];
                             }
-                            $output .=     '<a href="'. route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) .'" class="card__film"> 
-                            <img class="image" src="'.asset($urlImage).'" />
-                            <p class="film__name">'.$movie['title'].'</p>
+                            $output .=     '<a href="' . route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) . '" class="card__film"> 
+                            <img class="image" src="' . asset($urlImage) . '" />
+                            <p class="film__name">' . $movie['title'] . '</p>
                             </a>';
                         }
                     }
                     $output .= '</div>
                     </div>';
-
                 }
             }
             $req->session()->put('image', $image);
@@ -199,7 +233,7 @@ class HomeController extends Controller
         $output .= '<div class="text-center">
                 <div class="lds-facebook"><div></div><div></div><div></div></div>
             </div>';
-        
+
         $data = [$output, $req->page + 1];
 
         return $data;

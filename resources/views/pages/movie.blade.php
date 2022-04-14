@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <section class="movie">
-	<div class="box">
+	<div class="box advanced">
 		<div class="movie__container">
 			<div class="movie__media" id="movie__media">
 				<input id="media" id_media="{{$movie_detail['id']}}" category="{{$movie_detail['category']}}" id_episode="{{$episode_id}}" class="hidden">
@@ -29,8 +29,8 @@
 				@endif
 			</div>
 			<div class="movie__info">
-				<div class="movie__score"> <ion-icon name="star-half"></ion-icon> {{$movie_detail['score']}}</div>
-				<div class="movie__year"> <ion-icon name="calendar-outline"></ion-icon> {{$movie_detail['year']}}</div>
+				<div class="movie__score"> <i class="fa-solid fa-star"></i> {{$movie_detail['score']}}</div>
+				<div class="movie__year"> <i class="fa-solid fa-calendar"></i> {{$movie_detail['year']}}</div>
 			</div>
 			<div class="movie__tag">
 				@foreach($movie_detail['tagNameList'] as $item)

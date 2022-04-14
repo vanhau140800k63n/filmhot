@@ -70,11 +70,12 @@ header .search {
     display: flex;
     width: 100%;
     justify-content: flex-end;
+    position: relative;
 }
 
 .search__input {
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 2px;
     height: 45px;
     padding: 5px 15px;
     color: #000;
@@ -82,11 +83,63 @@ header .search {
 }
 
 .search__btn {
-    background-color: #ed5829;
-    border-radius: 5px;
+    background-color: #0a1c2e;
+    border-radius: 2px;
+    padding: 6px 10px;
+    position: absolute;
+    top: 4px;
+    right: 5px;
+}
+
+.search__btn:hover {
+    background-color: #203951;
+}
+
+.advanced_search {
     height: 45px;
+    width: 100%;
+    background: #040c11;
+    border-bottom: 1px solid #5683b0;
+    border-top: 1px solid #5683b0;
+    position: relative;
+    display: flex;
+    margin-top: 5px;
+}
+
+.as_container {
+    position: absolute;
+    width: 100%;
+    top: 43px;
+    background-color: #fff;
+    z-index: 10;
+    display: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #000;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+.as_name {
+    height: 100%;
+    padding: 9px 20px;
+    font-weight: 600;
+}
+
+.as_items {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.as_item {
+    font-weight: 600;
     padding: 5px 10px;
-    margin-left: 10px;
+    cursor: pointer;
+}
+
+.as_item.active {
+    color: #ed5829;
 }
 
 @media only screen and (min-width: 1400px) {
@@ -103,7 +156,7 @@ header .search {
         height: 37px;
     }
     .search__btn {
-        height: 37px;
+        padding: 5px 10px;
     }
 }
 
@@ -118,7 +171,7 @@ header .search {
         height: 35px;
     }
     .search__btn {
-        height: 35px;
+        padding: 4px 8px;
     }
 }
 
@@ -133,10 +186,11 @@ header .search {
         font-size: 14px;
     }
     .search__input {
-        height: 40px;
+        height: 37px;
+        width: 80%;
     }
     .search__btn {
-        height: 40px;
+        padding: 4px 8px;
     }
 }
 
@@ -151,10 +205,11 @@ header .search {
         font-size: 13px;
     }
     .search__input {
-        height: 35px;
+        height: 37px;
+        width: 80%;
     }
     .search__btn {
-        height: 35px;
+        padding: 5px 6px;
     }
 }
 
@@ -163,18 +218,19 @@ header .search {
         padding: 10px 15px;
     }
     header .logo {
-        font-size: 30px;
+        font-size: 35px;
     }
     .search {
         font-size: 13px;
     }
     .search__input {
         height: 35px;
-        width: 70%;
+        width: 100%;
     }
     .search__btn {
-        height: 35px;
-        width: 25%;
+        padding: 5px 8px;
+        top: 3px;
+        right: 3px;
     }
     header .search {
         width: 100%;
@@ -182,7 +238,6 @@ header .search {
     }
     .search form {
         width: 100%;
-        justify-content: space-between;
     }
 }
 .card__film:hover {
@@ -201,16 +256,14 @@ header .search {
     overflow: hidden;
 }
 .home__category {
-    padding: 15px 30px;
+    padding: 10px 20px;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 13px;
 }
 
 .home__category:hover {
-    text-shadow: 2px 2px 10px #fff;
-    transform: scale(1.05);
-    transition: 0.2s;
+    background-color: #09192a;
 }
 
 .lds-facebook {
@@ -291,8 +344,8 @@ header .search {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    background-color: #27282e;
     border-radius: 3px;
+    box-shadow: 1px 1px 3px 0 rgba(0,0,0,.4),inset 0 1px 0 0 hsla(0,0%,100%,.1);
 }
 .swiper__slider {
     width: 70%;
@@ -324,13 +377,14 @@ header .search {
     text-transform: uppercase;
     font-size: 15px;
 }
-.recommend__items__btn:hover {
-    background-color: #575555;
+.recommend__items__btn:hover svg {
+    transform: rotate(360deg);
 }
 .arrow {
     width: 15px;
     height: 15px;
     margin-left: 5px;
+    transition: 0.5s;
 }
 .recommend__item {
     display: grid;
@@ -639,11 +693,12 @@ header .search {
 }
 
 .movie__score {
-
+    color: #fff;
 }
 
 .movie__year {
 	margin-left: 30px;
+	color: #fff;
 }
 
 .movie__tag {

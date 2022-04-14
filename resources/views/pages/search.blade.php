@@ -3,7 +3,7 @@
 <title>Tìm kiếm: {{$key}}</title>
 @endsection
 @section('content')
-<div class="box"> 
+<div class="box advanced"> 
 	<div class="listfilm" style="width: 100%;">
 		<div class="recommend__items">
 			<div class="recommend__items__title">

@@ -101,11 +101,12 @@
 }
 
 .movie__score {
-
+    color: #fff;
 }
 
 .movie__year {
 	margin-left: 30px;
+	color: #fff;
 }
 
 .movie__tag {
