@@ -1,6 +1,19 @@
 @extends('layouts.master')
 @section('meta')
 <title>{{$movie_detail['name']}}</title>
+<meta name="description" content="{{$movie_detail['introduction']}}">
+<meta name="keywords" content="">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{$movie_detail['name']}} - TOPFILM">
+<meta property="og:description" content="{{$movie_detail['introduction']}}">
+<meta property="og:url" content="https://topfilm.devsne.vn/">
+<meta property="og:site_name" content="topfilm">
+<meta property="og:image" content="">
+<title>{{$movie_detail['name']}} - TOPFILM</title>
 @endsection
 @section('content')
 <section class="movie">

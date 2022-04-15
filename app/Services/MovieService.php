@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\PageException;
+
 class MovieService
 {
     public  function  __construct()
@@ -29,10 +31,11 @@ class MovieService
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
-
         $convert = json_decode($response, true);
+        if($convert == null) {
+            throw new PageException();
+        }
 
         return $convert['data'];
     }
@@ -68,6 +71,10 @@ class MovieService
         curl_close($curl);
         $convert = json_decode($response, true);
 
+        if($convert == null) {
+            throw new PageException();
+        }
+
         return $convert['data'];
     }
 
@@ -95,6 +102,10 @@ class MovieService
         curl_close($curl);
         $convert = json_decode($response, true);
 
+        if($convert == null) {
+            throw new PageException();
+        }
+
         return $convert['data'];
     }
 
@@ -113,11 +124,11 @@ class MovieService
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
                 "size": 18,
-                "params": "'.$req->params.'",
-                "area": "'.$req->area.'",
-                "category": "'.$req->category.'",
-                "year": "'.$req->year.'",
-                "sort": "'.$req->sort.'",
+                "params": "' . $req->params . '",
+                "area": "' . $req->area . '",
+                "category": "' . $req->category . '",
+                "year": "' . $req->year . '",
+                "sort": "' . $req->sort . '",
                 "subtitles": "",
                 "order": "up"
             }',
@@ -130,10 +141,51 @@ class MovieService
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
-
         $convert = json_decode($response, true);
+
+        return $convert['data'];
+    }
+
+    public function searchCategory($category)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/search',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+                "size": 18,
+                "params": "",
+                "area": "",
+                "category": "' . $category . '",
+                "year": "",
+                "sort": "",
+                "subtitles": "",
+                "order": "up"
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'lang: en',
+                'versioncode: 11',
+                'clienttype: ios_jike_default',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $convert = json_decode($response, true);
+
+        if($convert == null) {
+            throw new PageException();
+        }
+
         return $convert['data'];
     }
 }

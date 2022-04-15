@@ -19,6 +19,7 @@
     text-transform: uppercase;
     font-weight: 600;
     font-size: 13px;
+    cursor: pointer;
 }
 
 .home__category:hover {

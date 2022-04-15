@@ -107,7 +107,7 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            params: $('#as_container' + array['as']).attr('params'),
+                            params: array['as'] != '' ? $('#as_container' + array['as']).attr('params') : '',
                             area: array['area'],
                             category: array['category'],
                             year: array['year'],

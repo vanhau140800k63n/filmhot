@@ -22,19 +22,24 @@
 			<div class="as_container" id="as_container{{$as_key}}" params="{{$as_container['params']}}">
 				@foreach($as_container['screeningItems'] as $key_screening_items => $screening_items)
 				<div class="as_items" index="as_{{$screening_items['id']}}">
-					@if($key_screening_items < 3) 
-					<div> {{ __('search_advanced.'. $screening_items['name'])}}</div>
-					@foreach($screening_items['items'] as $key_as_items=> $as_item)
-						<div class="as_item" value="{{$as_item['params']}}" screening_type="{{$as_item['screeningType']}}" check="{{$as_key.'.'.$as_item['screeningType'].'#'.$as_item['params']}}">
-							{{$as_item['name']}}
-						</div>
-					@endforeach
-					@endif
+					@if($key_screening_items < 3) <div class="as_items_name"> {{ __('search_advanced.'. $screening_items['name'])}}</div>
+				@foreach($screening_items['items'] as $key_as_items=> $as_item)
+				<div class="as_item" value="{{$as_item['params']}}" screening_type="{{$as_item['screeningType']}}" check="{{$as_key.'.'.$as_item['screeningType'].'#'.$as_item['params']}}">
+					{{$as_item['name']}}
 				</div>
 				@endforeach
+				@endif
 			</div>
 			@endforeach
+			<div class="close_search_advanced"> 
+				<button class="close_search_advanced_btn">Đóng</button>
+			</div>
 		</div>
+		@endforeach
+	</div>
+	</div>
+	<div id="preloader">
+		<div id="loader"></div>
 	</div>
 </header>
 <script>
@@ -64,13 +69,21 @@
 		}
 	})
 	$('.as_container').mouseout(function() {
-		if ($('.as_name:hover').length == 0 && $('.as_item:hover').length == 0 && $('.as_items:hover').length == 0) {
+		if ($('.as_container div:hover').length == 0) {
 			$(this).hide();
 			$('.as_name').each(function() {
 				$(this).css('color', '#fff');
 				$(this).css('background', 'none');
 			})
 		}
+	})
+
+	$('.close_search_advanced').click(function() {
+		$(this).parent().hide();
+		$('.as_name').each(function() {
+			$(this).css('color', '#fff');
+			$(this).css('background', 'none');
+		})
 	})
 
 	$('.as_item').click(function() {
@@ -85,7 +98,12 @@
 					$("[check='" + array['as'] + "." + key + "#" + value + "']").removeClass('active');
 				}
 			});
-			array = {'as': '', 'area': '', 'category': '', 'year': ''};
+			array = {
+				'as': '',
+				'area': '',
+				'category': '',
+				'year': ''
+			};
 			array['as'] = as_new;
 			array[as_name] = as_id;
 		} else {
@@ -94,7 +112,8 @@
 		}
 		$(this).addClass('active');
 
-
+		$('.box.advanced').html('');
+		$('#preloader').show();
 
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
@@ -114,10 +133,12 @@
 			if (data[1] < 18) {
 				$('.lds-facebook').remove();
 			}
+			$('#preloader').hide();
 			return true;
 		}).fail(function(e) {
 			$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
 			$('.box.search_advanced_film').html('<div style="padding-top: 30px; font-weight: 600; font-size: 20px">Không tìm thấy phim</div>');
+			$('#preloader').hide();
 			return false;
 		});
 	})

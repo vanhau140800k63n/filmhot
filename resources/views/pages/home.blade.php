@@ -1,6 +1,18 @@
 @extends('layouts.master')
 @section('meta')
-<title>TOPFILM - KHÔNG QUẢNG CÁO</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TOPFILM - XEM PHIM KHÔNG QUẢNG CÁO">
+<meta property="og:description" content="">
+<meta property="og:url" content="https://topfilm.devsne.vn/">
+<meta property="og:site_name" content="topfilm">
+<meta property="og:image" content="">
+<title>TOPFILM - XEM PHIM KHÔNG QUẢNG CÁO</title>
 @endsection
 @section('content')
 <div class="box homepage advanced" id="1">
@@ -24,13 +36,13 @@
 		@if($recommendItems['homeSectionType'] == 'BANNER' && sizeof($recommendItems['recommendContentVOList']) > 1)
 		<div class="listfilm__top">
 			<div class="categorys">
-				<a href="" class="home__category">Phim hành động</a>
-				<a href="" class="home__category">Khoa học viễn tưởng</a>
-				<a href="" class="home__category">Hoạt hình</a>
-				<a href="" class="home__category">Kinh dị</a>
-				<a href="" class="home__category">Hài kịch</a>
-				<a href="" class="home__category">Thảm khốc</a>
-				<a href="" class="home__category">Chiến tranh</a>
+			    <a data="1" class="home__category">Phim hành động</a>
+				<a data="19" class="home__category">Khoa học viễn tưởng</a>
+				<a data="3" class="home__category">Hoạt hình</a>
+				<a data="13" class="home__category">Kinh dị</a>
+				<a data="5" class="home__category">Hài kịch</a>
+				<a data="64" class="home__category">Thảm khốc</a>
+				<a data="24" class="home__category">Chiến tranh</a>
 			</div>
 			<div class="swiper__slider">
 				<div class="swiper mySwiper">
@@ -110,4 +122,39 @@
 		<?php Session()->put('image', $image); ?>
 	</div>
 </div>
+<script>
+	$('.home__category').click(function() {
+		array['category'] = $(this).attr('data');
+
+		$('.box.advanced').html('');
+		$('#preloader').show();
+
+		let _token = $('input[name="_token"]').val();
+		$.ajax({
+			url: "{{ route('search_advanced') }}",
+			type: "POST",
+			dataType: 'json',
+			data: {
+				params: '',
+				area: '',
+				category: array['category'],
+				year: '',
+				_token: _token
+			}
+		}).done(function(data) {
+			$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+			$('.box.search_advanced_film').html(data[0]);
+			if (data[1] < 18) {
+				$('.lds-facebook').remove();
+			}
+			$('#preloader').hide();
+			return true;
+		}).fail(function(e) {
+			$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+			$('.box.search_advanced_film').html('<div style="padding-top: 30px; font-weight: 600; font-size: 20px">Không tìm thấy phim</div>');
+			$('#preloader').hide();
+			return false;
+		});
+	})
+</script>
 @endsection

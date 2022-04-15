@@ -238,4 +238,7 @@ class HomeController extends Controller
 
         return $data;
     }
+    public function searchMovieCategory($id) {
+        return view('');
+    }
 }

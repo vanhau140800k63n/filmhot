@@ -7,7 +7,7 @@
 	<div class="listfilm" style="width: 100%;">
 		<div class="recommend__items">
 			<div class="recommend__items__title">
-				<div class="recommend__items__name">
+				<div class="recommend__items__name" style="max-width: 100%">
 					<span>Tìm kiếm cho từ khóa: {{$key}}</span>
 				</div>
 			</div>

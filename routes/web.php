@@ -19,6 +19,7 @@ Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
 Route::get('/test', [HomeController::class, 'getTest'])->name('home1');
 Route::get('/page={page}.{id}', [HomeController::class, 'searchMoreMovie'])->name('moremovie');
 Route::get('/search={key}', [HomeController::class, 'searchMovie'])->name('search');
+Route::get('/category/{id}', [HomeController::class, 'searchMovieCategory'])->name('category');
 Route::post('/search_advanced', [HomeController::class, 'searchMovieAdvanced'])->name('search_advanced');
 Route::post('/search_advanced_more', [HomeController::class, 'searchMovieAdvancedMore'])->name('search_advanced_more');
 Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');

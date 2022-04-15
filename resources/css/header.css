@@ -72,6 +72,16 @@ header .search {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
+.close_search_advanced {
+    width: 100%;
+    text-align: right;
+}
+
+.close_search_advanced_btn {
+    font-weight: 600;
+    color: #ed5829;
+}
+
 .as_name {
     height: 100%;
     padding: 9px 20px;
@@ -85,9 +95,19 @@ header .search {
 }
 
 .as_item {
-    font-weight: 600;
+    font-weight: 500;
     padding: 5px 10px;
-    cursor: pointer;
+    color: #313c46;
+    cursor: pointer;    
+}
+
+.as_items_name {
+    font-weight: 700;
+    padding: 5px 10px;
+}
+
+.as_item:hover {
+    color: #ed5829;
 }
 
 .as_item.active {
