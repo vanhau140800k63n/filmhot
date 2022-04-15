@@ -84,8 +84,6 @@ class MovieController extends Controller
             $movie_detail = $movieService->getData($url);
         }
 
-        // dd($movie_detail);
-
         if (!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$episode]['definitionList'];
         }

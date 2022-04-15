@@ -25,7 +25,11 @@
 					@if($key_screening_items < 3) <div class="as_items_name"> {{ __('search_advanced.'. $screening_items['name'])}}</div>
 				@foreach($screening_items['items'] as $key_as_items=> $as_item)
 				<div class="as_item" value="{{$as_item['params']}}" screening_type="{{$as_item['screeningType']}}" check="{{$as_key.'.'.$as_item['screeningType'].'#'.$as_item['params']}}">
-					{{$as_item['name']}}
+				@if (trans()->has('search_advanced.detail.'.$as_item['name']))
+				    {{ __('search_advanced.detail.'.$as_item['name'])}}
+				@else
+                    {{$as_item['name']}}
+				@endif
 				</div>
 				@endforeach
 				@endif

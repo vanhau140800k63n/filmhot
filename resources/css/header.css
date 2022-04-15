@@ -211,4 +211,13 @@ header .search {
     .search form {
         width: 100%;
     }
+    .as_container {
+        padding: 10px;
+    }
+    .as_items_name {
+        padding: 2px 8px;
+    }
+    .as_item {
+        padding: 2px 8px;
+    }
 }

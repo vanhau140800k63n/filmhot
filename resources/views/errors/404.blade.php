@@ -33,7 +33,7 @@
     <div class="box">
 
         <div class="notfound">
-            Website hiện đang quá tải, vui lòng quay lại trong ít phút
+            Không tìm thấy trang bạn yêu cầu
             <img src="{{asset('img/notfound.gif')}}">
         </div>
     </div>

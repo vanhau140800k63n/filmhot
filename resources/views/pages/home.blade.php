@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('meta')
-<meta name="description" content="">
+<meta name="description" content="Topfilm là website phát các chương trình truyền hình, phim, hoạt hình từ khắp nơi trên thế giới, với phụ đề vietsub và chất lượng hình ảnh fullhd, và các bộ phim mới được phát hành hàng ngày! - topfilm">
 <meta name="keywords" content="">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -8,7 +8,7 @@
 <meta property="og:locale" content="vi_VN">
 <meta property="og:type" content="website">
 <meta property="og:title" content="TOPFILM - XEM PHIM KHÔNG QUẢNG CÁO">
-<meta property="og:description" content="">
+<meta property="og:description" content="Topfilm là website phát các chương trình truyền hình, phim, hoạt hình từ khắp nơi trên thế giới, với phụ đề vietsub và chất lượng hình ảnh fullhd, và các bộ phim mới được phát hành hàng ngày! - topfilm">
 <meta property="og:url" content="https://topfilm.devsne.vn/">
 <meta property="og:site_name" content="topfilm">
 <meta property="og:image" content="">

@@ -7,9 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('meta')
-    <!-- <base href="{{asset('')}}"> -->
-
-
     <link rel="shortcut icon" href="{{asset('img/logo.png')}}" />
     <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,11 +27,8 @@
     @yield('content')
     @include('partial.footer')
 
-    <!-- <script src="{{asset(mix('js/app.js'))}}"></script> -->
     <script src="{{asset('js/hls.min.js')}}" type="application/javascript"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
     <script type="text/javascript">
         $('.image').css('max-height', $('.card__film').width() * 1.4);
         getImage();
