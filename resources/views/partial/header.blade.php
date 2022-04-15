@@ -1,6 +1,6 @@
 <header>
 	<div class="box">
-		<div class="logo"><a href="{{route('home')}}">TOPFILM</a></div>
+		<div class="logo"><a href="{{route('home')}}">TOPFILM1</a></div>
 		<div class="search">
 			<form action="{{route('key-search')}}" method="post">
 				@csrf
