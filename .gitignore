@@ -8,3 +8,5 @@ yarn-error.log
 /.vscode
 filmhot.zip
 /public
+/vendor
+.env
