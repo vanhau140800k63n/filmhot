@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('meta')
-<title>{{$movie_detail['name']}}</title>
 <meta name="description" content="{{$movie_detail['introduction']}}">
 <meta name="keywords" content="">
 <meta name="robots" content="index, follow">
