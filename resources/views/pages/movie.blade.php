@@ -7,12 +7,12 @@
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:locale" content="vi_VN">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{$movie_detail['name']}} - TOPFILM">
+<meta property="og:title" content="{{$movie_detail['name']}} FullHD + VietSub">
 <meta property="og:description" content="{{$movie_detail['introduction']}}">
 <meta property="og:url" content="https://topfilm.devsne.vn/">
 <meta property="og:site_name" content="topfilm">
 <meta property="og:image" content="">
-<title>{{$movie_detail['name']}} - TOPFILM</title>
+<title>{{$movie_detail['name']}} FullHD + VietSub</title>
 @endsection
 @section('content')
 <section class="movie">
