@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('meta')
-    <link rel="shortcut icon" href="{{asset('img/logo.png')}}" />
+    <link rel="shortcut icon" href="{{asset('img/logo1.png')}}" />
     <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
