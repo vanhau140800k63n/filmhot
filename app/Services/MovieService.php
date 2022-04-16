@@ -24,9 +24,10 @@ class MovieService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                'lang: en',
+                'lang: vi',
                 'versioncode: 11',
-                'clienttype: ios_jike_default'
+                'clienttype: ios_jike_default',
+                'Content-Type: application/json'
             ),
         ));
 
@@ -60,7 +61,7 @@ class MovieService
                 "searchType": ""
             }',
             CURLOPT_HTTPHEADER => array(
-                'lang: en',
+                'lang: vi',
                 'versioncode: 11',
                 'clienttype: ios_jike_default',
                 'Content-Type: application/json'
@@ -133,7 +134,7 @@ class MovieService
                 "order": "up"
             }',
             CURLOPT_HTTPHEADER => array(
-                'lang: en',
+                'lang: vi',
                 'versioncode: 11',
                 'clienttype: ios_jike_default',
                 'Content-Type: application/json'
@@ -171,7 +172,7 @@ class MovieService
                 "order": "up"
             }',
             CURLOPT_HTTPHEADER => array(
-                'lang: en',
+                'lang: vi',
                 'versioncode: 11',
                 'clienttype: ios_jike_default',
                 'Content-Type: application/json'

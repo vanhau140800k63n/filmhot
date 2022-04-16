@@ -79,8 +79,8 @@ select {
 	border-radius: 50%;
 	border: 3px solid transparent;
 	border-top-color: #9370DB;
-	-webkit-animation: spin 2s linear infinite;
-	animation: spin 2s linear infinite;
+	-webkit-animation: spin 1s linear infinite;
+	animation: spin 1s linear infinite;
 }
 
 #loading_movie:before {
@@ -175,5 +175,26 @@ select {
 		padding: 0 15px;
 		margin-left: auto;
 		margin-right: auto;
+	}
+	#loading_movie {
+		width: 80px;
+		height: 80px;
+		margin: -40px 0 0 -40px;
+	}
+	
+	#loading_movie:before {
+		content: "";
+		top: 5px;
+		left: 5px;
+		right: 5px;
+		bottom: 5px;
+	}
+	
+	#loading_movie:after {
+		content: "";
+		top: 13px;
+		left: 13px;
+		right: 13px;
+		bottom: 13px;
 	}
 }

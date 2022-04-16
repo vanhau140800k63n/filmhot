@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="{{$movie_detail['introduction']}}">
-<meta name="keywords" content="">
+<meta name="keywords" content="{{$movie_detail['name']}} vietsub, {{$movie_detail['name']}} fullhd, {{$movie_detail['name']}} fullhd vietsub">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -109,7 +109,6 @@
 			if (video.textTracks.length == 1) {
 				video.textTracks[0].mode = 'showing';
 			}
-			$('.movie__load').css('display', 'none');
 			clearInterval(restart_media);
 		}
 	}
@@ -176,6 +175,7 @@
 			}
 			$('.movie__screen').html(subtitle);
 			$('.movie__name').html($('.movie__name').attr('id') + data[3]);
+			$('.movie__load').css('display', 'none');
 
 			restart_media = setInterval(restart, 2000);
 
