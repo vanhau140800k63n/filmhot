@@ -26,6 +26,7 @@ return [
     'detail.Sci-Fi' => 'Khoa học viễn tưởng',
     'detail.Horror' => 'Kinh dị',
     'detail.Comedy' => 'Hài',
+    'detail.Romantic' => 'Lãng mạn',
     'detail.Crime' => 'Hình sự',
     'detail.Adventure' => 'Phiêu lưu',
     'detail.Thriller' => 'Trinh thám',

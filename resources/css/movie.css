@@ -58,11 +58,12 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	background-color: #000;
-	display: none;
+	/* display: none; */
+}
+
+.movie__load_icon {
+	/* display: none; */
 }
 
 .movie__screen {

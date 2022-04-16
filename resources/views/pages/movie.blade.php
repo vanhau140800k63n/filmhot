@@ -27,12 +27,9 @@
 					@endif
 					@endforeach
 				</video>
-				<i class="fa-solid fa-play movie__play"></i>
 				<div class="movie__load">
-					<div class="lds-ripple">
-						<div></div>
-						<div></div>
-					</div>
+					<i class="fa-solid fa-play movie__play"></i>
+					<div id="loading_movie"></div>
 				</div>
 			</div>
 			<div class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail['name']}}</div>
@@ -49,7 +46,13 @@
 			</div>
 			<div class="movie__tag">
 				@foreach($movie_detail['tagNameList'] as $item)
-				<div class="tag__name">{{$item}}</div>
+				<div class="tag__name">
+					@if (trans()->has('search_advanced.detail.'. $item))
+					{{ __('search_advanced.detail.'. $item)}}
+					@else
+					{{$item}}
+					@endif
+				</div>
 				@endforeach
 			</div>
 			<div class="movie__intro">{{$movie_detail['introduction']}}</div>
@@ -66,13 +69,7 @@
 				}
 				?>
 				<img src="{{asset($urlImage)}}">
-				<div class="similar__name">
-					@if (trans()->has('search_advanced.detail.'. $item))
-					{{ __('search_advanced.detail.'. $item)}}
-					@else
-					{{$item}}
-					@endif
-				</div>
+				<div class="similar__name">{{$movie['name']}}</div>
 			</a>
 			@endforeach
 			<?php Session()->put('image', $image); ?>
@@ -112,6 +109,7 @@
 			if (video.textTracks.length == 1) {
 				video.textTracks[0].mode = 'showing';
 			}
+			$('.movie__load').css('display', 'none');
 			clearInterval(restart_media);
 		}
 	}
@@ -130,12 +128,12 @@
 
 	$('.movie__play').click(function() {
 		$('.movie__play').css('display', 'none');
-
+        $('#loading_movie').css('display', 'block');
 		load();
 	})
 
 	function load() {
-		$('.movie__load').css('display', 'flex');
+		$('.movie__load').css('display', 'block');
 
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
@@ -178,7 +176,6 @@
 			}
 			$('.movie__screen').html(subtitle);
 			$('.movie__name').html($('.movie__name').attr('id') + data[3]);
-			$('.movie__load').css('display', 'none');
 
 			restart_media = setInterval(restart, 2000);
 
@@ -288,6 +285,7 @@
 		$(this).css('background', '#ed5829');
 		$('#media').attr('id_episode', $(this).attr('id'));
 		$('.movie__play').css('display', 'none');
+		$('#loading_movie').css('display', 'block');
 
 		load();
 	})
