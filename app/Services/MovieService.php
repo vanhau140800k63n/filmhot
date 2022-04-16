@@ -26,9 +26,7 @@ class MovieService
             CURLOPT_HTTPHEADER => array(
                 'lang: vi',
                 'versioncode: 11',
-                'clienttype: ios_jike_default',
-                'Content-Type: application/json'
-            ),
+                'clienttype: ios_jike_default'            ),
         ));
 
         $response = curl_exec($curl);

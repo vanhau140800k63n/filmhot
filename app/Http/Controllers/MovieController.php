@@ -14,6 +14,7 @@ class MovieController extends Controller
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $id . '&category=' . $category;
         $movie_detail = $movieService->getData($url);
+        
         while ($movie_detail == null) {
             $movie_detail = $movieService->getData($url);
         }
