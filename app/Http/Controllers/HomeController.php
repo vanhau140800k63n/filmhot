@@ -11,16 +11,6 @@ class HomeController extends Controller
 {
     public function getHomePage(Request $req)
     {
-        // dd($search_advanced_list);
-
-
-        // getimagesize('img/09079.jpg');
-        // $url = 'https://img.netpop.app/cover/20220310/1646891823998_905d77e4004c1aaab5633a29fff51ed7我们的蓝调 13596竖版.png';
-        // $url = str_replace(' ', '%20', $url);
-        // dd(getimagesize($url));
-
-        // dd(route('home'));
-
         return view('pages.home');
     }
 
@@ -236,7 +226,7 @@ class HomeController extends Controller
 
         $data = [$output, $req->page + 1];
 
-        return $data;
+        return response()->json($data);
     }
     public function searchMovieCategory($id) {
         return view('');

@@ -1,18 +1,18 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="{{$movie_detail['introduction']}}">
-<meta name="keywords" content="{{$movie_detail['name']}} vietsub, {{$movie_detail['name']}} fullhd, {{$movie_detail['name']}} fullhd vietsub">
+<meta name="keywords" content="{{$movie_detail['name']}} vietsub, {{$movie_detail['name']}} fullhd, {{$movie_detail['name']}} fullhd vietsub, {{$movie_detail['name']}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:locale" content="vi_VN">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{$movie_detail['name']}} FullHD + VietSub">
+<meta property="og:title" content="{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh">
 <meta property="og:description" content="{{$movie_detail['introduction']}}">
-<meta property="og:url" content="https://topfilm.devsne.vn/">
-<meta property="og:site_name" content="topfilm">
-<meta property="og:image" content="">
-<title>{{$movie_detail['name']}} FullHD + VietSub</title>
+<meta property="og:url" content="{{ route('movie.detail', ['category' => $movie_detail['category'], 'id' => $movie_detail['id']]) }}">
+<meta property="og:site_name" content="{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh">
+<meta property="og:image" content="{{asset('img/'.$movie_detail['category'].$movie_detail['id'].'.jpg')}}">
+<title>{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh</title>
 @endsection
 @section('content')
 <section class="movie">
@@ -45,12 +45,12 @@
 				<div class="movie__year"> <i class="fa-solid fa-calendar"></i> {{$movie_detail['year']}}</div>
 			</div>
 			<div class="movie__tag">
-				@foreach($movie_detail['tagNameList'] as $item)
-				<div class="tag__name">
-					@if (trans()->has('search_advanced.detail.'. $item))
-					{{ __('search_advanced.detail.'. $item)}}
+				@foreach($movie_detail['tagList'] as $item)
+				<div class="tag__name" id_tag="{{$item['id']}}">
+					@if (trans()->has('search_advanced.detail.'. $item['name']))
+					{{ __('search_advanced.detail.'. $item['name'])}}
 					@else
-					{{$item}}
+					{{$item['name']}}
 					@endif
 				</div>
 				@endforeach
@@ -297,6 +297,40 @@
 			let definition = $(this).children(":selected").attr("id");
 
 			loadByDefinition(episode_id, definition);
+		})
+
+		$('.tag__name').click(function() {
+			array['category'] = $(this).attr('id_tag');
+
+			$('.box.advanced').html('');
+			$('#preloader').show();
+
+			let _token = $('input[name="_token"]').val();
+			$.ajax({
+				url: "{{ route('search_advanced') }}",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					params: '',
+					area: '',
+					category: array['category'],
+					year: '',
+					_token: _token
+				}
+			}).done(function(data) {
+				$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+				$('.box.search_advanced_film').html(data[0]);
+				if (data[1] < 18) {
+					$('.lds-facebook').remove();
+				}
+				$('#preloader').hide();
+				return true;
+			}).fail(function(e) {
+				$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+				$('.box.search_advanced_film').html('<div style="padding-top: 30px; font-weight: 600; font-size: 20px">Không tìm thấy phim</div>');
+				$('#preloader').hide();
+				return false;
+			});
 		})
 	})
 </script>

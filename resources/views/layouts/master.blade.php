@@ -68,7 +68,7 @@
         var scroll = true;
         $(window).scroll(function() {
             if ($('.box').hasClass('homepage')) {
-                value = $('header').height() + $(".homepage").height() - $(window).scrollTop() - $(window).height() - 50;
+                value = $('header').height() + $(".homepage").height() - $(window).scrollTop() - $(window).height() - 500;
                 if (value < 0 && scroll) {
                     scroll = false;
                     let _token = $('input[name="_token"]').val();
@@ -94,7 +94,7 @@
                 }
             }
             if ($('.box').hasClass('search_advanced_film')) {
-                value = $('header').height() + $(".search_advanced_film").height() - $(window).scrollTop() - $(window).height() - 50;
+                value = $('header').height() + $(".search_advanced_film").height() - $(window).scrollTop() - $(window).height() - 500;
                 if (value < 0 && scroll && $('#info').attr('count') == 18) {
                     scroll = false;
                     let _token = $('input[name="_token"]').val();
