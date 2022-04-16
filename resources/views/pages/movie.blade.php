@@ -99,7 +99,7 @@
 
 	function restart() {
 		console.log(video.readyState);
-		if (video.readyState == ) {
+		if (video.readyState == 0) {
 			let episode_id = Number($('#media').attr('id_episode'));
 			let definition = $('.movie__quality').children(":selected").attr("id");
 			reload(episode_id, definition);
@@ -178,7 +178,7 @@
 			$('.movie__name').html($('.movie__name').attr('id') + data[3]);
 			$('.movie__load').css('display', 'none');
 
-			restart_media = setInterval(restart, 2000);
+			restart_media = setInterval(restart, 1000);
 
 			return true;
 		}).fail(function(e) {
