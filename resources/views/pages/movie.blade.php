@@ -99,7 +99,7 @@
 
 	function restart() {
 		console.log(video.readyState);
-		if (video.readyState == 0) {
+		if (video.readyState == ) {
 			let episode_id = Number($('#media').attr('id_episode'));
 			let definition = $('.movie__quality').children(":selected").attr("id");
 			reload(episode_id, definition);
