@@ -63,7 +63,7 @@
 			@foreach($movie_detail['likeList'] as $movie)
 			<a class="similar__container" href="<?php
 												$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
 												?>">
 				<?php
 				$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';

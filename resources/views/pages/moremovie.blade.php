@@ -15,7 +15,7 @@
 <title>{{$result['homeSectionName']}} - Xem phim FullHD Vietsub</title>
 @endsection
 @section('content')
-<div class="box advanced"> 
+<div class="box advanced">
 	<div class="listfilm" style="width: 100%;">
 		<div class="recommend__items">
 			<div class="recommend__items__title">
@@ -24,18 +24,18 @@
 				</div>
 			</div>
 			<div class="recommend__item">
-				<?php $image = Session('image')?Session::get('image'):[]; 
-				$movie_list = Session('movie_list') ? Session::get('movie_list') : [];?>
+				<?php $image = Session('image') ? Session::get('image') : [];
+				$movie_list = Session('movie_list') ? Session::get('movie_list') : []; ?>
 				@foreach($result['recommendContentVOList'] as $movie)
 				<a href="<?php
 							$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-							echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
-							?>" class="card__film"> 
-					<?php 
-					$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
-					if(!file_exists($urlImage)) {
+							echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
+							?>" class="card__film">
+					<?php
+					$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
+					if (!file_exists($urlImage)) {
 						$urlImage = $movie['imageUrl'];
-						$image[$movie['category'].$movie['id']] = $movie['imageUrl'];
+						$image[$movie['category'] . $movie['id']] = $movie['imageUrl'];
 					}
 					$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
 					if ($movie_check == null) {
@@ -46,8 +46,8 @@
 					<p class="film__name">{{$movie['title']}}</p>
 				</a>
 				@endforeach
-				<?php Session()->put('image', $image); 
-				Session()->put('movie_list', $movie_list);?>
+				<?php Session()->put('image', $image);
+				Session()->put('movie_list', $movie_list); ?>
 			</div>
 		</div>
 	</div>

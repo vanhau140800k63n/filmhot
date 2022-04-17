@@ -24,9 +24,9 @@ Route::post('/search_advanced', [HomeController::class, 'searchMovieAdvanced'])-
 Route::post('/search_advanced_more', [HomeController::class, 'searchMovieAdvancedMore'])->name('search_advanced_more');
 Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
 Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
+Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
 
 Route::prefix('movies')->name('movie.')->group(function() {
-    Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');

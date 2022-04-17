@@ -89,11 +89,13 @@ class MovieController extends Controller
         }
 
         $episode_title = "";
-        $film_url = 'category=' . $req->category . '&id=' . $req->id;
+        // $film_url = 'category=' . $req->category . '&id=' . $req->id;
+        $film_url = route('movie.detail', ['category' => $req->category, 'id' => $req->id]);
         $episode = $req->episode_id + 1;
 
         if ($movie_detail['episodeCount'] > 1) {
             $film_url = 'category=' . $req->category . '&id=' . $req->id . '&episode=' . $episode;
+            $film_url = route('movie.episode', ['category' => $req->category, 'id' => $req->id, 'episode' => $episode]);
             $episode_title = " - Tập " . $episode;
         }
 
