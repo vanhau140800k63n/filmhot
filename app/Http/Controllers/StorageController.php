@@ -41,7 +41,7 @@ class StorageController extends Controller
         return response()->json(true);
     }
 
-    public function saveMovie()
+    public function saveMovie(Request $req)
     {
         $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
 
@@ -84,6 +84,7 @@ class StorageController extends Controller
             }
             unset($movie_list[$key]);
         }
+        $req->session()->put('movie_list', $movie_list);
         return response()->json(true);
     }
 }

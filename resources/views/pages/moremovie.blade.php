@@ -27,7 +27,10 @@
 				<?php $image = Session('image')?Session::get('image'):[]; 
 				$movie_list = Session('movie_list') ? Session::get('movie_list') : [];?>
 				@foreach($result['recommendContentVOList'] as $movie)
-				<a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film"> 
+				<a href="<?php
+							$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+							echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+							?>" class="card__film"> 
 					<?php 
 					$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
 					if(!file_exists($urlImage)) {

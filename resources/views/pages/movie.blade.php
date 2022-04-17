@@ -61,7 +61,10 @@
 			<?php $image = Session('image') ? Session::get('image') : [];
 			$movie_list = Session('movie_list') ? Session::get('movie_list') : []; ?>
 			@foreach($movie_detail['likeList'] as $movie)
-			<a class="similar__container" href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}">
+			<a class="similar__container" href="<?php
+												$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+												?>">
 				<?php
 				$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
 				if (!file_exists($urlImage)) {
@@ -77,8 +80,8 @@
 				<div class="similar__name">{{$movie['name']}}</div>
 			</a>
 			@endforeach
-			<?php Session()->put('image', $image); 
-			Session()->put('movie_list', $movie_list);?>
+			<?php Session()->put('image', $image);
+			Session()->put('movie_list', $movie_list); ?>
 		</div>
 	</div>
 </section>

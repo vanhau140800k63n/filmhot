@@ -15,7 +15,10 @@
 				<?php $image = Session('image') ? Session::get('image') : [];
 				$movie_list = Session('movie_list') ? Session::get('movie_list') : []; ?>
 				@foreach($movieSearchWithKey['searchResults'] as $movie)
-				<a href="{{ route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) }}" class="card__film">
+				<a href="<?php
+							$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
+							echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+							?>" class="card__film">
 					<?php
 					$urlImage = 'img/' . $movie['domainType'] . $movie['id'] . '.jpg';
 					if (!file_exists($urlImage)) {
@@ -31,8 +34,8 @@
 					<p class="film__name">{{$movie['name']}}</p>
 				</a>
 				@endforeach
-				<?php Session()->put('image', $image); 
-				Session()->put('movie_list', $movie_list);?>
+				<?php Session()->put('image', $image);
+				Session()->put('movie_list', $movie_list); ?>
 
 			</div>
 		</div>

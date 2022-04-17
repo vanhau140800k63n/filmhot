@@ -11,6 +11,8 @@ class HomeController extends Controller
 {
     public function getHomePage()
     {
+        // $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
+        // dd($movie_list);
         return view('pages.home');
     }
 
@@ -93,9 +95,9 @@ class HomeController extends Controller
             if ($movie_check == null) {
                 $movie_list[$movie['domainType'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['domainType'], 'name' => $movie['name']];
             }
-
+            $route = $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
             $output .= '
-					<a href="' . route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) . '" class="card__film">
+					<a href="' . $route . '" class="card__film">
 					<img class="image" src="' . asset($urlImage) . '" alt="image" />
 					<p class="film__name">' . $movie['name'] . '</p>
 				</a>';
@@ -150,9 +152,9 @@ class HomeController extends Controller
             if ($movie_check == null) {
                 $movie_list[$movie['domainType'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['domainType'], 'name' => $movie['name']];
             }
-
+            $route = $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
             $output .= '
-					<a href="' . route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) . '" class="card__film">
+					<a href="' . $route . '" class="card__film">
 					<img class="image" src="' . asset($urlImage) . '" alt="image" />
 					<p class="film__name">' . $movie['name'] . '</p>
 				</a>';
@@ -255,7 +257,8 @@ class HomeController extends Controller
                             if ($movie_check == null) {
                                 $movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
                             }
-                            $output .=     '<a href="' . route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) . '" class="card__film"> 
+                            $route = $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+                            $output .=     '<a href="' . $route . '" class="card__film"> 
                             <img class="image" src="' . asset($urlImage) . '" />
                             <p class="film__name">' . $movie['title'] . '</p>
                             </a>';
