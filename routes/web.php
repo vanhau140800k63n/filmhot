@@ -26,10 +26,12 @@ Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-sear
 Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
 
 Route::prefix('movies')->name('movie.')->group(function() {
+    Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
 });
 
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
+Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
 

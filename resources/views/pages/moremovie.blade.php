@@ -24,7 +24,8 @@
 				</div>
 			</div>
 			<div class="recommend__item">
-				<?php $image = Session('image')?Session::get('image'):[]; ?>
+				<?php $image = Session('image')?Session::get('image'):[]; 
+				$movie_list = Session('movie_list') ? Session::get('movie_list') : [];?>
 				@foreach($result['recommendContentVOList'] as $movie)
 				<a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film"> 
 					<?php 
@@ -33,12 +34,17 @@
 						$urlImage = $movie['imageUrl'];
 						$image[$movie['category'].$movie['id']] = $movie['imageUrl'];
 					}
+					$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+					if ($movie_check == null) {
+						$movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
+					}
 					?>
 					<img class="image" src="{{asset($urlImage)}}" alt="image" />
 					<p class="film__name">{{$movie['title']}}</p>
 				</a>
 				@endforeach
-				<?php Session()->put('image', $image); ?>
+				<?php Session()->put('image', $image); 
+				Session()->put('movie_list', $movie_list);?>
 			</div>
 		</div>
 	</div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\MovieService;
+use App\Models\Movie;
+use App\Exceptions\PageException;
 
 class MovieController extends Controller
 {
@@ -13,6 +15,31 @@ class MovieController extends Controller
     {
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $id . '&category=' . $category;
+        $movie_detail = $movieService->getData($url);
+        
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
+
+        $episode_id = null;
+        $definitionList = [];
+        if (!empty($movie_detail['episodeVo'])) {
+            $definitionList = $movie_detail['episodeVo'][0]['definitionList'];
+            $episode_id = 0;
+        }
+
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList'));
+    }
+
+    public function getMovieByName($name) {
+        $movie = Movie::where('slug', $name)->first();
+
+        if($movie == null) {
+            throw new PageException();
+        }
+
+        $movieService = new MovieService();
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
         $movie_detail = $movieService->getData($url);
         
         while ($movie_detail == null) {

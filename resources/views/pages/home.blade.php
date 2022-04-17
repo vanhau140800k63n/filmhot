@@ -36,7 +36,7 @@
 		@if($recommendItems['homeSectionType'] == 'BANNER' && sizeof($recommendItems['recommendContentVOList']) > 1)
 		<div class="listfilm__top">
 			<div class="categorys">
-			    <a data="1" class="home__category">Phim hành động</a>
+				<a data="1" class="home__category">Phim hành động</a>
 				<a data="19" class="home__category">Khoa học viễn tưởng</a>
 				<a data="3" class="home__category">Hoạt hình</a>
 				<a data="13" class="home__category">Kinh dị</a>
@@ -75,14 +75,23 @@
 				</a>
 			</div>
 			<div class="recommend__item">
-				<?php $image = Session('image') ? Session::get('image') : []; ?>
+				<?php $image = Session('image') ? Session::get('image') : [];
+				$movie_list = Session('movie_list') ? Session::get('movie_list') : [];
+				?>
 				@foreach($recommendItems['recommendContentVOList'] as $key => $movie)
-				@if($key < 6) <a href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}" class="card__film">
+				@if($key < 6) <a href="<?php
+										$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+										echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+										?>" class="card__film">
 					<?php
 					$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
 					if (!file_exists($urlImage)) {
 						$urlImage = $movie['imageUrl'];
 						$image[$movie['category'] . $movie['id']] = $movie['imageUrl'];
+					}
+					$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+					if ($movie_check == null) {
+						$movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
 					}
 					?>
 					<img class="image" src="{{asset($urlImage)}}" alt="image" />
@@ -90,7 +99,9 @@
 					</a>
 					@endif
 					@endforeach
-					<?php Session()->put('image', $image); ?>
+					<?php Session()->put('image', $image);
+					Session()->put('movie_list', $movie_list);
+					?>
 			</div>
 		</div>
 		@endif
@@ -105,21 +116,32 @@
 	</div>
 	<div class="top_search">
 		<div class="top_search__title">Top tìm kiếm</div>
-		<?php $image = Session('image') ? Session::get('image') : []; ?>
+		<?php $image = Session('image') ? Session::get('image') : [];
+		$movie_list = Session('movie_list') ? Session::get('movie_list') : [];
+		?>
 		@foreach($top_search['list'] as $movie)
-		<a href="{{ route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) }}" class="top_search__card">
+		<a href="<?php
+					$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
+					echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('movie.detail_name', $movie_check->slug);
+					?>" class="top_search__card">
 			<?php
 			$urlImage = 'img/' . $movie['domainType'] . $movie['id'] . 'top_search.jpg';
 			if (!file_exists($urlImage)) {
 				$urlImage = $movie['cover'];
 				$image[$movie['domainType'] . $movie['id'] . 'top_search'] = $movie['cover'];
 			}
+			$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
+			if ($movie_check == null) {
+				$movie_list[$movie['domainType'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['domainType'], 'name' => $movie['title']];
+			}
 			?>
 			<img src="{{asset($urlImage)}}" class="top_search__card__img">
 			<div class="top_search__card__name">{{$movie['title']}}</div>
 		</a>
 		@endforeach
-		<?php Session()->put('image', $image); ?>
+		<?php Session()->put('image', $image);
+		Session()->put('movie_list', $movie_list);
+		?>
 	</div>
 </div>
 <script>

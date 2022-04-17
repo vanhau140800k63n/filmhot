@@ -58,7 +58,8 @@
 			<div class="movie__intro">{{$movie_detail['introduction']}}</div>
 		</div>
 		<div class="movie__similar">
-			<?php $image = Session('image') ? Session::get('image') : []; ?>
+			<?php $image = Session('image') ? Session::get('image') : [];
+			$movie_list = Session('movie_list') ? Session::get('movie_list') : []; ?>
 			@foreach($movie_detail['likeList'] as $movie)
 			<a class="similar__container" href="{{ route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) }}">
 				<?php
@@ -67,12 +68,17 @@
 					$urlImage = $movie['coverVerticalUrl'];
 					$image[$movie['category'] . $movie['id']] = $movie['coverVerticalUrl'];
 				}
+				$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+				if ($movie_check == null) {
+					$movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['name']];
+				}
 				?>
 				<img src="{{asset($urlImage)}}">
 				<div class="similar__name">{{$movie['name']}}</div>
 			</a>
 			@endforeach
-			<?php Session()->put('image', $image); ?>
+			<?php Session()->put('image', $image); 
+			Session()->put('movie_list', $movie_list);?>
 		</div>
 	</div>
 </section>

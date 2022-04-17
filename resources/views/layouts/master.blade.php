@@ -31,7 +31,10 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript">
         $('.image').css('max-height', $('.card__film').width() * 1.4);
-        getImage();
+        setTimeout(function() {
+            getImage();
+        }, 2000);
+        getMovieData()
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -39,19 +42,39 @@
         });
 
         function getImage() {
-            $.ajax({
-                url: "{{ route('storage-ajax') }}",
-                type: "GET",
-                dataType: 'json',
-            }).done(function(data) {
-                setTimeout(function() {
-                    getImage();
-                }, 2000);
-                return true;
-            }).fail(function(e) {
-                return false;
-            });
+            if({{sizeof(Session::get('image'))}} > 0) {
+                $.ajax({
+                    url: "{{ route('storage-ajax') }}",
+                    type: "GET",
+                    dataType: 'json',
+                }).done(function(data) {
+                    setTimeout(function() {
+                        getImage();
+                    }, 2000);
+                    return true;
+                }).fail(function(e) {
+                    return false;
+                });
+            }
         }
+
+        function getMovieData() {
+            if({{sizeof(Session::get('movie_list'))}} > 0) {
+                $.ajax({
+                    url: "{{ route('storage-movie-ajax') }}",
+                    type: "GET",
+                    dataType: 'json',
+                }).done(function(data) {
+                    setTimeout(function() {
+                        getMovieData();
+                    }, 2000);
+                    return true;
+                }).fail(function(e) {
+                    return false;
+                });
+            }
+        }
+
         var swiper = new Swiper(".mySwiper", {
             cssMode: true,
             navigation: {
@@ -68,7 +91,7 @@
         var scroll = true;
         $(window).scroll(function() {
             if ($('.box').hasClass('homepage')) {
-                value = $('header').height() + $(".homepage").height() - $(window).scrollTop() - $(window).height() - 500;
+                value = $('header').height() + $(".homepage").height() - $(window).scrollTop() - $(window).height() - 1000;
                 if (value < 0 && scroll) {
                     scroll = false;
                     let _token = $('input[name="_token"]').val();
@@ -94,7 +117,7 @@
                 }
             }
             if ($('.box').hasClass('search_advanced_film')) {
-                value = $('header').height() + $(".search_advanced_film").height() - $(window).scrollTop() - $(window).height() - 500;
+                value = $('header').height() + $(".search_advanced_film").height() - $(window).scrollTop() - $(window).height() - 1000;
                 if (value < 0 && scroll && $('#info').attr('count') == 18) {
                     scroll = false;
                     let _token = $('input[name="_token"]').val();
