@@ -19,13 +19,14 @@ class HomeController extends Controller
     public function getTest()
     {
         $movies = Movie::all();
-        foreach($movies as $item) {
-            echo "&lt;url&gt;".'<br>';
-            echo "&lt;loc&gt;".route('detail_name', $item->slug)."&lt;/loc&gt;<br>";
-            echo "&lt;lastmod&gt;2022-04-15T19:03:57+00:00&lt;/lastmod&gt;<br>";
-            echo "&lt;priority&gt;1.00&lt;/priority&gt;<br>";
-            echo "&lt;/url&gt;<br>";
-            
+        foreach ($movies as $item) {
+            if (!str_contains($item->slug, '?')) {
+                echo "&lt;url&gt;" . '<br>';
+                echo "&lt;loc&gt;" . route('detail_name', $item->slug) . "&lt;/loc&gt;<br>";
+                echo "&lt;lastmod&gt;2022-04-15T19:03:57+00:00&lt;/lastmod&gt;<br>";
+                echo "&lt;priority&gt;1.00&lt;/priority&gt;<br>";
+                echo "&lt;/url&gt;<br>";
+            }
         }
     }
 
