@@ -16,7 +16,7 @@ class MovieController extends Controller
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $id . '&category=' . $category;
         $movie_detail = $movieService->getData($url);
-        
+
         while ($movie_detail == null) {
             $movie_detail = $movieService->getData($url);
         }
@@ -31,17 +31,18 @@ class MovieController extends Controller
         return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList'));
     }
 
-    public function getMovieByName($name) {
+    public function getMovieByName($name)
+    {
         $movie = Movie::where('slug', $name)->first();
 
-        if($movie == null) {
+        if ($movie == null) {
             throw new PageException();
         }
 
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
         $movie_detail = $movieService->getData($url);
-        
+
         while ($movie_detail == null) {
             $movie_detail = $movieService->getData($url);
         }
@@ -53,7 +54,47 @@ class MovieController extends Controller
             $episode_id = 0;
         }
 
-        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList'));
+        if ($movie->meta == '') {
+            $str = $movie_detail['name'];
+            $i = 0;
+            $data = [];
+            $output = '';
+            while (strlen($str) > 0) {
+                $index = strpos($str, ' ');
+                if ($index == null) {
+                    $data[$i] = $str;
+                    $str = '';
+                } else {
+                    $data[$i] = substr($str, 0, $index);
+                    $str = substr($str, $index + 1);
+                    ++$i;
+                }
+            }
+            $size = sizeof($data);
+            if ($size > 2) {
+                if ($size == 3) {
+                    $pos = 2;
+                } else {
+                    $pos = $size - 2;
+                }
+                for ($i = $pos; $i < $size; ++$i) {
+                    for ($j = 0; $j <= $size - $i; ++$j) {
+                        for ($k = $j; $k < $j + $i; ++$k) {
+                            if ($k == $j + $i - 1) {
+                                $output .= $data[$k] . ', ';
+                            } else {
+                                $output .= $data[$k] . ' ';
+                            }
+                        }
+                    }
+                }
+            }
+
+            $movie->meta = $output;
+            $movie->save();
+        }
+
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)

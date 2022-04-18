@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="{{$movie_detail['introduction']}}">
-<meta name="keywords" content="{{$movie_detail['name']}} vietsub, {{$movie_detail['name']}} fullhd, {{$movie_detail['name']}} fullhd vietsub, {{$movie_detail['name']}}">
+<meta name="keywords" content="<?php if(isset($movie)) echo $movie->meta; ?>{{$movie_detail['name']}} vietsub, {{$movie_detail['name']}} fullhd, {{$movie_detail['name']}} fullhd vietsub, {{$movie_detail['name']}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">

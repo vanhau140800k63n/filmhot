@@ -51,6 +51,7 @@ class StorageController extends Controller
                 $movie = new Movie();
                 $movie->id = $data['id'];
                 $movie->category = $data['category'];
+                $movie->meta = '';
 
                 $str =  $data['name'];
                 $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
