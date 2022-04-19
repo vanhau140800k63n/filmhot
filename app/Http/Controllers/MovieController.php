@@ -13,6 +13,10 @@ class MovieController extends Controller
 
     public function getMovie($category, $id)
     {
+        $movie = Movie::where('id', $id)->where('category', $category)->first();
+        if($movie != null) {
+            return redirect()->route('detail_name', $movie->slug);
+        }
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $id . '&category=' . $category;
         $movie_detail = $movieService->getData($url);
@@ -74,6 +78,8 @@ class MovieController extends Controller
             if ($size > 2) {
                 if ($size == 3) {
                     $pos = 2;
+                } else if($size >= 7) {
+                    $pos = $size - 3;
                 } else {
                     $pos = $size - 2;
                 }
