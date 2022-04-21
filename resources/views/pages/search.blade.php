@@ -17,7 +17,7 @@
 				@foreach($movieSearchWithKey['searchResults'] as $movie)
 				<a href="<?php
 							$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
-							echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
+							echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id'], 'name' => $movie['name']]) : route('detail_name', $movie_check->slug);
 							?>" class="card__film">
 					<?php
 					$urlImage = 'img/' . $movie['domainType'] . $movie['id'] . '.jpg';

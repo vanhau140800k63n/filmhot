@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh">
 <meta property="og:description" content="{{$movie_detail['introduction']}}">
-<meta property="og:url" content="{{ route('movie.detail', ['category' => $movie_detail['category'], 'id' => $movie_detail['id']]) }}">
+<meta property="og:url" content="">
 <meta property="og:site_name" content="{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh">
 <meta property="og:image" content="{{asset('img/'.$movie_detail['category'].$movie_detail['id'].'.jpg')}}">
 <title>{{$movie_detail['name']}} FullHD VietSub + Thuyết Minh</title>
@@ -37,7 +37,7 @@
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
-				<button class="episode" id="{{$key}}">{{$key + 1}} </button>
+				<a class="episode" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
 				@endforeach
 				@endif
 			</div>
@@ -64,7 +64,7 @@
 			@foreach($movie_detail['likeList'] as $movie)
 			<a class="similar__container" href="<?php
 												$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
+												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['name']]) : route('detail_name', $movie_check->slug);
 												?>">
 				<?php
 				$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
@@ -88,8 +88,11 @@
 </section>
 <script>
 	$(document).ready(function() {
+
+		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
+
 		$('.episode').each(function() {
-			if ($(this).attr('id') == $('#media').attr('id_episode')) {
+			if ($(this).attr('id') == {{ intval($episode_id) + 1}}) {
 				$(this).css('background-color', '#ed5829');
 			}
 		})

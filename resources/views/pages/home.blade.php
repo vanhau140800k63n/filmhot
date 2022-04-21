@@ -81,7 +81,7 @@
 				@foreach($recommendItems['recommendContentVOList'] as $key => $movie)
 				@if($key < 6) <a href="<?php
 										$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-										echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
+										echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
 										?>" class="card__film">
 					<?php
 					$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
@@ -122,7 +122,7 @@
 		@foreach($top_search['list'] as $movie)
 		<a href="<?php
 					$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
-					echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id']]) : route('detail_name', $movie_check->slug);
+					echo $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
 					?>" class="top_search__card">
 			<?php
 			$urlImage = 'img/' . $movie['domainType'] . $movie['id'] . 'top_search.jpg';
