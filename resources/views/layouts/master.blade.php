@@ -16,9 +16,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
+    <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
+
     <?php
     header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json;charset=UTF-8');
+    // header('Content-Type: application/json;charset=UTF-8');
     ?>
 </head>
 
@@ -28,6 +30,7 @@
     @include('partial.footer')
 
     <script src="{{asset('js/hls.min.js')}}" type="application/javascript"></script>
+    <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript">
         $('.image').css('max-height', $('.card__film').width() * 1.4);
