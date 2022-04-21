@@ -29,7 +29,7 @@
 				@foreach($result['recommendContentVOList'] as $movie)
 				<a href="<?php
 							$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-							echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'],, 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
+							echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
 							?>" class="card__film">
 					<?php
 					$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';

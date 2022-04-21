@@ -28,10 +28,6 @@
 					@endif
 					@endforeach
 				</video>
-				<!-- <div class="movie__load">
-					<i class="fa-solid fa-play movie__play"></i>
-					<div id="loading_movie"></div>
-				</div> -->
 			</div>
 			<div class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail['name']}}</div>
 			<div class="movie__episodes">
