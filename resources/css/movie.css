@@ -58,9 +58,8 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	background-color: transparent;
+	background-color: #000;
 	z-index: 10;
-	/* display: none; */
 }
 
 .movie__screen {

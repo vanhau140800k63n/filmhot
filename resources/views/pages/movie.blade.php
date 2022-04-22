@@ -28,12 +28,15 @@
 					@endif
 					@endforeach
 				</video>
+				<div class="movie__load">
+					<div id="loading_movie"></div>
+				</div>
 			</div>
 			<div class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail['name']}}</div>
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
-				<a class="episode" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
+				<a class="episode <?php $key == $episode_id ? 'active':'' ?>" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
 				@endforeach
 				@endif
 			</div>
@@ -58,10 +61,11 @@
 			<?php $image = Session('image') ? Session::get('image') : [];
 			$movie_list = Session('movie_list') ? Session::get('movie_list') : []; ?>
 			@foreach($movie_detail['likeList'] as $movie)
-			<a class="similar__container" href="<?php
-												$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
-												echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['name']]) : route('detail_name', $movie_check->slug);
-												?>">
+			<a class="similar__container" href="
+				<?php
+				$movie_check = App\Models\Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+				echo $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['name']]) : route('detail_name', $movie_check->slug);
+				?>">
 				<?php
 				$urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
 				if (!file_exists($urlImage)) {
@@ -85,16 +89,19 @@
 <script>
 	$(document).ready(function() {
 		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
+		$('.movie__load').height($('.movie__media').height() + 5);
 
 		video = videojs('video_media');
 		setInterval(restart, 1000);
-        console.log(video);
+		console.log(video);
+
 		function restart() {
 			if (video['error_'] != null) {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);
 			}
+			$('.movie__load').hide();
 			clearInterval(restart);
 		}
 

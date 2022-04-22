@@ -15,13 +15,13 @@ class MovieController extends Controller
     {
         $movie = Movie::where('id', $id)->where('category', $category)->first();
 
-        if ($movie != null) {
+        $str =  $name;
+        if ($movie == null) {
             $movie = new Movie();
             $movie->id = $id;
             $movie->category = $category;
             $movie->meta = '';
 
-            $str =  $name;
             $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
             $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);
             $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/", 'i', $str);
