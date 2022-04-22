@@ -20,7 +20,7 @@
 		<div class="movie__container">
 			<div class="movie__media" id="movie__media">
 				<input id="media" id_media="{{$movie_detail['id']}}" category="{{$movie_detail['category']}}" id_episode="{{$episode_id}}" class="hidden">
-				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls>
+				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="{{$media['mediaUrl']}}" type="application/x-mpegURL">
 					@foreach($movie_detail['episodeVo'][$episode_id]['subtitlingList'] as $subtitle)
 					@if($subtitle['languageAbbr'] == 'vi')
@@ -36,7 +36,7 @@
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
-				<a class="episode <?php $key == $episode_id ? 'active':'' ?>" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
+				<a class="episode <?php $key == $episode_id ? 'active' : '' ?>" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
 				@endforeach
 				@endif
 			</div>
@@ -92,17 +92,19 @@
 		$('.movie__load').height($('.movie__media').height() + 5);
 
 		video = videojs('video_media');
-		setInterval(restart, 1000);
-		console.log(video);
+		getVideo = setInterval(restart, 1000);
+		// console.log(video);
 
 		function restart() {
-			if (video['error_'] != null || !video['controls_'] ) {
+			if (video['cache_']['duration'] == 0) {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);
+			} else {
+				$('.movie__load').hide();
+				// console.log(video);
+				clearInterval(getVideo);
 			}
-			$('.movie__load').hide();
-			clearInterval(restart);
 		}
 
 		function reload(episode_id, definition) {
