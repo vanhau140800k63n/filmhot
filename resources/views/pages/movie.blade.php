@@ -84,14 +84,46 @@
 </section>
 <script>
 	$(document).ready(function() {
-
 		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
 
-		$('.episode').each(function() {
-			if ($(this).attr('id') == {{ intval($episode_id) + 1}}) {
-				$(this).css('background-color', '#ed5829');
+		video = videojs('video_media');
+		setInterval(restart, 1000);
+
+		function restart() {
+			if (video['controls_'] == false) {
+				let episode_id = Number($('#media').attr('id_episode'));
+				let definition = $('.movie__quality').children(":selected").attr("id");
+				reload(episode_id, definition);
 			}
-		})
+			clearInterval(restart);
+		}
+
+		function reload(episode_id, definition) {
+			let _token = $('input[name="_token"]').val();
+			$.ajax({
+				url: "{{ route('movie.episode-ajax')}}",
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				type: "POST",
+				dataType: 'json',
+				data: {
+					id: $('#media').attr('id_media'),
+					category: $('#media').attr('category'),
+					episode_id: episode_id,
+					definition: definition,
+					_token: _token
+				}
+			}).done(function(data) {
+				video.src(data['mediaUrl']);
+				return true;
+			}).fail(function(e) {
+				return false;
+			});
+		}
+
+
+
 
 		$('.tag__name').click(function() {
 			array['category'] = $(this).attr('id_tag');
