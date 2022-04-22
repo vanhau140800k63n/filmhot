@@ -96,13 +96,12 @@
 		console.log(video);
 
 		function restart() {
-			if (video['cache_']['currentTime'] == 0) {
+			if (video['cache_']['duration'] == 0) {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);
 			} else {
 				$('.movie__load').hide();
-				// console.log(video);
 				clearInterval(getVideo);
 			}
 		}
