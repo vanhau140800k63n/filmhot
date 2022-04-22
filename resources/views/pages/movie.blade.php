@@ -88,9 +88,9 @@
 
 		video = videojs('video_media');
 		setInterval(restart, 1000);
-
+        console.log(video);
 		function restart() {
-			if (video['controls_'] == false) {
+			if (video['error_'] != null) {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);

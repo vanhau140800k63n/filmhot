@@ -106,12 +106,10 @@ header .search {
     padding: 5px 10px;
 }
 
-.as_item:hover {
+.as_item:hover, .as_item.active {
     color: #ed5829;
-}
-
-.as_item.active {
-    color: #ed5829;
+    font-weight: 700;
+    transform: scale(1.1);
 }
 
 @media only screen and (min-width: 1400px) {
