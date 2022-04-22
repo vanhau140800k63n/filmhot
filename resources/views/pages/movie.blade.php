@@ -32,11 +32,11 @@
 					<div id="loading_movie"></div>
 				</div>
 			</div>
-			<div class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail['name']}}</div>
+			<div class="movie__name" id="{{$movie_detail['name']}}"><?php echo $movie_detail['episodeCount'] > 1 ? $movie_detail['name'].' - Tập '.($episode_id+ 1) :$movie_detail['name'] ?></div>
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
-				<a class="episode <?php $key == $episode_id ? 'active' : '' ?>" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
+				<a class="episode <?php echo intval($key) == intval($episode_id) ? 'active' : '' ?>" id="{{$key + 1}}" href="{{ route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) }}">{{$key + 1}} </a>
 				@endforeach
 				@endif
 			</div>

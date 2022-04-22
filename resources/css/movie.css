@@ -92,6 +92,10 @@
 	font-weight: 600;
 }
 
+.episode.active {
+	background-color: #266fd0;
+}
+
 .movie__info {
 	display: flex;
 	font-size: 20px;
