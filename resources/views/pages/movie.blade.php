@@ -96,7 +96,7 @@
 		console.log(video);
 
 		function restart() {
-			if (video['error_'] != null) {
+			if (video['error_'] != null || !video['controls_'] ) {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);

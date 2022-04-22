@@ -233,18 +233,7 @@ class MovieController extends Controller
             }
         }
 
-        $episode_title = "";
-        // $film_url = 'category=' . $req->category . '&id=' . $req->id;
-     
-        $episode = $req->episode_id + 1;
-
-        if ($movie_detail['episodeCount'] > 1) {
-            $film_url = 'category=' . $req->category . '&id=' . $req->id . '&episode=' . $episode;
-            $film_url = route('movie.episode', ['category' => $req->category, 'id' => $req->id, 'episode' => $episode]);
-            $episode_title = " - Tập " . $episode;
-        }
-
-        array_push($media, $definitionList, $movie_detail['episodeVo'][$req->episode_id]['subtitlingList'], $film_url, $episode_title);
+        array_push($media);
         return $media;
     }
 }
