@@ -32,7 +32,7 @@
 					<div id="loading_movie"></div>
 				</div>
 			</div>
-			<div class="movie__name" id="{{$movie_detail['name']}}"><?php echo $movie_detail['episodeCount'] > 1 ? $movie_detail['name'].' - Tập '.($episode_id+ 1) :$movie_detail['name'] ?></div>
+			<div class="movie__name" id="{{$movie_detail['name']}}"><?php echo $movie_detail['episodeCount'] > 1 ? $movie_detail['name'] . ' - Tập ' . ($episode_id + 1) : $movie_detail['name'] ?></div>
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
@@ -102,6 +102,8 @@
 				reload(episode_id, definition);
 			} else {
 				$('.movie__load').hide();
+				$('.movie__intro').html($('.movie__intro').html() + video['cache_']['duration']);
+				console.log(video['cache_']['duration']);
 				clearInterval(getVideo);
 			}
 		}
@@ -123,7 +125,9 @@
 					_token: _token
 				}
 			}).done(function(data) {
-				video.src(data['mediaUrl']);
+				if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null) {
+					video.src(data['mediaUrl']);
+				}
 				return true;
 			}).fail(function(e) {
 				return false;
