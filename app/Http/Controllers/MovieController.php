@@ -128,7 +128,9 @@ class MovieController extends Controller
 
         // dd($movie_detail);
 
-        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media'));
+        $url = route('detail_name', $movie->slug);
+
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media', 'url'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
@@ -197,8 +199,10 @@ class MovieController extends Controller
             $definitionList = $movie_detail['episodeVo'][$episode_id]['definitionList'];
             $media = $this->getEpisode($movie->category, $movie->id, $movie_detail['episodeVo'][$episode_id]['id'], $definitionList[0]['code']);
         }
+
+        $url = route('detail_name', $movie->slug);
          
-        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media'));
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media', 'url'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)

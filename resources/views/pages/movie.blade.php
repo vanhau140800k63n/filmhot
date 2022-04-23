@@ -58,7 +58,7 @@
 			<div class="movie__intro">{{$movie_detail['introduction']}}</div>
 			<div class="comment_title"> Bình luận </div>
 			<div style="background-color: #fff;">
-				<div data-width="100%" class="fb-comments" data-href="" data-width="" data-numposts="5"></div>
+				<div data-width="100%" class="fb-comments" data-href="{{ $url }}" data-width="" data-numposts="5"></div>
 			</div>
 		</div>
 		<div class="movie__similar">
@@ -92,7 +92,6 @@
 </section>
 <script>
 	$(document).ready(function() {
-		$('.fb-comments').attr('data-href', window.location.href);
 		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
 		$('.movie__load').height($('.movie__media').height() + 5);
 
