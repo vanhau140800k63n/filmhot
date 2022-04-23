@@ -125,7 +125,7 @@
 					_token: _token
 				}
 			}).done(function(data) {
-				if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null) {
+				if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration'])) {
 					video.src(data['mediaUrl']);
 				}
 				return true;
