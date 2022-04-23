@@ -72,6 +72,7 @@
 	font-size: 40px;
 	font-weight: 700;
 	margin-top: 30px;
+	margin-bottom: 20px;
 }
 
 .movie__episodes {
@@ -90,6 +91,19 @@
 	align-items: center;
 	justify-content: center;
 	font-weight: 600;
+}
+
+.comment_title {
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.fb-comments {
+	background: #fff;
+}
+
+.episode:hover {
+	background-color: #266fd0;
 }
 
 .episode.active {

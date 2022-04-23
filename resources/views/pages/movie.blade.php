@@ -32,7 +32,7 @@
 					<div id="loading_movie"></div>
 				</div>
 			</div>
-			<div class="movie__name" id="{{$movie_detail['name']}}"><?php echo $movie_detail['episodeCount'] > 1 ? $movie_detail['name'] . ' - Tập ' . ($episode_id + 1) : $movie_detail['name'] ?></div>
+			<h1 class="movie__name" id="{{$movie_detail['name']}}"><?php echo $movie_detail['episodeCount'] > 1 ? $movie_detail['name'] . ' - Tập ' . ($episode_id + 1) : $movie_detail['name'] ?></h1>
 			<div class="movie__episodes">
 				@if($movie_detail['episodeCount'] > 1)
 				@foreach($movie_detail['episodeVo'] as $key => $episode)
@@ -56,6 +56,10 @@
 				@endforeach
 			</div>
 			<div class="movie__intro">{{$movie_detail['introduction']}}</div>
+			<div class="comment_title"> Bình luận </div>
+			<div style="background-color: #fff;">
+				<div data-width="100%" class="fb-comments" data-href="" data-width="" data-numposts="5"></div>
+			</div>
 		</div>
 		<div class="movie__similar">
 			<?php $image = Session('image') ? Session::get('image') : [];
@@ -88,6 +92,7 @@
 </section>
 <script>
 	$(document).ready(function() {
+		$('.fb-comments').attr('data-href', window.location.href);
 		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
 		$('.movie__load').height($('.movie__media').height() + 5);
 
@@ -133,9 +138,6 @@
 				return false;
 			});
 		}
-
-
-
 
 		$('.tag__name').click(function() {
 			array['category'] = $(this).attr('id_tag');

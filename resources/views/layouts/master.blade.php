@@ -32,6 +32,8 @@
     <script src="{{asset('js/hls.min.js')}}" type="application/javascript"></script>
     <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="5rDTDVQW"></script>
     <script type="text/javascript">
         $('.image').css('max-height', $('.card__film').width() * 1.4);
         getImage();

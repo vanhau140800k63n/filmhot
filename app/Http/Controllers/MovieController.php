@@ -126,7 +126,7 @@ class MovieController extends Controller
             $media = $this->getEpisode($movie->category, $movie->id, $movie_detail['episodeVo'][0]['id'], $definitionList[0]['code']);
         }
 
-        // dd($media);
+        // dd($movie_detail);
 
         return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media'));
     }
