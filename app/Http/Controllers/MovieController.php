@@ -11,6 +11,24 @@ class MovieController extends Controller
 {
     // public MovieService 
 
+    public function getMovieEdit($name) {
+        $movie = Movie::where('slug', $name)->first();
+        if ($movie == null) {
+            throw new PageException();
+        }
+        return view('pages.edit', compact('movie'));
+    }
+
+    public function getMovieUpdate(Request $req, $name) {
+        $movie = Movie::where('slug', $name)->first();
+        if ($movie == null) {
+            throw new PageException();
+        }
+        $movie->description = $req->all()['description'];
+        $movie->save();
+        return redirect()->route('detail_name', $movie->slug);
+    }
+
     public function getMovie($category, $id, $name)
     {
         $movie = Movie::where('id', $id)->where('category', $category)->first();
