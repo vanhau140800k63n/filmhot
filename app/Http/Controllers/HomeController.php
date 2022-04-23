@@ -35,7 +35,7 @@ class HomeController extends Controller
         }
         $size = sizeof($data);
         if ($size > 2) {
-            if($size == 3) {
+            if ($size == 3) {
                 $pos = 2;
             } else {
                 $pos = $size - 2;
@@ -287,5 +287,43 @@ class HomeController extends Controller
     public function searchMovieCategory($id)
     {
         return view('');
+    }
+
+    public function getHeaderAjax(Request $req)
+    {
+        $movieService = new \App\Services\MovieService();
+        $search_advanced_list = $movieService->searchAdvancedList();
+        while ($search_advanced_list == null) {
+            $search_advanced_list = $movieService->searchAdvancedList();
+        }
+
+        $output = '';
+
+        foreach ($search_advanced_list as $as_key => $as_container) {
+            $output .= '<div class="as_name" id_key="' . $as_key . '">' . $as_container['name'] . ' <i class="fa-solid fa-caret-down"></i></div>
+	    		<div class="as_container" id="as_container' . $as_key . '" params="' . $as_container['params'] . '">';
+            foreach ($as_container['screeningItems'] as $key_screening_items => $screening_items) {
+                $output .= '<div class="as_items" index="as_' . $screening_items['id'] . '">';
+                if ($key_screening_items < 3) {
+                    $output .=  '<div class="as_items_name"> '.__("search_advanced." . $screening_items['name']).'</div>';
+                    foreach ($screening_items['items'] as $key_as_items => $as_item) {
+                        $output .= '<div class="as_item" value="' . $as_item['params'] . '" screening_type="' . $as_item['screeningType'] . '" check="' . $as_key . '.' . $as_item['screeningType'] . '#' . $as_item['params'] . '">';
+                        if (trans()->has('search_advanced.detail.' . $as_item['name'])) {
+                            $output .= __("search_advanced.detail." . $as_item['name']);
+                        } else {
+                            $output .= $as_item['name'];
+                        }
+                        $output .= '</div>';
+                    }
+                }
+                $output .= '</div>';
+            }
+            $output .= '<div class="close_search_advanced">
+				<button class="close_search_advanced_btn">Đóng</button>
+			</div>
+		</div>';
+        }
+
+        return response()->json($output);
     }
 }

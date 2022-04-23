@@ -33,8 +33,10 @@ Route::prefix('movies')->name('movie.')->group(function() {
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}andname={name}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
+    Route::post('/get-view-movie-ajax', [MovieController::class, 'getViewMovieAjax'])->name('get-view-movie-ajax');
 });
 
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
+Route::get('/header-ajax', [HomeController::class, 'getHeaderAjax'])->name('header-ajax');
 
