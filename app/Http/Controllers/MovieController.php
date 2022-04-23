@@ -138,17 +138,11 @@ class MovieController extends Controller
             $movie->save();
         }
 
-        $media = [];
-        if (!empty($movie_detail['episodeVo'])) {
-            $definitionList = $movie_detail['episodeVo'][0]['definitionList'];
-            $media = $this->getEpisode($movie->category, $movie->id, $movie_detail['episodeVo'][0]['id'], $definitionList[0]['code']);
-        }
-
         // dd($movie_detail);
 
         $url = route('detail_name', $movie->slug);
 
-        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media', 'url'));
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'url'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
@@ -210,17 +204,9 @@ class MovieController extends Controller
             $movie->save();
         }
 
-        $definitionList = [];
-        $media = [];
-
-        if (!empty($movie_detail['episodeVo'])) {
-            $definitionList = $movie_detail['episodeVo'][$episode_id]['definitionList'];
-            $media = $this->getEpisode($movie->category, $movie->id, $movie_detail['episodeVo'][$episode_id]['id'], $definitionList[0]['code']);
-        }
-
         $url = route('detail_name', $movie->slug);
          
-        return view('pages.movie', compact('movie_detail', 'episode_id', 'definitionList', 'movie', 'media', 'url'));
+        return view('pages.movie', compact('movie_detail', 'episode_id', 'movie', 'url'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)

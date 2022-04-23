@@ -21,7 +21,7 @@
 			<div class="movie__media" id="movie__media">
 				<input id="media" id_media="{{$movie_detail['id']}}" category="{{$movie_detail['category']}}" id_episode="{{$episode_id}}" class="hidden">
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
-					<source src="{{$media['mediaUrl']}}" type="application/x-mpegURL">
+					<source src="ThuyDung" type="application/x-mpegURL">
 					@foreach($movie_detail['episodeVo'][$episode_id]['subtitlingList'] as $subtitle)
 					@if($subtitle['languageAbbr'] == 'vi')
 					<track id="subtitles" kind="subtitles" label="{{$subtitle['language']}}" srclang="{{$subtitle['languageAbbr']}}" src="https://srt-to-vtt.vercel.app/?url={{$subtitle['subtitlingUrl']}}">
