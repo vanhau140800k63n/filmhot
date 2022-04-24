@@ -104,6 +104,7 @@
 			}
 
 			$('.tag__name').click(function() {
+				$('.comments_hidden').remove();
 				array['category'] = $(this).attr('id_tag');
 
 				$('.box.advanced').html('');
