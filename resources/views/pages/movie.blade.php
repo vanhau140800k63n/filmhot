@@ -24,7 +24,7 @@
 	<div class="box advanced">
 
 	</div>
-	<div class="comments_hidden" hidden>
+	<div class="comments_hidden">
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
 	</div>
 </section>
@@ -44,7 +44,7 @@
 			$('.loader_home').remove();
 			// $('.box.advanced').html(data[1]);
 			$('.box.advanced').html(data[1]);
-			$('.comments_fb').html($('.comments_hidden').html());
+			// $('.comments_fb').html($('.comments_hidden').html());
 
 			$('[name=description]').attr('content', data[0]['introduction']);
 			$('[property="og:description"]').attr('content', data[0]['introduction']);
