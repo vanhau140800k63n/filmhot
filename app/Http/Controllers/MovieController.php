@@ -247,7 +247,6 @@ class MovieController extends Controller
             ' . $movie->description . '
         </div>
         <div class="comment_title"> Bình luận </div>
-        <div class="comments_fb" style="background-color: #fff;"></div>
         </div>';
 
         $output .= '<div class="movie__similar">';

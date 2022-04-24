@@ -24,7 +24,7 @@
 	<div class="box advanced">
 
 	</div>
-	<div class="comments_hidden">
+	<div class="box comments_hidden" style="background-color: #fff;">
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
 	</div>
 </section>
