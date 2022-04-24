@@ -86,7 +86,9 @@ class MovieController extends Controller
 
         $episode_id = 0;
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name'));
+        $url = route('detail_name', $name);
+
+        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
@@ -97,8 +99,9 @@ class MovieController extends Controller
         if ($movie == null) {
             throw new PageException();
         }
+        $url = route('detail_name', $name);
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name'));
+        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)
@@ -244,9 +247,7 @@ class MovieController extends Controller
             ' . $movie->description . '
         </div>
         <div class="comment_title"> Bình luận </div>
-        <div style="background-color: #fff;">
-            <div data-width="100%" class="fb-comments" data-href="' . $url . '" data-width="" data-numposts="5"></div>
-        </div>
+        <div class="comments_fb" style="background-color: #fff;"></div>
         </div>';
 
         $output .= '<div class="movie__similar">';
