@@ -305,7 +305,7 @@ class HomeController extends Controller
             foreach ($as_container['screeningItems'] as $key_screening_items => $screening_items) {
                 $output .= '<div class="as_items" index="as_' . $screening_items['id'] . '">';
                 if ($key_screening_items < 3) {
-                    $output .=  '<div class="as_items_name"> '.__("search_advanced." . $screening_items['name']).'</div>';
+                    $output .=  '<div class="as_items_name"> ' . __("search_advanced." . $screening_items['name']) . '</div>';
                     foreach ($screening_items['items'] as $key_as_items => $as_item) {
                         $output .= '<div class="as_item" value="' . $as_item['params'] . '" screening_type="' . $as_item['screeningType'] . '" check="' . $as_key . '.' . $as_item['screeningType'] . '#' . $as_item['params'] . '">';
                         if (trans()->has('search_advanced.detail.' . $as_item['name'])) {
@@ -323,6 +323,141 @@ class HomeController extends Controller
 			</div>
 		</div>';
         }
+
+        return response()->json($output);
+    }
+
+    public function getFirstHomeAjax()
+    {
+        $movieService = new \App\Services\MovieService();
+
+        $url_movie = 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0';
+        $movie_home = $movieService->getData($url_movie);
+        while ($movie_home == null) {
+            $movie_home = $movieService->getData($url_movie);
+        }
+
+        $url_top = 'https://ga-mobile-api.loklok.tv/cms/app/search/v1/searchLeaderboard';
+        $top_search = $movieService->getData($url_top);
+        while ($top_search == null) {
+            $top_search = $movieService->getData($url_top);
+        }
+
+        $output = '';
+
+        $output .= '<div class="listfilm">';
+        foreach ($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems) {
+            if ($recommendItems['homeSectionType'] == 'BANNER' && sizeof($recommendItems['recommendContentVOList']) > 1) {
+                $output .= '<div class="listfilm__top">
+                <div class="categorys">
+                    <a data="1" class="home__category">Phim hành động</a>
+                    <a data="19" class="home__category">Khoa học viễn tưởng</a>
+                    <a data="3" class="home__category">Hoạt hình</a>
+                    <a data="13" class="home__category">Kinh dị</a>
+                    <a data="5" class="home__category">Hài kịch</a>
+                    <a data="64" class="home__category">Thảm khốc</a>
+                    <a data="24" class="home__category">Chiến tranh</a>
+                </div>
+                <div class="swiper__slider">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">';
+                foreach ($recommendItems['recommendContentVOList'] as $key => $banner) {
+                    $output .= '<div class="swiper-slide rounded-xl">
+							<img class="banner_img" src="' . $banner['imageUrl'] . '" alt="image" />
+						</div>';
+                }
+                $output .= '</div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+		</div>';
+            }
+            if ($recommendItems['homeSectionType'] == 'SINGLE_ALBUM') {
+                $output .= '<div class="recommend__items">
+			<div class="recommend__items__title">
+				<div class="recommend__items__name">
+					<span>' . $recommendItems['homeSectionName'] . '</span>
+				</div>
+
+				<a href="' . route('moremovie', ['page' => 0, 'id' => $keyRecommendItems]) . '" class="recommend__items__btn">
+					Xem thêm
+					<svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+					</svg>
+				</a>
+			</div>
+			<div class="recommend__item">';
+                $image = Session('image') ? Session::get('image') : [];
+                $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
+
+                foreach ($recommendItems['recommendContentVOList'] as $key => $movie) {
+                    if ($key < 6) {
+                        $output .= '<a href="';
+                        $movie_check = Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+                        $output .= $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
+                        $output .= '" class="card__film">';
+
+                        $urlImage = 'img/' . $movie['category'] . $movie['id'] . '.jpg';
+                        if (!file_exists($urlImage)) {
+                            $urlImage = $movie['imageUrl'];
+                            $image[$movie['category'] . $movie['id']] = $movie['imageUrl'];
+                        }
+                        $movie_check = Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
+                        if ($movie_check == null) {
+                            $movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
+                        }
+
+                        $output .= '<img class="image" src="' . asset($urlImage) . '" alt="image" />
+					<p class="film__name">' . $movie['title'] . '</p>
+					</a>';
+                    }
+                }
+                Session()->put('image', $image);
+                Session()->put('movie_list', $movie_list);
+                $output .= '</div>
+                </div>';
+            }
+        }
+        $output .= '
+            <div class="text-center">
+                <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>';
+
+        $output .= '<div class="top_search">
+		<div class="top_search__title">Top tìm kiếm</div>';
+        $image = Session('image') ? Session::get('image') : [];
+        $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
+
+        foreach ($top_search['list'] as $movie) {
+            $output .= '<a href="';
+            $movie_check = Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
+            $output .= $movie_check == null ? route('movie.detail', ['category' => $movie['domainType'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
+            $output .= '" class="top_search__card">';
+
+            $urlImage = 'img/' . $movie['domainType'] . $movie['id'] . 'top_search.jpg';
+            if (!file_exists($urlImage)) {
+                $urlImage = $movie['cover'];
+                $image[$movie['domainType'] . $movie['id'] . 'top_search'] = $movie['cover'];
+            }
+            $movie_check = Movie::where('id', $movie['id'])->where('category', $movie['domainType'])->first();
+            if ($movie_check == null) {
+                $movie_list[$movie['domainType'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['domainType'], 'name' => $movie['title']];
+            }
+            $output .=
+                '<img src="' . asset($urlImage) . '" class="top_search__card__img">
+			<div class="top_search__card__name">' . $movie['title'] . '</div>
+		</a>';
+        }
+        Session()->put('image', $image);
+        Session()->put('movie_list', $movie_list);
+        $output .= '</div>';
 
         return response()->json($output);
     }

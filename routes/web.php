@@ -39,4 +39,5 @@ Route::prefix('movies')->name('movie.')->group(function() {
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
 Route::get('/header-ajax', [HomeController::class, 'getHeaderAjax'])->name('header-ajax');
+Route::get('/load_first_home_ajax', [HomeController::class, 'getFirstHomeAjax'])->name('load_first_home_ajax');
 

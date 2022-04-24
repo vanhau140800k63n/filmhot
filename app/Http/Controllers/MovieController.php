@@ -191,6 +191,9 @@ class MovieController extends Controller
             $movie->save();
         }
 
+        $meta = $movie->meta;
+        $url = route('detail_name', $movie->slug);
+
         $output = '';
 
         $output .= '<div class="movie__container">
@@ -242,7 +245,7 @@ class MovieController extends Controller
         </div>
         <div class="comment_title"> Bình luận </div>
         <div style="background-color: #fff;">
-            <div data-width="100%" class="fb-comments" data-href="{{ $url }}" data-width="" data-numposts="5"></div>
+            <div data-width="100%" class="fb-comments" data-href="' . $url . '" data-width="" data-numposts="5"></div>
         </div>
         </div>';
 
@@ -269,8 +272,8 @@ class MovieController extends Controller
             }
 
             $output .= '<img src="' . asset($urlImage) . '">
-           <div class="similar__name">' . $movie['name'] . '</div>
-       </a>';
+            <div class="similar__name">' . $movie['name'] . '</div>
+        </a>';
         }
         Session()->put('image', $image);
         Session()->put('movie_list', $movie_list);
@@ -278,7 +281,9 @@ class MovieController extends Controller
 
         $data = [];
 
-        array_push($data, $movie_detail, $output);
+        $image = asset('img/' . $movie_detail['category'] . $movie_detail['id'] . '.jpg');
+
+        array_push($data, $movie_detail, $output, $meta, $image);
         return response()->json($data);
     }
 }

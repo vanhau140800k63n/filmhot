@@ -2,6 +2,11 @@
     transform: scale(1.03);
     transition: 0.2s;
 }
+.banner_img {
+    object-fit: cover;
+    -o-object-fit: cover;
+    width: 100%;
+}
 .film__name {
     display: -webkit-box;
     -webkit-line-clamp: 2;
