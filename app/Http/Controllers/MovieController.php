@@ -205,7 +205,9 @@ class MovieController extends Controller
             <video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
                 <source src="ThuyDung" type="application/x-mpegURL">';
         foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
-            $output .= '<track id="subtitles" kind="subtitles" label="' . $subtitle['language'] . '" srclang="' . $subtitle['languageAbbr'] . '" src="https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '">';
+            if ($subtitle['languageAbbr'] == 'vi' || $subtitle['languageAbbr'] == 'en') {
+                $output .= '<track id="subtitles" kind="subtitles" label="' . $subtitle['language'] . '" srclang="' . $subtitle['languageAbbr'] . '" src="https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '">';
+            }
         }
         $output .= '</video>
             <div class="movie__load">
