@@ -74,6 +74,7 @@
 		})
 
 		$('.as_item').click(function() {
+			$('.comments_hidden').remove();
 			value = $(this).attr('check');
 			as_new = value.slice(0, value.indexOf('.'));
 			as_name = value.slice(value.indexOf('.') + 1, value.indexOf('#'));
