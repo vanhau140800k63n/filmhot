@@ -149,6 +149,7 @@
 
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();
+				$('.home__products').remove();
 				array['category'] = $(this).attr('id_tag');
 
 				$('.box.advanced').html('');
