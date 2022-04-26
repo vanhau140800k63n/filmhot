@@ -40,7 +40,7 @@
 						<p data__price="{{$key->price}}" data__price__sale="{{$key->sale}}">10% Giảm</p>
 					</div>
 					<img src="{{$key->image}}" alt="" class="home__product-img">
-					<img class="home__product-label_bottom" src="source/img/a/voucher.png">
+					<img class="home__product-label_bottom" src="https://devsne.vn/source/img/a/voucher.png">
 					<div class="home__product-content">
 						<h3 class="home__product-title">
 							{{$key->name}}
