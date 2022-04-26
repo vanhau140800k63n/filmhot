@@ -86,7 +86,7 @@ class MovieController extends Controller
         $episode_id = 0;
         $url = route('detail_name', $name);
 
-        $productAll = Product::take(18)->orderBy('point','asc')->get();
+        $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
     }
@@ -101,7 +101,7 @@ class MovieController extends Controller
         }
         $url = route('detail_name', $name);
 
-        $productAll = Product::take(18)->orderBy('point','asc')->get();
+        $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
     }
