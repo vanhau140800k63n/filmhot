@@ -70,7 +70,6 @@
 				</div>
 			</div>
 			@endforeach
-			<div class="last_id" id="last_id" last_id="{{$last_id}}"></div>
 		</div>
 	</div>
 </section>
