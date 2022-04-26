@@ -29,7 +29,7 @@
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
 	</div>
 </section>
-<section class="home__products">
+<section class="home__products" hidden>
 	<div class="box">
 		<div class="home__products__all" id="all__products">
 			@foreach($productAll as $key)
@@ -90,6 +90,7 @@
 			// $('.box.advanced').html(data[1]);
 			$('.box.advanced').html(data[1]);
 			$('.comments_hidden').show();
+			$('.home__products').show();
 
 			$('[name=description]').attr('content', data[0]['introduction']);
 			$('[property="og:description"]').attr('content', data[0]['introduction']);
