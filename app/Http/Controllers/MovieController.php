@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\MovieService;
 use App\Models\Movie;
+use App\Models\Product;
 use App\Exceptions\PageException;
 use Session;
 
 class MovieController extends Controller
 {
-    // public MovieService 
-
     public function getMovieEdit($name)
     {
         $movie = Movie::where('slug', $name)->first();
@@ -85,10 +84,11 @@ class MovieController extends Controller
         }
 
         $episode_id = 0;
-
         $url = route('detail_name', $name);
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url'));
+        $productAll = Product::take(18)->orderBy('point','asc')->get();
+
+        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
@@ -101,12 +101,13 @@ class MovieController extends Controller
         }
         $url = route('detail_name', $name);
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url'));
+        $productAll = Product::take(18)->orderBy('point','asc')->get();
+
+        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)
     {
-
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/media/previewInfo?category=' . $category . '&contentId=' . $id . '&episodeId=' . $episodeId . '&definition=' . $definition;
         $media = $movieService->getData($url);
