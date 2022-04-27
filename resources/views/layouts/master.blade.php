@@ -29,7 +29,6 @@
     @yield('content')
     @include('partial.footer')
 
-    <script src="{{asset('js/hls.min.js')}}" type="application/javascript"></script>
     <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <div id="fb-root"></div>

@@ -161,7 +161,7 @@
 
 		video = videojs('video_media');
 		getVideo = setInterval(restart, 1000);
-		console.log(video);
+		// console.log(video);
 
 		function restart() {
 			if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration'])) {
@@ -171,7 +171,7 @@
 			} else {
 				$('.movie__load').hide();
 				$('.movie__intro').html($('.movie__intro').html() + video['cache_']['duration']);
-				console.log(video);
+				// console.log(video);
 				clearInterval(getVideo);
 			}
 		}
