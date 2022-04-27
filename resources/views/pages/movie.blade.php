@@ -108,15 +108,16 @@
 		}).done(function(data) {
 			if ($('.movie__name').html() == '') {
 				window.location.href = data[6];
+			} else {
+				if (data[7]) {
+					$('.movie__name').html($('.movie__name').html() + " - Tập " + "{{ $episode_id + 1}}");
+				}
 			}
 			$('.movie__similar').html(data[1]);
 			$('.comments_hidden').show();
 			$('.home__products').show();
 			$('.movie__episodes').html(data[4]);
 			$('.movie__tag').html(data[5]);
-			if(data[7]) {
-				$('.movie__name').html($('.movie__name').html() + " - Tập " + "{{ $episode_id + 1}}");
-			}
 
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();
