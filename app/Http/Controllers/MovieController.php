@@ -335,7 +335,9 @@ class MovieController extends Controller
 
         $image = asset('img/' . $movie_detail['category'] . $movie_detail['id'] . '.jpg');
 
-        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie);
+        $check_episode = $movie_detail['episodeCount'] > 1;
+
+        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode);
         return response()->json($data);
     }
 }
