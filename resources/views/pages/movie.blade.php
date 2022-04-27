@@ -7,12 +7,12 @@
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta property="og:locale" content="vi_VN">
 <meta property="og:type" content="website">
-<meta property="og:title" content="">
+<meta property="og:title" content="{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh">
 <meta property="og:description" content="{{$movie_detail->description}}">
 <meta property="og:url" content="{{$url}}">
 <meta property="og:site_name" content="{{$movie_detail->name}}">
 <meta property="og:image" content="{{$movie_detail->image}}">
-<title></title>
+<title>{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</title>
 @endsection
 @section('content')
 <section class="movie">
