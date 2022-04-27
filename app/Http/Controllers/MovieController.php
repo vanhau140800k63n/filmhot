@@ -77,9 +77,9 @@ class MovieController extends Controller
 
     public function getMovieByName($name)
     {
-        $movie = Movie::where('slug', $name)->first();
+        $movie_detail = Movie::where('slug', $name)->first();
 
-        if ($movie == null) {
+        if ($movie_detail == null) {
             throw new PageException();
         }
 
@@ -88,22 +88,22 @@ class MovieController extends Controller
 
         $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
+        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
     {
         --$episode_id;
-        $movie = Movie::where('slug', $name)->first();
+        $movie_detail = Movie::where('slug', $name)->first();
 
-        if ($movie == null) {
+        if ($movie_detail == null) {
             throw new PageException();
         }
         $url = route('detail_name', $name);
 
         $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
-        return view('pages.movie', compact('episode_id', 'movie', 'name', 'url', 'productAll'));
+        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)
@@ -192,65 +192,117 @@ class MovieController extends Controller
             }
 
             $movie->meta = $output;
-            $movie->save();
+        }
+        if (!str_contains($movie->meta, 'fullhd')) {
+            $movie->meta = $movie->meta . $movie_detail['name'] . ' vietsub, ' . $movie_detail['name'] . ' fullhd, ' . $movie_detail['name'] . ' fullhd vietsub, ' . $movie_detail['name'];
+        }
+        if ($movie->description == '') {
+            $movie->description = $movie_detail['introduction'];
+        }
+        if ($movie->name == '') {
+            $movie->name = $movie_detail['name'];
+        }
+        if ($movie->year == '') {
+            $movie->year = $movie_detail['year'];
+        }
+        if ($movie->rate == '') {
+            $movie->rate = $movie_detail['score'];
+        }
+        if ($movie->image == '' || $movie->image == '1') {
+            $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
+        }
+        if ($movie->sub == '') {
+            foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
+                if ($subtitle['languageAbbr'] == 'vi') {
+                    $movie->sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
+                }
+            }
         }
 
         $meta = $movie->meta;
-        $url = route('detail_name', $movie->slug);
+        $movie->save();
+
+        if ($req->episode_id == 0) {
+            $urlMovie = route('detail_name', $movie->slug);
+        } else {
+            $urlMovie = route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $req->episode_id + 1]);
+        }
+
+        $movie_episodes = '';
+
+        if ($movie_detail['episodeCount'] > 1) {
+            foreach ($movie_detail['episodeVo'] as $key => $episode) {
+                $movie_episodes .= '<a class="episode';
+                $movie_episodes .= intval($key) == intval($req->episode_id) ? ' active' : '';
+
+                $movie_episodes .= '" id="' . ($key + 1) . '" href="' . route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) . '">' . ($key + 1) . ' </a>';
+            }
+        }
+
+        $movie_tag = '';
+
+        foreach ($movie_detail['tagList'] as $item) {
+            $movie_tag .= '<div class="tag__name" id_tag="' . $item['id'] . '">';
+            if (trans()->has('search_advanced.detail.' . $item['name'])) {
+                $movie_tag .=  __('search_advanced.detail.' . $item['name']);
+            } else {
+                $movie_tag .= $item['name'];
+            }
+            $movie_tag .= '</div>';
+        }
 
         $output = '';
 
-        $output .= '<div class="movie__container">
-        <div class="movie__media" id="movie__media">
-            <input id="media" id_media="' . $movie_detail['id'] . '" category="' . $movie_detail['category'] . '" id_episode="' . $req->episode_id . '" class="hidden">
-            <video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
-                <source src="ThuyDung" type="application/x-mpegURL">';
-        foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
-            if ($subtitle['languageAbbr'] == 'vi' || $subtitle['languageAbbr'] == 'en') {
-                $output .= '<track id="subtitles" kind="subtitles" label="' . $subtitle['language'] . '" srclang="' . $subtitle['languageAbbr'] . '" src="https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '">';
-            }
-        }
-        $output .= '</video>
-            <div class="movie__load">
-                <div id="loading_movie"></div>
-            </div>
-        </div>
-        <h1 class="movie__name" id="' . $movie_detail['name'] . '">';
-        $output .= $movie_detail['episodeCount'] > 1 ? $movie_detail['name'] . ' - Tập ' . ($req->episode_id + 1) : $movie_detail['name'];
-        $output .=  '
-        </h1>
-        <div class="movie__episodes">';
-        if ($movie_detail['episodeCount'] > 1) {
-            foreach ($movie_detail['episodeVo'] as $key => $episode) {
-                $output .= '<a class="episode';
-                $output .= intval($key) == intval($req->episode_id) ? ' active' : '';
+        // $output .= '<div class="movie__container">
+        // <div class="movie__media" id="movie__media">
+        //     <input id="media" id_media="' . $movie_detail['id'] . '" category="' . $movie_detail['category'] . '" id_episode="' . $req->episode_id . '" class="hidden">
+        //     <video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
+        //         <source src="ThuyDung" type="application/x-mpegURL">';
+        // foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
+        //     if ($subtitle['languageAbbr'] == 'vi' || $subtitle['languageAbbr'] == 'en') {
+        //         $output .= '<track id="subtitles" kind="subtitles" label="' . $subtitle['language'] . '" srclang="' . $subtitle['languageAbbr'] . '" src="https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '">';
+        //     }
+        // }
+        // $output .= '</video>
+        //     <div class="movie__load">
+        //         <div id="loading_movie"></div>
+        //     </div>
+        // </div>
+        // <h1 class="movie__name" id="' . $movie_detail['name'] . '">';
+        // $output .= $movie_detail['episodeCount'] > 1 ? $movie_detail['name'] . ' - Tập ' . ($req->episode_id + 1) : $movie_detail['name'];
+        // $output .=  '
+        // </h1>
+        // <div class="movie__episodes">';
+        // if ($movie_detail['episodeCount'] > 1) {
+        //     foreach ($movie_detail['episodeVo'] as $key => $episode) {
+        //         $output .= '<a class="episode';
+        //         $output .= intval($key) == intval($req->episode_id) ? ' active' : '';
 
-                $output .= '" id="' . ($key + 1) . '" href="' . route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) . '">' . ($key + 1) . ' </a>';
-            }
-        }
-        $output .= '</div>
-        <div class="movie__info">
-            <div class="movie__score"> <i class="fa-solid fa-star"></i> ' . $movie_detail['score'] . '</div>
-            <div class="movie__year"> <i class="fa-solid fa-calendar"></i> ' . $movie_detail['year'] . '</div>
-        </div>
-        <div class="movie__tag">';
-        foreach ($movie_detail['tagList'] as $item) {
-            $output .= '<div class="tag__name" id_tag="' . $item['id'] . '">';
-            if (trans()->has('search_advanced.detail.' . $item['name'])) {
-                $output .=  __('search_advanced.detail.' . $item['name']);
-            } else {
-                $output .= $item['name'];
-            }
-            $output .= '</div>';
-        }
-        $output .= '</div>
-        <div class="movie__intro">' . $movie_detail['introduction'] . ' <br>
-            ' . $movie->description . '
-        </div>
-        <div class="comment_title"> Bình luận </div>
-        </div>';
+        //         $output .= '" id="' . ($key + 1) . '" href="' . route('detail_name_episode', ['name' => $movie->slug, 'episode_id' => $key + 1]) . '">' . ($key + 1) . ' </a>';
+        //     }
+        // }
+        // $output .= '</div>
+        // <div class="movie__info">
+        //     <div class="movie__score"> <i class="fa-solid fa-star"></i> ' . $movie_detail['score'] . '</div>
+        //     <div class="movie__year"> <i class="fa-solid fa-calendar"></i> ' . $movie_detail['year'] . '</div>
+        // </div>
+        // <div class="movie__tag">';
+        // foreach ($movie_detail['tagList'] as $item) {
+        //     $output .= '<div class="tag__name" id_tag="' . $item['id'] . '">';
+        //     if (trans()->has('search_advanced.detail.' . $item['name'])) {
+        //         $output .=  __('search_advanced.detail.' . $item['name']);
+        //     } else {
+        //         $output .= $item['name'];
+        //     }
+        //     $output .= '</div>';
+        // }
+        // $output .= '</div>
+        // <div class="movie__intro">' . $movie_detail['introduction'] . ' <br>
+        //     ' . $movie->description . '
+        // </div>
+        // <div class="comment_title"> Bình luận </div>
+        // </div>';
 
-        $output .= '<div class="movie__similar">';
 
         $image = Session('image') ? Session::get('image') : [];
         $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
@@ -278,13 +330,12 @@ class MovieController extends Controller
         }
         Session()->put('image', $image);
         Session()->put('movie_list', $movie_list);
-        $output .= '</div>';
 
         $data = [];
 
         $image = asset('img/' . $movie_detail['category'] . $movie_detail['id'] . '.jpg');
 
-        array_push($data, $movie_detail, $output, $meta, $image);
+        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie);
         return response()->json($data);
     }
 }
