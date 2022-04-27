@@ -49,7 +49,7 @@
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
 	</div>
 </section>
-<section class="home__products" hidden>
+<section class="home__products">
 	<div class="box">
 		<div class="home__products__all" id="all__products">
 			@foreach($productAll as $key)
