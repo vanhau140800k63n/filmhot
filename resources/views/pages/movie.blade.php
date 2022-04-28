@@ -22,7 +22,7 @@
 				<input id="media" id_media="{{$movie_detail->id}}" category="{{$movie_detail->category}}" id_episode="{{$episode_id}}" class="hidden">
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="movie" type="application/x-mpegURL">
-					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="{{$movie_detail->sub}}">
+					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="">
 				</video>
 				<div class="movie__load">
 					<div id="loading_movie"></div>
@@ -118,6 +118,8 @@
 			$('.home__products').show();
 			$('.movie__episodes').html(data[4]);
 			$('.movie__tag').html(data[5]);
+
+			$('track').attr('src', data[8]);
 
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();

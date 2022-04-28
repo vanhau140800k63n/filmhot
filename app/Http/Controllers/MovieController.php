@@ -219,6 +219,8 @@ class MovieController extends Controller
             }
         }
 
+        $sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
+
         $meta = $movie->meta;
         $movie->save();
 
@@ -337,7 +339,7 @@ class MovieController extends Controller
 
         $check_episode = $movie_detail['episodeCount'] > 1;
 
-        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode);
+        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode, $sub);
         return response()->json($data);
     }
 }
