@@ -229,8 +229,11 @@ class MovieController extends Controller
             $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
         }
 
+        $checksub = true;
+
         $count_episodes = count($movie_detail['episodeVo']) - 1;
         if (!str_contains($movie->sub, '-'.$count_episodes.'-')) {
+            $checksub = false;
             $sub = '';
 
             foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
@@ -361,7 +364,7 @@ class MovieController extends Controller
 
         $check_episode = $movie_detail['episodeCount'] > 1;
 
-        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode);
+        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode, $checksub);
         return response()->json($data);
     }
 }

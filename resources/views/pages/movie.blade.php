@@ -112,7 +112,7 @@
 				_token: _token
 			}
 		}).done(function(data) {
-			if ($('.movie__name').html() == '') {
+			if ($('.movie__name').html() == '' && !data[8]) {
 				window.location.href = data[6];
 			} else {
 				if (data[7]) {
