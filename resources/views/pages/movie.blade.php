@@ -22,7 +22,7 @@
 				<input id="media" id_media="{{$movie_detail->id}}" category="{{$movie_detail->category}}" id_episode="{{$episode_id}}" class="hidden">
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="movie" type="application/x-mpegURL">
-					<!-- <track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src=""> -->
+					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="{{$sub}}">
 				</video>
 				<div class="movie__load">
 					<div id="loading_movie"></div>

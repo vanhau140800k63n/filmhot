@@ -86,9 +86,18 @@ class MovieController extends Controller
         $episode_id = 0;
         $url = route('detail_name', $name);
 
+        $start_pos = strpos($movie_detail->sub, '-'.$episode_id.'-') + strlen($episode_id) + 2;
+        $end_pos = strpos($movie_detail->sub, '+'.$episode_id.'+');
+
+        $sub = '';
+        if($start_pos < $end_pos) {
+            $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
+        }
+
+
         $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
-        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll'));
+        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub'));
     }
 
     public function getMovieByNameEposode($name, $episode_id)
@@ -101,9 +110,17 @@ class MovieController extends Controller
         }
         $url = route('detail_name', $name);
 
+        $start_pos = strpos($movie_detail->sub, '-'.$episode_id.'-') + strlen($episode_id) + 2;
+        $end_pos = strpos($movie_detail->sub, '+'.$episode_id.'+');
+
+        $sub = '';
+        if($start_pos < $end_pos) {
+            $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
+        }
+
         $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
 
-        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll'));
+        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub'));
     }
 
     function getEpisode($category, $id, $episodeId, $definition)
@@ -211,20 +228,19 @@ class MovieController extends Controller
         if ($movie->image == '' || $movie->image == '1') {
             $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
         }
-        if ($movie->sub == '') {
-            foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
-                if ($subtitle['languageAbbr'] == 'vi') {
-                    $movie->sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
+
+        $count_episodes = count($movie_detail['episodeVo']) - 1;
+        if (!str_contains($movie->sub, '-'.$count_episodes.'-')) {
+            $sub = '';
+
+            foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
+                foreach($episodeVo['subtitlingList'] as $subtitle) {
+                    if ($subtitle['languageAbbr'] == 'vi') {
+                        $sub.= '-'.$key_episodeVo.'-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'].'+'.$key_episodeVo.'+';
+                    }
                 }
             }
-        }
-
-        $sub = "";
-
-        foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
-            if ($subtitle['languageAbbr'] == 'vi') {
-                $sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
-            }
+            $movie->sub = $sub;
         }
 
         $meta = $movie->meta;
@@ -345,7 +361,7 @@ class MovieController extends Controller
 
         $check_episode = $movie_detail['episodeCount'] > 1;
 
-        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode, $sub);
+        array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode);
         return response()->json($data);
     }
 }
