@@ -22,7 +22,7 @@
 				<input id="media" id_media="{{$movie_detail->id}}" category="{{$movie_detail->category}}" id_episode="{{$episode_id}}" class="hidden">
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="movie" type="application/x-mpegURL">
-					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="">
+					<!-- <track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src=""> -->
 				</video>
 				<div class="movie__load">
 					<div id="loading_movie"></div>
@@ -95,6 +95,12 @@
 </section>
 <script>
 	$(document).ready(function() {
+		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
+		$('.movie__load').height($('.movie__media').height() + 5);
+
+		video = videojs('video_media');
+		getVideo = setInterval(restart, 1000);
+
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
 			url: "{{ route('movie.get-view-movie-ajax')}}",
@@ -119,7 +125,15 @@
 			$('.movie__episodes').html(data[4]);
 			$('.movie__tag').html(data[5]);
 
-			$('track').attr('src', data[8]);
+			var track = new videojs.VideoTrack({
+				id: 'subtitles',
+				kind: 'subtitles',
+				label: 'Tiếng Việt',
+				language: 'vi',
+				src: data[8]
+			});
+
+			video.videoTracks().addTrack(track);
 
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();
@@ -162,11 +176,6 @@
 			return false;
 		});
 
-		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
-		$('.movie__load').height($('.movie__media').height() + 5);
-
-		video = videojs('video_media');
-		getVideo = setInterval(restart, 1000);
 		// console.log(video);
 
 		function restart() {
