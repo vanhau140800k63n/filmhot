@@ -219,7 +219,13 @@ class MovieController extends Controller
             }
         }
 
-        $sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
+        $sub = "";
+
+        foreach ($movie_detail['episodeVo'][$req->episode_id]['subtitlingList'] as $subtitle) {
+            if ($subtitle['languageAbbr'] == 'vi') {
+                $sub = 'https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'];
+            }
+        }
 
         $meta = $movie->meta;
         $movie->save();
