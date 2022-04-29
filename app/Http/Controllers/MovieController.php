@@ -86,16 +86,16 @@ class MovieController extends Controller
         $episode_id = 0;
         $url = route('detail_name', $name);
 
-        $start_pos = strpos($movie_detail->sub, '-'.$episode_id.'-') + strlen($episode_id) + 2;
-        $end_pos = strpos($movie_detail->sub, '+'.$episode_id.'+');
+        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $end_pos = strpos($movie_detail->sub, '+' . $episode_id . '+');
 
         $sub = '';
-        if($start_pos < $end_pos) {
+        if ($start_pos < $end_pos) {
             $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
         }
 
 
-        $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
+        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(30)->orderBy('point', 'asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub'));
     }
@@ -110,15 +110,15 @@ class MovieController extends Controller
         }
         $url = route('detail_name', $name);
 
-        $start_pos = strpos($movie_detail->sub, '-'.$episode_id.'-') + strlen($episode_id) + 2;
-        $end_pos = strpos($movie_detail->sub, '+'.$episode_id.'+');
+        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $end_pos = strpos($movie_detail->sub, '+' . $episode_id . '+');
 
         $sub = '';
-        if($start_pos < $end_pos) {
+        if ($start_pos < $end_pos) {
             $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
         }
 
-        $productAll = Product::where('image','like','%'.'http'.'%')->inRandomOrder()->take(30)->orderBy('point','asc')->get();
+        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(30)->orderBy('point', 'asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub'));
     }
@@ -232,15 +232,24 @@ class MovieController extends Controller
         $checksub = true;
 
         $count_episodes = count($movie_detail['episodeVo']) - 1;
-        if (!str_contains($movie->sub, '-'.$count_episodes.'-')) {
+        if (!str_contains($movie->sub, '-' . $count_episodes . '-')) {
             $checksub = false;
             $sub = '';
 
             foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
-                foreach($episodeVo['subtitlingList'] as $subtitle) {
-                    if ($subtitle['languageAbbr'] == 'vi') {
-                        $sub.= '-'.$key_episodeVo.'-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'].'+'.$key_episodeVo.'+';
+                $checksub_vi = false;
+                if ($episodeVo['subtitlingList'] != null) {
+                    foreach ($episodeVo['subtitlingList'] as $subtitle) {
+                        if ($subtitle['languageAbbr'] == 'vi') {
+                            $checksub_vi = true;
+                            $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                        }
                     }
+                    if(!$checksub_vi) {
+                        $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+                    }
+                } else {
+                    $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
             }
             $movie->sub = $sub;
