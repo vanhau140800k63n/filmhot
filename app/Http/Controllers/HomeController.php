@@ -11,8 +11,6 @@ class HomeController extends Controller
 {
     public function getHomePage()
     {
-        // $movie_list = Session('movie_list') ? Session::get('movie_list') : [];
-        // dd($movie_list);
         return view('pages.home');
     }
 
