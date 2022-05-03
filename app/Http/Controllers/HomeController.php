@@ -16,41 +16,8 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        $str = "Chúng ta không";
-        $i = 0;
-        $data = [];
-        $output = '';
-        while (strlen($str) > 0) {
-            $index = strpos($str, ' ');
-            if ($index == null) {
-                $data[$i] = $str;
-                $str = '';
-            } else {
-                $data[$i] = substr($str, 0, $index);
-                $str = substr($str, $index + 1);
-                ++$i;
-            }
-        }
-        $size = sizeof($data);
-        if ($size > 2) {
-            if ($size == 3) {
-                $pos = 2;
-            } else {
-                $pos = $size - 2;
-            }
-            for ($i = $pos; $i < $size; ++$i) {
-                for ($j = 0; $j <= $size - $i; ++$j) {
-                    for ($k = $j; $k < $j + $i; ++$k) {
-                        if ($k == $j + $i - 1) {
-                            $output .= $data[$k] . ', ';
-                        } else {
-                            $output .= $data[$k] . ' ';
-                        }
-                    }
-                }
-            }
-        }
-        dd($output);
+        $convert = "<br>";
+        echo($convert);
     }
 
     public function searchMovie($key)

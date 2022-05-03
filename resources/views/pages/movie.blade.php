@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="{{$movie_detail->description}}">
-<meta name="keywords" content="{{$movie_detail->meta}}">
+<meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, hen ho chon cong so, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne, {{$movie_detail->meta}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
