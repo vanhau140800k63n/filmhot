@@ -13,6 +13,8 @@ class HomeController extends Controller
     {
         $movie = Movie::whereNull('description')->where('movie_id', '>', 28)->first();
 
+        dd($movie);
+
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
         $movie_detail = $movieService->getData($url);
