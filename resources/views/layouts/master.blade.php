@@ -35,13 +35,30 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="5rDTDVQW"></script>
     <script type="text/javascript">
         $('.image').css('max-height', $('.card__film').width() * 1.4);
-        getImage();
-        getMovieData()
+        // getImage();
+        // getMovieData()
+        getDataMovie();
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function getDataMovie() {
+            $.ajax({
+                url: "{{ route('update_film') }}",
+                type: "GET",
+                dataType: 'json',
+            }).done(function(data) {
+                setTimeout(function() {
+                    getDataMovie();
+                }, 2000);
+                return true;
+            }).fail(function(e) {
+                return false;
+            });
+        }
 
         function getImage() {
             $.ajax({

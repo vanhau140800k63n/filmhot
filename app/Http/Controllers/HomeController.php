@@ -9,9 +9,9 @@ use Session;
 
 class HomeController extends Controller
 {
-    public function getUpdateFilm($id)
+    public function getUpdateFilm()
     {
-        $movie = Movie::where('movie_id', $id)->first();
+        $movie = Movie::where('description', '')->first();
 
         if ($movie->description == '') {
             $movieService = new MovieService();
@@ -111,7 +111,7 @@ class HomeController extends Controller
             $movie->save();
         }
 
-        return redirect()->route('update_film', ++$id);
+        return response()->json($movie->movie_id);
 
         // $movie = Movie::where('movie_id', '>', 0)->orderBy('movie_id', 'desc')->first();
         // $i = $movie->movie_id;
