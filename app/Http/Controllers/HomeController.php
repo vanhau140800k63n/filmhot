@@ -128,7 +128,7 @@ class HomeController extends Controller
         $i = $movie->movie_id;
         $movies = Movie::all();
         foreach ($movies as $movie) {
-            if ($movie->movie_id == null) {
+            if ($movie->movie_id == 0) {
                 $movie->movie_id = $i;
                 $movie->save();
                 ++$i;
