@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\NewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,8 +37,12 @@ Route::prefix('movies')->name('movie.')->group(function() {
     Route::post('/get-view-movie-ajax', [MovieController::class, 'getViewMovieAjax'])->name('get-view-movie-ajax');
 });
 
+Route::get('/tin-tuc-{name}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
+
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
 Route::get('/header-ajax', [HomeController::class, 'getHeaderAjax'])->name('header-ajax');
 Route::get('/load_first_home_ajax', [HomeController::class, 'getFirstHomeAjax'])->name('load_first_home_ajax');
+Route::get('/update/{id}', [HomeController::class, 'getUpdateFilm'])->name('update_film');
+Route::get('/update_movie_id', [HomeController::class, 'updateMovieId'])->name('update_movie_id');
 

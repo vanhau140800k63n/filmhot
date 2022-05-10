@@ -1,0 +1,26 @@
+.news {
+    padding-top: 30px;
+}
+.news h1 {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.news h2 {
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 500;
+    color: rgb(253, 208, 4);
+}
+
+.news p {
+    margin-top: 10px;
+    color: aqua;
+}
+
+.news img {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
