@@ -13,6 +13,9 @@ class HomeController extends Controller
     {
         $movie = Movie::where('description', null)->first();
 
+        if($movie->id == 8220 && $movie->category == 1) {
+            return response()->json($movie->movie_id);
+        }
 
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
