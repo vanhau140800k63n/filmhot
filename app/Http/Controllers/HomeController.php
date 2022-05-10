@@ -124,11 +124,11 @@ class HomeController extends Controller
     }
     
     public function updateMovieId() {
-        $movie = Movie::where('movie_id', '>=', 0)->orderBy('movie_id', 'desc')->first();
+        $movie = Movie::where('movie_id', '>', 0)->orderBy('movie_id', 'desc')->first();
         $i = $movie->movie_id;
         $movies = Movie::all();
         foreach ($movies as $movie) {
-            if ($movie->movie_id == 0) {
+            if ($movie->movie_id == null) {
                 $movie->movie_id = $i;
                 $movie->save();
                 ++$i;
