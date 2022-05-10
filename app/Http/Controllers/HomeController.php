@@ -11,16 +11,16 @@ class HomeController extends Controller
 {
     public function getUpdateFilm()
     {
-        $movie = Movie::whereNull('description')->where('movie_id', '>', 28)->first();
-
-        dd($movie);
+        $movie = Movie::whereNull('description')->first();
 
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
         $movie_detail = $movieService->getData($url);
 
-        while ($movie_detail == null) {
-            $movie_detail = $movieService->getData($url);
+        if ($movie_detail == null) {
+            $movie->description = 'ok';
+            $movie->save();
+            return response()->json($movie->movie_id);
         }
 
         if ($movie->meta == '') {
