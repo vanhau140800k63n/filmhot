@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function getUpdateFilm()
     {
-        $movie = Movie::whereNull('description')->where('movie_id', '>', 28)->first();
+        $movie = Movie::whereNull('description')->first();
 
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
