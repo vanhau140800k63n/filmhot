@@ -13,101 +13,103 @@ class HomeController extends Controller
     {
         $movie = Movie::where('movie_id', $id)->first();
 
-        $movieService = new MovieService();
-        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
-        $movie_detail = $movieService->getData($url);
-
-        while ($movie_detail == null) {
+        if ($movie->description == '') {
+            $movieService = new MovieService();
+            $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
             $movie_detail = $movieService->getData($url);
-        }
 
-        if ($movie->meta == '') {
-            $str = $movie_detail['name'];
-            $i = 0;
-            $data = [];
-            $output = '';
-            while (strlen($str) > 0) {
-                $index = strpos($str, ' ');
-                if ($index == null) {
-                    $data[$i] = $str;
-                    $str = '';
-                } else {
-                    $data[$i] = substr($str, 0, $index);
-                    $str = substr($str, $index + 1);
-                    ++$i;
-                }
+            while ($movie_detail == null) {
+                $movie_detail = $movieService->getData($url);
             }
-            $size = sizeof($data);
-            if ($size > 2) {
-                if ($size == 3) {
-                    $pos = 2;
-                } else if ($size >= 7) {
-                    $pos = $size - 3;
-                } else {
-                    $pos = $size - 2;
+
+            if ($movie->meta == '') {
+                $str = $movie_detail['name'];
+                $i = 0;
+                $data = [];
+                $output = '';
+                while (strlen($str) > 0) {
+                    $index = strpos($str, ' ');
+                    if ($index == null) {
+                        $data[$i] = $str;
+                        $str = '';
+                    } else {
+                        $data[$i] = substr($str, 0, $index);
+                        $str = substr($str, $index + 1);
+                        ++$i;
+                    }
                 }
-                for ($i = $pos; $i < $size; ++$i) {
-                    for ($j = 0; $j <= $size - $i; ++$j) {
-                        for ($k = $j; $k < $j + $i; ++$k) {
-                            if ($k == $j + $i - 1) {
-                                $output .= $data[$k] . ', ';
-                            } else {
-                                $output .= $data[$k] . ' ';
+                $size = sizeof($data);
+                if ($size > 2) {
+                    if ($size == 3) {
+                        $pos = 2;
+                    } else if ($size >= 7) {
+                        $pos = $size - 3;
+                    } else {
+                        $pos = $size - 2;
+                    }
+                    for ($i = $pos; $i < $size; ++$i) {
+                        for ($j = 0; $j <= $size - $i; ++$j) {
+                            for ($k = $j; $k < $j + $i; ++$k) {
+                                if ($k == $j + $i - 1) {
+                                    $output .= $data[$k] . ', ';
+                                } else {
+                                    $output .= $data[$k] . ' ';
+                                }
                             }
                         }
                     }
                 }
+
+                $movie->meta = $output;
+            }
+            if (!str_contains($movie->meta, 'fullhd')) {
+                $movie->meta = $movie->meta . $movie_detail['name'] . ' vietsub, ' . $movie_detail['name'] . ' fullhd, ' . $movie_detail['name'] . ' fullhd vietsub, ' . $movie_detail['name'];
+            }
+            if ($movie->description == '') {
+                $movie->description = $movie_detail['introduction'];
+            }
+            if ($movie->name == '') {
+                $movie->name = $movie_detail['name'];
+            }
+            if ($movie->year == '') {
+                $movie->year = $movie_detail['year'];
+            }
+            if ($movie->rate == '') {
+                $movie->rate = $movie_detail['score'];
+            }
+            if ($movie->image == '' || $movie->image == '1') {
+                $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
             }
 
-            $movie->meta = $output;
-        }
-        if (!str_contains($movie->meta, 'fullhd')) {
-            $movie->meta = $movie->meta . $movie_detail['name'] . ' vietsub, ' . $movie_detail['name'] . ' fullhd, ' . $movie_detail['name'] . ' fullhd vietsub, ' . $movie_detail['name'];
-        }
-        if ($movie->description == '') {
-            $movie->description = $movie_detail['introduction'];
-        }
-        if ($movie->name == '') {
-            $movie->name = $movie_detail['name'];
-        }
-        if ($movie->year == '') {
-            $movie->year = $movie_detail['year'];
-        }
-        if ($movie->rate == '') {
-            $movie->rate = $movie_detail['score'];
-        }
-        if ($movie->image == '' || $movie->image == '1') {
-            $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
-        }
+            $checksub = true;
 
-        $checksub = true;
+            $count_episodes = count($movie_detail['episodeVo']) - 1;
+            if (!str_contains($movie->sub, '-' . $count_episodes . '-')) {
+                $checksub = false;
+                $sub = '';
 
-        $count_episodes = count($movie_detail['episodeVo']) - 1;
-        if (!str_contains($movie->sub, '-' . $count_episodes . '-')) {
-            $checksub = false;
-            $sub = '';
-
-            foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
-                $checksub_vi = false;
-                if ($episodeVo['subtitlingList'] != null) {
-                    foreach ($episodeVo['subtitlingList'] as $subtitle) {
-                        if ($subtitle['languageAbbr'] == 'vi') {
-                            $checksub_vi = true;
-                            $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
+                    $checksub_vi = false;
+                    if ($episodeVo['subtitlingList'] != null) {
+                        foreach ($episodeVo['subtitlingList'] as $subtitle) {
+                            if ($subtitle['languageAbbr'] == 'vi') {
+                                $checksub_vi = true;
+                                $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                            }
                         }
-                    }
-                    if(!$checksub_vi) {
+                        if (!$checksub_vi) {
+                            $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+                        }
+                    } else {
                         $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                     }
-                } else {
-                    $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
+                $movie->sub = $sub;
             }
-            $movie->sub = $sub;
-        }
 
-        $meta = $movie->meta;
-        $movie->save();
+            $meta = $movie->meta;
+            $movie->save();
+        }
 
         return redirect()->route('update_film', ++$id);
 
@@ -122,8 +124,9 @@ class HomeController extends Controller
         //     }
         // }
     }
-    
-    public function updateMovieId() {
+
+    public function updateMovieId()
+    {
         $movie = Movie::where('movie_id', '>', 0)->orderBy('movie_id', 'desc')->first();
         $i = $movie->movie_id;
         $movies = Movie::all();
