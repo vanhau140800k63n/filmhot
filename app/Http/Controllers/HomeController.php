@@ -109,7 +109,11 @@ class HomeController extends Controller
         }
 
         $meta = $movie->meta;
+        try {
         $movie->save();
+        } catch(\Exception $e) {
+            return response()->json(1);;
+        }
 
         return response()->json($movie->movie_id);
 
