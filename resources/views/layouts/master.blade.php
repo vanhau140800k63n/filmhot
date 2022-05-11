@@ -56,6 +56,9 @@
                 }, 2000);
                 return true;
             }).fail(function(e) {
+                setTimeout(function() {
+                    getDataMovie();
+                }, 2000);
                 return false;
             });
         }
