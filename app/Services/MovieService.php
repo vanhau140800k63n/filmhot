@@ -65,6 +65,10 @@ class MovieService
             return null;
         }
 
+        // if(!isset($convert['data']) || !isset($convert['data']['name'])) {
+        //     return null;
+        // }
+
         return $convert['data'];
     }
 

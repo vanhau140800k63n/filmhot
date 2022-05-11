@@ -82,11 +82,8 @@ class HomeController extends Controller
             $movie->image = asset('img/' . $movie->category . $movie->id . '.jpg');
         }
 
-        $checksub = true;
-
         $count_episodes = count($movie_detail['episodeVo']) - 1;
         if (!str_contains($movie->sub, '-' . $count_episodes . '-')) {
-            $checksub = false;
             $sub = '';
 
             foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
@@ -108,7 +105,6 @@ class HomeController extends Controller
             $movie->sub = $sub;
         }
 
-        $meta = $movie->meta;
         try {
             $movie->save();
         } catch (\Exception $e) {
@@ -118,17 +114,6 @@ class HomeController extends Controller
         }
 
         return response()->json($movie->movie_id);
-
-        // $movie = Movie::where('movie_id', '>', 0)->orderBy('movie_id', 'desc')->first();
-        // $i = $movie->movie_id;
-        // $movies = Movie::all();
-        // foreach ($movies as $movie) {
-        //     if ($movie->movie_id == null) {
-        //         $movie->movie_id = $i;
-        //         $movie->save();
-        //         ++$i;
-        //     }
-        // }
     }
 
     public function updateMovieId()
