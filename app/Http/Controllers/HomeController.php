@@ -15,7 +15,7 @@ class HomeController extends Controller
 
         $movieService = new MovieService();
         $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
-        $movie_detail = $movieService->getData($url);
+        $movie_detail = $movieService->getDataTest($url);
 
         if ($movie_detail == null) {
             $movie->description = 'ok';
