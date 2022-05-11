@@ -41,6 +41,11 @@
 			</div>
 			<div class="movie__intro">{{$movie_detail->description}}</div>
 
+			<div class="recommend__items__title">
+				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">
+					<span>Phim ngẫu nhiên</span>
+				</div>
+			</div>
 			<div class="recommend__item">
 				@foreach($random_movies as $movie)
 				<a href="{{route('detail_name', $movie->slug)}}" class="card__film">
