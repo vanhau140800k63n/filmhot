@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css" />
+    <link rel="stylesheet" href="{{asset('css/videojs-seek-buttons.css')}}" />
     @yield('head')
 
     <?php
@@ -32,8 +32,8 @@
 
     <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="../node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.js"></script>
-    <script src="../node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"></script>
+    <script src="{{asset('js/videojs-seek-buttons.js')}}"></script>
+    <script src="{{asset('js/videojs-seek-buttons.min.js')}}"></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="5rDTDVQW"></script>
     <script type="text/javascript">
