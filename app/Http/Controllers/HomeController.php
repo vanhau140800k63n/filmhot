@@ -136,8 +136,10 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        $convert = "<br>";
-        echo ($convert);
+        $movieService = new MovieService();
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . '15235' . '&category=' .'0';
+        $movie_detail = $movieService->getData($url);
+        dd($movie_detail);
     }
 
     public function searchMovie($key)

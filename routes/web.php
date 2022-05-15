@@ -27,7 +27,8 @@ Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-sear
 Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
 Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
 Route::get('/phim-{name}/edit', [MovieController::class, 'getMovieEdit'])->name('edit');
-Route::post('/phim-{name}/update', [MovieController::class, 'getMovieUpdate'])->name('update');
+Route::post('/phim-{name}/update', [MovieController::class, 'postMovieUpdate'])->name('update');
+Route::get('/phim-{name}/update', [MovieController::class, 'getMovieUpdate'])->name('update');
 Route::get('/phim-{name}/tap-{episode_id}', [MovieController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
 
 Route::prefix('movies')->name('movie.')->group(function() {

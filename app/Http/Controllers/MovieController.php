@@ -26,8 +26,41 @@ class MovieController extends Controller
         if ($movie == null) {
             throw new PageException();
         }
-        $movie->description = $req->all()['description'];
+
+        $movieService = new MovieService();
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
+        $movie_detail = $movieService->getData($url);
+
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
+
+        $sub = '';
+
+        foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
+            $checksub_vi = false;
+            if ($episodeVo['subtitlingList'] != null) {
+                foreach ($episodeVo['subtitlingList'] as $subtitle) {
+                    if ($subtitle['languageAbbr'] == 'vi') {
+                        $checksub_vi = true;
+                        $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                    }
+                }
+                if(!$checksub_vi) {
+                    $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+                }
+            } else {
+                $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+            }
+        }
+        $movie->sub = $sub;
+
         $movie->save();
+
+        // dd($sub);
+
+        // $movie->description = $req->all()['description'];
+        // $movie->save();
         return redirect()->route('detail_name', $movie->slug);
     }
 
