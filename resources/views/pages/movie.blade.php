@@ -130,6 +130,11 @@
 			}
 		};
 
+		video.seekButtons({
+			forward: 10,
+			back: 10
+		});
+
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
 			url: "{{ route('movie.get-view-movie-ajax')}}",
