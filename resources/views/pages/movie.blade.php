@@ -115,6 +115,21 @@
 		video = videojs('video_media');
 		getVideo = setInterval(restart, 1000);
 
+		document.onkeydown = function(event) {
+			switch (event.keyCode) {
+				case 37:
+					event.preventDefault();
+					vid_currentTime = video.currentTime();
+					video.currentTime(vid_currentTime - 5);
+					break;
+				case 39:
+					event.preventDefault();
+					vid_currentTime = video.currentTime();
+					video.currentTime(vid_currentTime + 5);
+					break;
+			}
+		};
+
 		let _token = $('input[name="_token"]').val();
 		$.ajax({
 			url: "{{ route('movie.get-view-movie-ajax')}}",
@@ -139,15 +154,15 @@
 			$('.movie__episodes').html(data[4]);
 			$('.movie__tag').html(data[5]);
 
-			var track = new videojs.VideoTrack({
-				id: 'subtitles',
-				kind: 'subtitles',
-				label: 'Tiếng Việt',
-				language: 'vi',
-				src: data[8]
-			});
+			// var track = new videojs.VideoTrack({
+			// 	id: 'subtitles',
+			// 	kind: 'subtitles',
+			// 	label: 'Tiếng Việt',
+			// 	language: 'vi',
+			// 	src: data[8]
+			// });
 
-			video.videoTracks().addTrack(track);
+			// video.videoTracks().addTrack(track);
 
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();
@@ -201,6 +216,8 @@
 				$('.movie__load').hide();
 				$('.movie__intro').html($('.movie__intro').html() + video['cache_']['duration']);
 				// console.log(video);
+				video.textTracks()[0].mode = 'showing';
+				// console.log(video.textTracks()[0]);
 				clearInterval(getVideo);
 			}
 		}
