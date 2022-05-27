@@ -132,7 +132,7 @@ class MovieController extends Controller
         // dd($random_movies);
 
 
-        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(30)->orderBy('point', 'asc')->get();
+        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'random_movies'));
     }
@@ -155,7 +155,7 @@ class MovieController extends Controller
             $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
         }
 
-        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(30)->orderBy('point', 'asc')->get();
+        $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'random_movies'));
