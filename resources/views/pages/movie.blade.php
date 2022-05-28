@@ -49,7 +49,12 @@
 			<div class="recommend__item">
 				@foreach($random_movies as $movie)
 				<a href="{{route('detail_name', $movie->slug)}}" class="card__film">
-					<img class="image" src="{{$movie->image}}" alt="image" />
+					<?php 
+					if($movie->image == '' || $movie->image == null) {
+						$url_image = asset('img/'.$movie->category.$movie->id.'.jpg');
+					} 
+					?>
+					<img class="image" src="{{$url_image}}" alt="image" />
 					<p class="film__name">{{$movie->name}}</p>
 				</a>
 				@endforeach
@@ -59,9 +64,9 @@
 		</div>
 	</div>
 
-	<div class="box comments_hidden" style="display: none; margin-bottom: 20px">
+	<!-- <div class="box comments_hidden" style="display: none; margin-bottom: 20px">
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
-	</div>
+	</div> -->
 </section>
 <section class="home__products">
 	<div class="box">

@@ -57,10 +57,6 @@ class MovieController extends Controller
 
         $movie->save();
 
-        // dd($sub);
-
-        // $movie->description = $req->all()['description'];
-        // $movie->save();
         return redirect()->route('detail_name', $movie->slug);
     }
 
@@ -128,9 +124,6 @@ class MovieController extends Controller
         }
 
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
-
-        // dd($random_movies);
-
 
         $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
 
