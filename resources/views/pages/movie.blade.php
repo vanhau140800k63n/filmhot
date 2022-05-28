@@ -52,7 +52,9 @@
 					<?php 
 					if($movie->image == '' || $movie->image == null) {
 						$url_image = asset('img/'.$movie->category.$movie->id.'.jpg');
-					} 
+					} else {
+						$url_image = $movie->image;
+					}
 					?>
 					<img class="image" src="{{$url_image}}" alt="image" />
 					<p class="film__name">{{$movie->name}}</p>
