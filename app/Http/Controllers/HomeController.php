@@ -137,7 +137,7 @@ class HomeController extends Controller
     public function getTest()
     {
         $movieService = new MovieService();
-        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . '15235' . '&category=' .'0';
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . '16394' . '&category=' .'0';
         $movie_detail = $movieService->getData($url);
         dd($movie_detail);
     }

@@ -23,6 +23,7 @@
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="movie" type="application/x-mpegURL">
 					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="{{$sub}}">
+					<track id="subtitles" kind="subtitles" label="Tiếng Anh" srclang="en" src="{{$sub_en}}">
 				</video>
 				<div class="movie__load">
 					<div id="loading_movie"></div>
