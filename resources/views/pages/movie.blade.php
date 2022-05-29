@@ -13,6 +13,11 @@
 <meta property="og:site_name" content="{{$movie_detail->name}}">
 <meta property="og:image" content="{{$movie_detail->image}}">
 <title>{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</title>
+<style>
+	.vjs-menu-item-text {
+		text-transform: none;
+	}
+</style>
 @endsection
 @section('content')
 <section class="movie">
