@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('meta')
-<meta name="description" content="{{$movie_detail->description}}">
+<meta name="description" content="Xem phim {{$movie_detail->name}} FullHD Vietsub, {{$movie_detail->name}} tập 1, {{$movie_detail->name}} tập cuối - Xem phim ngay tại TopFilm. ">
 <meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, hen ho chon cong so, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne, {{$movie_detail->meta}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
