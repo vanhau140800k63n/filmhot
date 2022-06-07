@@ -548,4 +548,10 @@ class HomeController extends Controller
 
         return response()->json($output);
     }
+
+    public function getTraffic() {
+        $movies = Movie::where('traffic', '>', 0)->get();
+
+        return view('pages.traffic', compact('movies'));
+    }
 }

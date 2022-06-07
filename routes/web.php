@@ -46,4 +46,5 @@ Route::get('/header-ajax', [HomeController::class, 'getHeaderAjax'])->name('head
 Route::get('/load_first_home_ajax', [HomeController::class, 'getFirstHomeAjax'])->name('load_first_home_ajax');
 Route::get('/update_film', [HomeController::class, 'getUpdateFilm'])->name('update_film');
 Route::get('/update_movie_id', [HomeController::class, 'updateMovieId'])->name('update_movie_id');
+Route::get('/traffic', [HomeController::class, 'getTraffic'])->name('traffic');
 

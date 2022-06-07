@@ -217,6 +217,9 @@ class MovieController extends Controller
             $sub_en = substr($movie_detail->sub_en, $start_pos_en, $end_pos_en - $start_pos_en);
         }
 
+        $movie_detail->traffic += 1;
+        $movie_detail->save();
+
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
 
         $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
@@ -252,6 +255,9 @@ class MovieController extends Controller
 
         $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
+
+        $movie_detail->traffic += 1;
+        $movie_detail->save();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'sub_en', 'random_movies'));
     }
