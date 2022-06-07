@@ -74,6 +74,73 @@ class MovieController extends Controller
         $movie->sub = $sub;
         $movie->sub_en = $sub_en;
 
+        if(isset($req->description)) {
+            $movie->description = $req->description;
+        }
+
+        $movie->save();
+
+        return redirect()->route('detail_name', $movie->slug);
+    }
+
+    public function postMovieUpdate(Request $req, $name)
+    {
+        $movie = Movie::where('slug', $name)->first();
+        if ($movie == null) {
+            throw new PageException();
+        }
+
+        $movieService = new MovieService();
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $movie->id . '&category=' . $movie->category;
+        $movie_detail = $movieService->getData($url);
+
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
+
+        $sub = '';
+        $sub_en = '';
+
+        foreach ($movie_detail['episodeVo'] as $key_episodeVo => $episodeVo) {
+            $checksub_vi = false;
+            if ($episodeVo['subtitlingList'] != null) {
+                foreach ($episodeVo['subtitlingList'] as $subtitle) {
+                    if ($subtitle['languageAbbr'] == 'vi') {
+                        $checksub_vi = true;
+                        $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                    }
+                }
+                if(!$checksub_vi) {
+                    $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+                }
+            } else {
+                $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+            }
+
+            $checksub_en = false;
+            if ($episodeVo['subtitlingList'] != null) {
+                foreach ($episodeVo['subtitlingList'] as $subtitle) {
+                    if ($subtitle['languageAbbr'] == 'en') {
+                        $checksub_en = true;
+                        $sub_en .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
+                    }
+                }
+                if(!$checksub_en) {
+                    $sub_en .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+                }
+            } else {
+                $sub_en .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
+            }
+        }
+
+
+        $movie->sub = $sub;
+        $movie->sub_en = $sub_en;
+
+        if(isset($req->description)) {
+            $movie->description = $req->description;
+        }
+
         $movie->save();
 
         return redirect()->route('detail_name', $movie->slug);
