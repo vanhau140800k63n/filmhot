@@ -9,4 +9,5 @@ class Movie extends Model
 {
     use HasFactory;
     protected $table = 'movies';
+    protected $fillable = ['slug', 'is_change_slug'];
 }

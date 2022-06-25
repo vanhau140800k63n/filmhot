@@ -515,4 +515,16 @@ class MovieController extends Controller
         array_push($data, $movie_detail, $output, $meta, $image, $movie_episodes, $movie_tag, $urlMovie, $check_episode, $checksub);
         return response()->json($data);
     }
+
+    public function updateSlugMovie() {
+        $movies = Movie::where('is_change_slug', 0)->get();
+
+        $i = 0;
+        foreach($movies as $movie) {
+            if($i == 50) return response()->json(1);
+            ++$i;
+            $pos = strpos($movie->slug, '.html');
+            $movie->update(['is_change_slug' => 1, 'slug' => substr($movie->slug, 0, $pos) . '-'. $movie->category . $movie->id . substr($movie->slug, $pos)]);
+        }
+    }
 }

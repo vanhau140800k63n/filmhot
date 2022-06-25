@@ -351,7 +351,11 @@ class HomeController extends Controller
                             $route = $movie_check == null ? route('movie.detail', ['category' => $movie['category'], 'id' => $movie['id'], 'name' => $movie['title']]) : route('detail_name', $movie_check->slug);
                             $output .=     '<a href="' . $route . '" class="card__film"> 
                             <img class="image" src="' . asset($urlImage) . '" />
-                            <p class="film__name">' . $movie['title'] . '</p>
+                            <p class="film__name">' . $movie['title'];
+                            if(isset($movie_check->year) && $movie_check->year != '') {
+                                $output  .= "(" .$movie_check->year.")";
+                            }
+                            $output .= '</p>
                             </a>';
                         }
                     }

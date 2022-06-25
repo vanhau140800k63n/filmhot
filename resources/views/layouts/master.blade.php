@@ -40,6 +40,7 @@
         $('.image').css('max-height', $('.card__film').width() * 1.4);
         getImage();
         getMovieData();
+        updateSlugMovie();
         // getDataMovie();
 
         $.ajaxSetup({
@@ -47,6 +48,24 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function updateSlugMovie() {
+            $.ajax({
+                url: "{{ route('update_slug') }}",
+                type: "GET",
+                dataType: 'json',
+            }).done(function(data) {
+                setTimeout(function() {
+                    updateSlugMovie();
+                }, 2000);
+                return true;
+            }).fail(function(e) {
+                setTimeout(function() {
+                    updateSlugMovie();
+                }, 2000);
+                return false;
+            });
+        }
 
         function getDataMovie() {
             $.ajax({
