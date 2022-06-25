@@ -521,7 +521,7 @@ class MovieController extends Controller
 
         $i = 0;
         foreach($movies as $movie) {
-            if($i == 50) return response()->json(1);
+            if($i == 1500) return response()->json(1);
             ++$i;
             $pos = strpos($movie->slug, '.html');
             $movie->update(['is_change_slug' => 1, 'slug' => substr($movie->slug, 0, $pos) . '-'. $movie->category . $movie->id . substr($movie->slug, $pos)]);
