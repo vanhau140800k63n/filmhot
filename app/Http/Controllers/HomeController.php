@@ -494,11 +494,18 @@ class HomeController extends Controller
                         $movie_check = Movie::where('id', $movie['id'])->where('category', $movie['category'])->first();
                         if ($movie_check == null) {
                             $movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
+                        } else {
+                            if(isset($movie_check->year) && $movie_check->year != '') {
+                                $year = $movie_check->year;
+                            }
                         }
-
                         $output .= '<img class="image" src="' . asset($urlImage) . '" alt="image" />
-					<p class="film__name">' . $movie['title'] . '</p>
-					</a>';
+					            <p class="film__name">' . $movie['title'];
+                        if(isset($movie_check->year) && $movie_check->year != '') {
+                            $output  .= "(" .$movie_check->year.")";
+                        }
+                        $output .= '</p>
+					            </a>';
                     }
                 }
                 Session()->put('image', $image);
