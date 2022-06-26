@@ -353,7 +353,7 @@ class HomeController extends Controller
                             <img class="image" src="' . asset($urlImage) . '" />
                             <p class="film__name">' . $movie['title'];
                             if(isset($movie_check->year) && $movie_check->year != '') {
-                                $output  .= "(" .$movie_check->year.")";
+                                $output  .= " (" .$movie_check->year.")";
                             }
                             $output .= '</p>
                             </a>';
@@ -506,7 +506,7 @@ class HomeController extends Controller
                         $output .= '<img class="image" src="' . asset($urlImage) . '" alt="image" />
 					            <p class="film__name">' . $movie['title'];
                         if(isset($movie_check->year) && $movie_check->year != '') {
-                            $output  .= "(" .$movie_check->year.")";
+                            $output  .= " (" .$movie_check->year.")";
                         }
                         $output .= '</p>
 					            </a>';

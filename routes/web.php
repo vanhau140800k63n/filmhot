@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,4 +49,14 @@ Route::get('/update_film', [HomeController::class, 'getUpdateFilm'])->name('upda
 Route::get('/update_movie_id', [HomeController::class, 'updateMovieId'])->name('update_movie_id');
 Route::get('/traffic', [HomeController::class, 'getTraffic'])->name('traffic');
 Route::get('/update-slug-movie', [MovieController::class, 'updateSlugMovie'])->name('update_slug');
+
+
+// admin
+
+Route::get('/login', [AdminController::class, 'getLogin'])->name('login');
+Route::get('/register', [AdminController::class, 'getRegister'])->name('register');
+
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::get('/', [AdminController::class, 'getDashboard'])->name('dashboard');
+});
 
