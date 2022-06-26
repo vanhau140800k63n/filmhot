@@ -172,16 +172,6 @@
 			$('.movie__episodes').html(data[4]);
 			$('.movie__tag').html(data[5]);
 
-			// var track = new videojs.VideoTrack({
-			// 	id: 'subtitles',
-			// 	kind: 'subtitles',
-			// 	label: 'Tiếng Việt',
-			// 	language: 'vi',
-			// 	src: data[8]
-			// });
-
-			// video.videoTracks().addTrack(track);
-
 			$('.tag__name').click(function() {
 				$('.comments_hidden').remove();
 				$('.home__products').remove();
@@ -223,8 +213,6 @@
 			return false;
 		});
 
-		// console.log(video);
-
 		function restart() {
 			if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration'])) {
 				let episode_id = Number($('#media').attr('id_episode'));
@@ -233,9 +221,7 @@
 			} else {
 				$('.movie__load').hide();
 				$('.movie__intro').html($('.movie__intro').html() + video['cache_']['duration']);
-				// console.log(video);
 				video.textTracks()[0].mode = 'showing';
-				// console.log(video.textTracks()[0]);
 				clearInterval(getVideo);
 			}
 		}
