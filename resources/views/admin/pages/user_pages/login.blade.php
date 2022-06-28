@@ -26,14 +26,15 @@
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-center mb-3">Đăng nhập</h3>
-                <form>
+                <form action="{{ route('post_login') }}" method="post">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
                   <div class="form-group">
                     <label>Số điện thoại hoặc email *</label>
-                    <input type="text" class="form-control p_input">
+                    <input type="text" class="form-control p_input" style="color: #fff" name="email">
                   </div>
                   <div class="form-group">
                     <label>Mật khẩu *</label>
-                    <input type="text" class="form-control p_input">
+                    <input type="password" class="form-control p_input" style="color: #fff" name="password">
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between">
                     <div class="form-check">
@@ -42,12 +43,12 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block enter-btn" style="width: 100%">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block enter-btn" style="width: 100%">Đăng nhập</button>
                   </div>
                   <div class="d-flex">
-                    <button class="btn btn-facebook me-2 col">
+                    <button type="button" class="btn btn-facebook me-2 col">
                       <i class="mdi mdi-facebook"></i> Facebook </button>
-                    <button class="btn btn-google col">
+                    <button type="button" class="btn btn-google col">
                       <i class="mdi mdi-google-plus"></i> Google + </button>
                   </div>
                   <p class="sign-up">Bạn chưa có tài khoản?<a href="{{ route('register') }}"> Đăng ký</a></p>

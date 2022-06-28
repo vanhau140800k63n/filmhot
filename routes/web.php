@@ -6,6 +6,8 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\MoviesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,9 +56,20 @@ Route::get('/update-slug-movie', [MovieController::class, 'updateSlugMovie'])->n
 // admin
 
 Route::get('/login', [AdminController::class, 'getLogin'])->name('login');
+Route::get('/logout', [AdminController::class, 'getLogout'])->name('logout');
+Route::post('/post-login', [AdminController::class, 'postLogin'])->name('post_login');
+Route::post('/post_register', [AdminController::class, 'postRegister'])->name('post_register');
 Route::get('/register', [AdminController::class, 'getRegister'])->name('register');
 
-Route::prefix('admin')->name('admin.')->group(function() {
-    Route::get('/', [AdminController::class, 'getDashboard'])->name('dashboard');
+
+Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(function() {
+    Route::get('/dashboard', [AdminController::class, 'getDashboard'])->name('dashboard');
+
+    Route::prefix('movies')->namespace('Backend')->name('movie.')->group(function() {
+        Route::get('create', [MoviesController::class, 'create'])->name('create');
+        Route::post('search_add_movie', [MoviesController::class, 'searchAddMovie'])->name('search_add_movie');
+        Route::post('view_movie', [MoviesController::class, 'viewMovie'])->name('view_movie');
+        Route::post('create_view', [MoviesController::class, 'createView'])->name('create_view');
+    });
 });
 
