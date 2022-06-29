@@ -124,61 +124,29 @@
 	$(document).ready(function() {
 		// alert( {{ str_contains('adf','b') }});
 		@if(!is_null($user))
-		<?php
-		$user->traffic += 1;
-
-		$datas = explode(' ', $user->view_movies);
-		$check_contain = 0;
-		foreach ($datas as $key => $data) {
-			if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
-				$first_pos = strpos($data, '-');
-				$last_pos = strpos($data, '+');
-
-				$traffic = intval(substr($data, $first_pos + 1, $last_pos - $first_pos - 1)) + 1;
-				$view = substr($data, $last_pos + 1, strlen($data) - $last_pos);
-
-				$datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
-
-				$check_contain = 1;
-
-				break;
-			}
-		}
-		if (!$check_contain) {
-			array_push($datas, '.' . $movie_detail->id_movie . '-1+0');
-		}
-		$user->view_movies = implode(' ', $datas);
-		$user->save();
-		?>
 		check_time_view = 0;
-
 		check_view = setInterval(function() {
 			check_time_view++;
-			if (check_time_view == 1) {
-				<?php
-				$user->view += 1;
-
-				$datas = explode(' ', $user->view_movies);
-				$check_contain = 0;
-				foreach ($datas as $key => $data) {
-					if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
-						$first_pos = strpos($data, '-');
-						$last_pos = strpos($data, '+');
-
-						$traffic = substr($data, $first_pos + 1, $last_pos - $first_pos - 1);
-						$view = intval(substr($data, $last_pos + 1, strlen($data) - $last_pos)) + 1;
-
-						$datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
-
-						$check_contain = 1;
-
-						break;
+			if (check_time_view == 60) {
+				// alert(1);
+				let _token = $('input[name="_token"]').val();
+				$.ajax({
+					url: "{{ route('user.update_view') }}",
+					type: "POST",
+					dataType: 'json',
+					data: {
+						id_user: '{{ $user->id }}',
+						id_movie: '{{ $movie_detail->id_movie }}',
+						_token: _token
 					}
-				}
-				$user->view_movies = implode(' ', $datas);
-				$user->save();
-				?>
-				clearInterval(check_view);
+				}).done(function(data) {
+					// alert(data);
+					clearInterval(check_view);
+					return true;
+				}).fail(function(e) {
+
+					return false;
+				});
 			}
 		}, 10000);
 		@endif

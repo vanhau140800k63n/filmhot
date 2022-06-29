@@ -7,6 +7,12 @@
 @section('content')
 <section class="create_movie_section">
     <div class="create_container">
+        @if(Session::has('alert'))
+        <div class="alert alert-success" style="display: flex; justify-content: space-between;">
+            <div>{{Session::get('alert')}} </div>
+            <a type="button" href="{{ route('user.home', \Illuminate\Support\Facades\Auth::guard('user')->id()) }}" target="_blank" class="btn btn-success btn-fw" >Xem website</a>
+        </div>
+        @endif
         <div class="create_movie_head">
             <div class="create_movie_title">Chào mừng bạn đến với Topfilm. Hãy tạo cho mình một web xem phim ngay tại đây nhé </div>
             <button class="btn btn-success btn-fw create_web">Tạo website</button>
@@ -67,7 +73,7 @@
                             <div class="preview-list" style="height: 355px; overflow-y: scroll;">
                                 @if($user->current_movies != null)
                                 @foreach(explode(',', $user->current_movies) as $id_movie)
-                                <?php $movie = \App\Models\Movie::find(intval($id_movie)) ?>
+                                <?php $movie = \App\Models\Movie::where('id_movie', intval($id_movie))->first() ?>
                                 <div class="preview-item border-bottom">
                                     <div class="preview-thumbnail">
                                         <img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" alt="image" class="rounded-circle" />
@@ -93,7 +99,7 @@
         <div class="recommend__item">
             @if($user->current_movies != null)
             @foreach(explode(',', $user->current_movies) as $id_movie)
-            <?php $movie = \App\Models\Movie::find(intval($id_movie)) ?>
+            <?php $movie = \App\Models\Movie::where('id_movie', intval($id_movie))->first() ?>
             <a href="{{route('detail_name', $movie->slug)}}" class="card__film" style="text-decoration: none">
                 <?php
                 if ($movie->image == '' || $movie->image == null) {

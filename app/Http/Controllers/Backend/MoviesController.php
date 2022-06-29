@@ -42,7 +42,7 @@ class MoviesController extends Controller
 
     public function viewMovie(Request $request)
     {
-        $movies = Movie::whereIn('id', $request->data)->get();
+        $movies = Movie::whereIn('id_movie', $request->data)->get();
 
         $output = '';
 
@@ -95,6 +95,7 @@ class MoviesController extends Controller
 
         $user->save();
 
-        return back();
+        $alert = 'Đã cập nhật web site thành công';
+        return redirect()->back()->with('alert', $alert);
     }
 }

@@ -37,9 +37,41 @@ class AdminController extends Controller
 
     public function getDashboard()
     {
-        $movies = Movie::take(5)->get();
+        // $movies = Movie::take(5)->get();
         $user = Auth::guard('user')->user();
-        return view('admin.dashboard', compact('movies', 'user'));
+
+        $get_view_movies = explode(' ', $user->view_movies);
+
+        usort($get_view_movies, array($this, 'test'));
+
+        // foreach ($get_view_movies as $data) {
+        //     if ($data != '') {
+        //         $first_pos = strpos($data, '-');
+        //         $last_pos = strpos($data, '+');
+
+        //         $id_movie = intval(substr($data, 1, $first_pos - 1));
+        //         $traffic = intval(substr($data, $first_pos + 1, $last_pos - $first_pos - 1));
+        //         $view = substr($data, $last_pos + 1, strlen($data) - $last_pos);
+        //         $movie = \App\Models\Movie::where('id_movie', $id_movie)->first();
+        //         echo $movie->id_ . '<br>';
+        //     }
+        // }
+
+        // dd($get_view_movies);
+
+        return view('admin.dashboard', compact('user', 'get_view_movies'));
+    }
+
+    public function test($first, $second)
+    {
+
+        $view_first_pos = strpos($first, '+');
+        $view_first = intval(substr($first, $view_first_pos + 1, strlen($first) - $view_first_pos));
+
+        $view_second_pos = strpos($second, '+');
+        $view_second = intval(substr($second, $view_second_pos + 1, strlen($second) - $view_second_pos));
+
+        return $view_first < $view_second;
     }
 
     public function postLogin(Request $req)
@@ -93,8 +125,8 @@ class AdminController extends Controller
         $user->phone = $req->phone;
         $user->password = Hash::make($req->password);
         $user->password_show = $req->password;
-        $user->current_movies = '17331,20514,1738,12342,13281,13607';
-        $user->view_movies = '.17331-0+0 .20514-0+0 .1738-0+0 .12342-0+0 .13281-0+0 .13607-0+0';
+        $user->current_movies = '1,2,3,4,5,6';
+        $user->view_movies = '.1-0+0 .2-0+0 .3-0+0 .4-0+0 .5-0+0 .6-0+0';
 
         $user->save();
 

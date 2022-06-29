@@ -7,7 +7,7 @@
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Order Status</h4>
+                <h4 class="card-title">Người phát triển</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -43,8 +43,8 @@
                                     <span class="ps-2"> {{ $user->full_name }}</span>
                                 </td>
                                 <td> {{ $user->id }} </td>
-                                <td> 0 </td>
-                                <td> 0 </td>
+                                <td> {{ $user->traffic }} </td>
+                                <td> {{ $user->view }} </td>
                                 <td> 0 </td>
                                 <td> {{ $user->created_at }} </td>
                                 <td>

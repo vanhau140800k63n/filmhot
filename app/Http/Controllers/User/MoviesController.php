@@ -18,12 +18,12 @@ class MoviesController extends Controller
             throw new PageException();
         }
 
-        $movies = Movie::whereIn('id', explode(',', $user->current_movies))->get();
+        $movies = Movie::whereIn('id_movie', explode(',', $user->current_movies))->get();
         return view('user.home', compact('user', 'movies'));
     }
 
     public function getMovieByName($name, $id)
-    {     
+    {
         $pos = strpos($name, '.html');
         $name_check = substr($name, 0, $pos);
         $movie_detail = Movie::where('slug', 'like', $name_check . '%')->first();
@@ -64,6 +64,58 @@ class MoviesController extends Controller
 
         $user = User::find(intval($id));
 
+        if (!is_null($user)) {
+            $user->traffic += 1;
+
+            $datas = explode(' ', $user->view_movies);
+            $check_contain = 0;
+            foreach ($datas as $key => $data) {
+                if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
+                    $first_pos = strpos($data, '-');
+                    $last_pos = strpos($data, '+');
+
+                    $traffic = intval(substr($data, $first_pos + 1, $last_pos - $first_pos - 1)) + 1;
+                    $view = substr($data, $last_pos + 1, strlen($data) - $last_pos);
+
+                    $datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
+
+                    $check_contain = 1;
+
+                    break;
+                }
+            }
+            if (!$check_contain) {
+                array_push($datas, '.' . $movie_detail->id_movie . '-1+0');
+            }
+            $user->view_movies = implode(' ', $datas);
+            $user->save();
+        }
+
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'sub_en', 'random_movies', 'user'));
+    }
+
+    public function updateView(Request $request)
+    {
+        $user = User::find(intval($request->id_user));
+        $movie_detail = Movie::where('id_movie', intval($request->id_movie))->first();
+
+        $user->view += 1;
+        $datas = explode(' ', $user->view_movies);
+        foreach ($datas as $key => $data) {
+            if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
+                $first_pos = strpos($data, '-');
+                $last_pos = strpos($data, '+');
+
+                $traffic = substr($data, $first_pos + 1, $last_pos - $first_pos - 1);
+                $view = intval(substr($data, $last_pos + 1, strlen($data) - $last_pos)) + 1;
+
+                $datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
+                break;
+            }
+        }
+        $user->view_movies = implode(' ', $datas);
+        $user->save();
+
+        return response()->json(1);
     }
 }

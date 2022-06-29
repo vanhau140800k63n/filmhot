@@ -5,7 +5,8 @@
     .preview-list .preview-item {
         cursor: pointer;
     }
-    .preview-list .preview-item:hover{
+
+    .preview-list .preview-item:hover {
         background-color: #2e2f32;
         padding-left: 10px;
         padding-right: 10px;
@@ -109,16 +110,16 @@
                             <p class="text-muted mb-0 fee_today"></p>
                         </div>
                         <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                            <h6 class="font-weight-bold mb-0">$236</h6>
+                            <h6 class="font-weight-bold mb-0">{{ $user->view * 1000 }} đ</h6>
                         </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                         <div class="text-md-center text-xl-left">
                             <h6 class="mb-1">Tổng thu</h6>
-                            <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
+                            <p class="text-muted mb-0 fee_all"></p>
                         </div>
                         <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                            <h6 class="font-weight-bold mb-0">$593</h6>
+                            <h6 class="font-weight-bold mb-0">{{ $user->view * 1000 }} đ</h6>
                         </div>
                     </div>
                 </div>
@@ -129,12 +130,26 @@
                 <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
                         <h4 class="card-title mb-1">Phim có lượt view cao</h4>
-                        <p class="text-muted mb-1">Cập nhật</p>
+                        <p class="text-muted mb-1">Lượt view</p>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="preview-list">
-                            @foreach($movies as $movie)
+                                <?php $check_view_movies = 0;
+                                $index = 0; ?>
+                                @foreach($get_view_movies as $data)
+                                @if($data != '' && $index < 5)
+                                <?php
+                                $first_pos = strpos($data, '-');
+                                $last_pos = strpos($data, '+');
+            
+                                $id_movie = intval(substr($data, 1 , $first_pos - 1));
+                                $traffic = intval(substr($data, $first_pos + 1, $last_pos - $first_pos - 1));
+                                $view = substr($data, $last_pos + 1, strlen($data) - $last_pos);
+                                $movie = \App\Models\Movie::where('id_movie', $id_movie)->first();
+                                $check_view_movies = 1;
+                                ++$index;
+                                ?>
                                 <div class="preview-item border-bottom">
                                     <div class="preview-thumbnail">
                                         <div class="preview-icon bg-primary">
@@ -147,12 +162,27 @@
                                             <p class="text-muted mb-0">{{ $movie->year }}</p>
                                         </div>
                                         <div class="me-auto text-sm-right pt-2 pt-sm-0">
-                                            <p class="text-muted">15 minutes ago</p>
-                                            <p class="text-muted mb-0">30 tasks, 5 issues </p>
+                                            <!-- <p class="text-muted">15 minutes ago</p> -->
+                                            <p class="text-muted mb-0"> {{ $view }} </p>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                                @endif
+                                @endforeach
+                                @if(!$check_view_movies)
+                                <div class="preview-item border-bottom">
+                                    <div class="preview-item-content d-sm-flex flex-grow">
+                                        <div class="flex-grow">
+                                            <h6 class="preview-subject">Không có dữ liệu</h6>
+                                            <p class="text-muted mb-0"></p>
+                                        </div>
+                                        <div class="me-auto text-sm-right pt-2 pt-sm-0">
+                                            <!-- <p class="text-muted">15 minutes ago</p> -->
+                                            <p class="text-muted mb-0"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -160,7 +190,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-sm-4 grid-margin">
             <div class="card">
                 <div class="card-body">
@@ -356,7 +386,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- <div class="row">
         <div class="col-md-6 col-xl-4 grid-margin stretch-card">
             <div class="card">
@@ -552,5 +582,88 @@
 <script>
     let date = new Date();
     $('.fee_today').html(date.toDateString());
+    $('.fee_all').html(date.toDateString());
+
+    (function($) {
+        'use strict';
+        $.fn.andSelf = function() {
+            return this.addBack.apply(this, arguments);
+        }
+        $(function() {
+            if ($("#transaction-history").length) {
+                var areaData = {
+                    labels: ["Lượt truy cập", "Lượt view", "Lượt thoát"],
+                    datasets: [{
+                        data: [ {{ $user->traffic }}, {{ $user->view }}, {{ $user->traffic - $user->view }}],
+                        backgroundColor: ["#57c7d4", "#00d25b", "#ffab00"]
+                    }]
+                };
+                var areaOptions = {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    segmentShowStroke: false,
+                    cutoutPercentage: 70,
+                    elements: {
+                        arc: {
+                            borderWidth: 0
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: true
+                    }
+                }
+                var transactionhistoryChartPlugins = {
+                    beforeDraw: function(chart) {
+                        var width = chart.chart.width,
+                            height = chart.chart.height,
+                            ctx = chart.chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = 1;
+                        ctx.font = fontSize + "rem sans-serif";
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#ffffff";
+
+                        @if($user->view)
+                        var text = "100%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2.0;
+                        @else
+                        var text = "Chưa có dữ liệu",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2.0;
+                        @endif
+
+                        ctx.fillText(text, textX, textY);
+
+                        ctx.restore();
+                        var fontSize = 0.75;
+                        ctx.font = fontSize + "rem sans-serif";
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#6c7293";
+
+                        var texts = "",
+                            textsX = Math.round((width - ctx.measureText(text).width) / 1.93),
+                            textsY = height / 1.7;
+
+                        ctx.fillText(texts, textsX, textsY);
+                        ctx.save();
+                    }
+                }
+                var transactionhistoryChartCanvas = $("#transaction-history").get(0).getContext("2d");
+                var transactionhistoryChart = new Chart(transactionhistoryChartCanvas, {
+                    type: 'doughnut',
+                    data: areaData,
+                    options: areaOptions,
+                    plugins: transactionhistoryChartPlugins
+                });
+            }
+        });
+    })(jQuery);
 </script>
 @endsection

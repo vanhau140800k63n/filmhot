@@ -82,6 +82,7 @@ Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(func
 Route::prefix('user')->namespace('User')->name('user.')->group(function () {
     Route::get('/trang-chu/{id}', [UserMoviesController::class, 'getHome'])->name('home');
     Route::get('/phim-{name}/{id}', [UserMoviesController::class, 'getMovieByName'])->name('detail_name');
+    Route::post('/update-view', [UserMoviesController::class, 'updateView'])->name('update_view');
     Route::get('/phim-{name}/tap-{episode_id}/{id}', [UserMoviesController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
 });
 
