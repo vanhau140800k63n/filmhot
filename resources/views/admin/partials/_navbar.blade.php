@@ -69,7 +69,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
           <div class="navbar-profile">
-            <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+            <img class="img-xs rounded-circle" src="{{ asset('css/assets/images/faces/face.png') }}" alt="">
             <p class="mb-0 d-none d-sm-block navbar-profile-name">{{ auth()->guard('user')->user()->full_name }}</p>
             <i class="mdi mdi-menu-down d-none d-sm-block"></i>
           </div>

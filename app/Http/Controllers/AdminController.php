@@ -39,7 +39,6 @@ class AdminController extends Controller
     {
         // $movies = Movie::take(5)->get();
         $user = Auth::guard('user')->user();
-
         $get_view_movies = explode(' ', $user->view_movies);
 
         usort($get_view_movies, array($this, 'test'));

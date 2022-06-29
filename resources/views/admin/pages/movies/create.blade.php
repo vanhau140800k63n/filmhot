@@ -76,7 +76,7 @@
                                 <?php $movie = \App\Models\Movie::where('id_movie', intval($id_movie))->first() ?>
                                 <div class="preview-item border-bottom">
                                     <div class="preview-thumbnail">
-                                        <img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" alt="image" class="rounded-circle" />
+                                        <img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" alt="image" />
                                     </div>
                                     <div class="preview-item-content d-flex flex-grow">
                                         <div class="flex-grow">

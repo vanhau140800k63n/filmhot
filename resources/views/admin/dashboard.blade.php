@@ -110,7 +110,7 @@
                             <p class="text-muted mb-0 fee_today"></p>
                         </div>
                         <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                            <h6 class="font-weight-bold mb-0">{{ $user->view * 1000 }} đ</h6>
+                            <h6 class="font-weight-bold mb-0">{{ number_format($user->view * 1000, 0, '', ',') }}đ</h6>
                         </div>
                     </div>
                     <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -119,7 +119,7 @@
                             <p class="text-muted mb-0 fee_all"></p>
                         </div>
                         <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                            <h6 class="font-weight-bold mb-0">{{ $user->view * 1000 }} đ</h6>
+                            <h6 class="font-weight-bold mb-0">{{ number_format($user->view * 1000, 0, '', ',') }}đ</h6>
                         </div>
                     </div>
                 </div>
@@ -562,7 +562,7 @@
                                                 <i class="flag-icon flag-icon-vn"></i>
                                             </td>
                                             <td>Việt Nam</td>
-                                            <td class="text-right"> 1500 </td>
+                                            <td class="text-right"> {{ number_format(1500, 0, '', ',') }} </td>
                                             <td class="text-right font-weight-medium"> 100% </td>
                                         </tr>
                                     </tbody>

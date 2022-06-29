@@ -14,7 +14,7 @@
       <div class="profile-desc">
         <div class="profile-pic">
           <div class="count-indicator">
-            <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+            <img class="img-xs rounded-circle " src="{{ asset('css/assets/images/faces/face.png') }}" alt="">
             <span class="count bg-success"></span>
           </div>
           <div class="profile-name">
@@ -78,11 +78,12 @@
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.create') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-plus"></i></span> Tạo mới </a></li>
-          <li class="nav-item"> <a class="nav-link" href="1"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-trending-up"></i></span> Thiết lập phim </a></li>
-          <li class="nav-item"> <a class="nav-link" href="2"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-film"></i></span> Thống kê </a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.develop') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-trending-up"></i></span> Thiết lập phim </a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.website') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-film"></i></span> Website của bạn </a></li>
         </ul>
       </div>
     </li>
+    @if(\Illuminate\Support\Facades\Auth::guard('user')->user()->role)
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ route('admin.user.index') }}">
         <span class="menu-icon">
@@ -91,6 +92,7 @@
         <span class="menu-title">Người phát triển</span>
       </a>
     </li>
+    @endif
     <!-- <li class="nav-item menu-items">
       <a class="nav-link" href="pages/tables/basic-table.html">
         <span class="menu-icon">
