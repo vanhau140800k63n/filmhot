@@ -7,6 +7,8 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\MoviesController;
+use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\User\MoviesController as UserMoviesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,7 @@ Route::post('/phim-{name}/update', [MovieController::class, 'postMovieUpdate'])-
 Route::get('/phim-{name}/update', [MovieController::class, 'getMovieUpdate'])->name('update');
 Route::get('/phim-{name}/tap-{episode_id}', [MovieController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
 
-Route::prefix('movies')->name('movie.')->group(function() {
+Route::prefix('movies')->name('movie.')->group(function () {
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}andname={name}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
@@ -62,14 +64,25 @@ Route::post('/post_register', [AdminController::class, 'postRegister'])->name('p
 Route::get('/register', [AdminController::class, 'getRegister'])->name('register');
 
 
-Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(function() {
+Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'getDashboard'])->name('dashboard');
 
-    Route::prefix('movies')->namespace('Backend')->name('movie.')->group(function() {
+    Route::prefix('movies')->namespace('Backend')->name('movie.')->group(function () {
         Route::get('create', [MoviesController::class, 'create'])->name('create');
         Route::post('search_add_movie', [MoviesController::class, 'searchAddMovie'])->name('search_add_movie');
         Route::post('view_movie', [MoviesController::class, 'viewMovie'])->name('view_movie');
         Route::post('create_view', [MoviesController::class, 'createView'])->name('create_view');
     });
+
+    Route::prefix('users')->namespace('Backend')->name('user.')->group(function () {
+        Route::get('index', [UsersController::class, 'index'])->name('index');
+    });
 });
 
+Route::prefix('user')->namespace('User')->name('user.')->group(function () {
+    Route::get('/trang-chu/{id}', [UserMoviesController::class, 'getHome'])->name('home');
+    Route::get('/phim-{name}/{id}', [UserMoviesController::class, 'getMovieByName'])->name('detail_name');
+    Route::get('/phim-{name}/tap-{episode_id}/{id}', [UserMoviesController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
+});
+
+// movie user

@@ -22,8 +22,8 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">$12.34</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
+                                <h3 class="mb-0">{{ $user->traffic }}</h3>
+                                <p class="text-success ms-2 mb-0 font-weight-medium">+0%</p>
                             </div>
                         </div>
                         <div class="col-3">
@@ -42,8 +42,8 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">$17.34</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
+                                <h3 class="mb-0"> {{ $user->view }}</h3>
+                                <p class="text-success ms-2 mb-0 font-weight-medium">+0%</p>
                             </div>
                         </div>
                         <div class="col-3">
@@ -62,8 +62,8 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">$12.34</h3>
-                                <p class="text-danger ms-2 mb-0 font-weight-medium">-2.4%</p>
+                                <h3 class="mb-0">0</h3>
+                                <p class="text-danger ms-2 mb-0 font-weight-medium">-0%</p>
                             </div>
                         </div>
                         <div class="col-3">
@@ -82,8 +82,8 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">$31.53</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
+                                <h3 class="mb-0">0</h3>
+                                <p class="text-success ms-2 mb-0 font-weight-medium">+0%</p>
                             </div>
                         </div>
                         <div class="col-3">
@@ -128,7 +128,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
-                        <h4 class="card-title mb-1">Phim đang phát triển</h4>
+                        <h4 class="card-title mb-1">Phim có lượt view cao</h4>
                         <p class="text-muted mb-1">Cập nhật</p>
                     </div>
                     <div class="row">

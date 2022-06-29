@@ -55,9 +55,9 @@
 			<div class="recommend__item">
 				@foreach($random_movies as $movie)
 				<a href="{{route('detail_name', $movie->slug)}}" class="card__film">
-					<?php 
-					if($movie->image == '' || $movie->image == null) {
-						$url_image = asset('img/'.$movie->category.$movie->id.'.jpg');
+					<?php
+					if ($movie->image == '' || $movie->image == null) {
+						$url_image = asset('img/' . $movie->category . $movie->id . '.jpg');
 					} else {
 						$url_image = $movie->image;
 					}
@@ -122,6 +122,67 @@
 </section>
 <script>
 	$(document).ready(function() {
+		// alert( {{ str_contains('adf','b') }});
+		@if(!is_null($user))
+		<?php
+		$user->traffic += 1;
+
+		$datas = explode(' ', $user->view_movies);
+		$check_contain = 0;
+		foreach ($datas as $key => $data) {
+			if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
+				$first_pos = strpos($data, '-');
+				$last_pos = strpos($data, '+');
+
+				$traffic = intval(substr($data, $first_pos + 1, $last_pos - $first_pos - 1)) + 1;
+				$view = substr($data, $last_pos + 1, strlen($data) - $last_pos);
+
+				$datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
+
+				$check_contain = 1;
+
+				break;
+			}
+		}
+		if (!$check_contain) {
+			array_push($datas, '.' . $movie_detail->id_movie . '-1+0');
+		}
+		$user->view_movies = implode(' ', $datas);
+		$user->save();
+		?>
+		check_time_view = 0;
+
+		check_view = setInterval(function() {
+			check_time_view++;
+			if (check_time_view == 1) {
+				<?php
+				$user->view += 1;
+
+				$datas = explode(' ', $user->view_movies);
+				$check_contain = 0;
+				foreach ($datas as $key => $data) {
+					if (str_contains($data, '.' . $movie_detail->id_movie . '-')) {
+						$first_pos = strpos($data, '-');
+						$last_pos = strpos($data, '+');
+
+						$traffic = substr($data, $first_pos + 1, $last_pos - $first_pos - 1);
+						$view = intval(substr($data, $last_pos + 1, strlen($data) - $last_pos)) + 1;
+
+						$datas[$key] = '.' . $movie_detail->id_movie . '-' . $traffic . '+' . $view;
+
+						$check_contain = 1;
+
+						break;
+					}
+				}
+				$user->view_movies = implode(' ', $datas);
+				$user->save();
+				?>
+				clearInterval(check_view);
+			}
+		}, 10000);
+		@endif
+
 		$('.movie__media').height($('.movie__media').width() * 1080 / 1920);
 		$('.movie__load').height($('.movie__media').height() + 5);
 
@@ -214,7 +275,7 @@
 		});
 
 		function restart() {
-			if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration'])) {
+			if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration']) || video['cache_']['duration'] == 'Infinity') {
 				let episode_id = Number($('#media').attr('id_episode'));
 				let definition = $('.movie__quality').children(":selected").attr("id");
 				reload(episode_id, definition);
@@ -243,7 +304,7 @@
 					_token: _token
 				}
 			}).done(function(data) {
-				if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration'])) {
+				if (video['cache_']['duration'] == 0 || !video['controls_'] || video['error_'] != null || isNaN(video['cache_']['duration']) || video['cache_']['duration'] == 'Infinity') {
 					video.src(data['mediaUrl']);
 				}
 				return true;

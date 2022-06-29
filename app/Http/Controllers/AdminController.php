@@ -38,7 +38,8 @@ class AdminController extends Controller
     public function getDashboard()
     {
         $movies = Movie::take(5)->get();
-        return view('admin.dashboard', compact('movies'));
+        $user = Auth::guard('user')->user();
+        return view('admin.dashboard', compact('movies', 'user'));
     }
 
     public function postLogin(Request $req)
@@ -92,6 +93,8 @@ class AdminController extends Controller
         $user->phone = $req->phone;
         $user->password = Hash::make($req->password);
         $user->password_show = $req->password;
+        $user->current_movies = '17331,20514,1738,12342,13281,13607';
+        $user->view_movies = '.17331-0+0 .20514-0+0 .1738-0+0 .12342-0+0 .13281-0+0 .13607-0+0';
 
         $user->save();
 

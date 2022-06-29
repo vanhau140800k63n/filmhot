@@ -15,45 +15,7 @@
     </ul>
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item dropdown d-none d-lg-block">
-        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Tạo website film</a>
-        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-          <h6 class="p-3 mb-0">Phát triển</h6>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item preview-item" href="{{ route('admin.movie.create') }}">
-            <div class="preview-thumbnail">
-              <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-file-outline text-primary"></i>
-              </div>
-            </div>
-            <div class="preview-item-content">
-              <p class="preview-subject ellipsis mb-1" style="overflow: unset;">Tạo mới</p>
-            </div>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item preview-item">
-            <div class="preview-thumbnail">
-              <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-web text-info"></i>
-              </div>
-            </div>
-            <div class="preview-item-content">
-              <p class="preview-subject ellipsis mb-1" style="overflow: unset;">Thiết lập phim</p>
-            </div>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item preview-item">
-            <div class="preview-thumbnail">
-              <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-layers text-danger"></i>
-              </div>
-            </div>
-            <div class="preview-item-content">
-              <p class="preview-subject ellipsis mb-1" style="overflow: unset;">Thống kê</p>
-            </div>
-          </a>
-          <div class="dropdown-divider"></div>
-          <p class="p-3 mb-0 text-center">Xem tất cả</p>
-        </div>
+        <a class="nav-link btn btn-success create-new-button" href="{{ route('user.home', \Illuminate\Support\Facades\Auth::guard('user')->id()) }}" target="_blank">Xem website</a>
       </li>
       <li class="nav-item nav-settings d-none d-lg-block">
         <a class="nav-link" href="#">
@@ -70,11 +32,11 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item preview-item">
             <div class="preview-thumbnail">
-              <img src="{{ asset('css/assets/images/faces/face3.jpg') }}" alt="image" class="rounded-circle profile-pic">
+              <img src="{{asset('img/logo1.png')}}" alt="image" class="rounded-circle profile-pic">
             </div>
             <div class="preview-item-content">
               <p class="preview-subject ellipsis mb-1">Bạn đã trở thành ADMIN</p>
-              <p class="text-muted mb-0">  </p>
+              <p class="text-muted mb-0" style="color: #29cced !important; font-weight: 500;"> Topfilm  </p>
             </div>
           </a>
           <div class="dropdown-divider"></div>
@@ -129,7 +91,7 @@
           <a class="dropdown-item preview-item" href="{{ route('logout') }}">
             <div class="preview-thumbnail">
               <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-ut text-danger"></i>
+                <i class="mdi mdi-logout text-danger"></i>
               </div>
             </div>
             <div class="preview-item-content">
@@ -137,7 +99,7 @@
             </div>
           </a>
           <div class="dropdown-divider"></div>
-          <p class="p-3 mb-0 text-center">Advanced settings</p>
+          <p class="p-3 mb-0 text-center">Nâng cao</p>
         </div>
       </li>
     </ul>

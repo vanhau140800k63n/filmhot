@@ -112,6 +112,7 @@
 </section>
 <script>
     list_movie = [];
+    check_del = 0;
 
     @if($user->current_movies != null)
     @foreach(explode(',', $user->current_movies) as $id_movie)
@@ -204,6 +205,10 @@
             input_list_movie = $("<input hidden>").attr("name", "list_movie").val(list_movie);
             $('form').append(input_list_movie);
         }
+        if (check_del == 1) {
+            input_check_del = $("<input hidden>").attr("name", "check_del").val(1);
+            $('form').append(input_check_del);
+        }
         $('form').submit();
     })
     $('.del_action').click(function() {
@@ -212,6 +217,7 @@
         $('.img__input').parent().css('background-image', 'none');
         $('.img__input').parent().children('.upload_box').children('.edit_action').css("display", "none");
         $('.img__input').parent().children('.del_action').css("display", "none");
+        check_del = 1;
     })
 </script>
 @endsection
