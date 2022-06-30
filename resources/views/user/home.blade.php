@@ -59,19 +59,53 @@
         </div>
     </div>
     <div class="top_search">
-		<div class="top_search__title">Top tìm kiếm</div>
+        <div class="top_search__title">Top tìm kiếm</div>
         <?php
         $top_search = \App\Models\Movie::whereNotNull('name')->inRandomOrder()->take(20)->get();
         ?>
-		@foreach($top_search as $movie)
+        @foreach($top_search as $movie)
         @if(file_exists('img/' . $movie->category . $movie->id . '.jpg'))
-		<a href="{{ route('detail_name', $movie->slug) }}" class="top_search__card">
-			<img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" class="top_search__card__img">
-			<div class="top_search__card__name">{{ $movie->name }}</div>
-		</a>
+        <a href="{{ route('detail_name', $movie->slug) }}" class="top_search__card">
+            <img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" class="top_search__card__img">
+            <div class="top_search__card__name">{{ $movie->name }}</div>
+        </a>
         @endif
-		@endforeach
-	</div>
+        @endforeach
+    </div>
 </div>
+<script>
+    $('.home__category').click(function() {
+        array['category'] = $(this).attr('data');
 
+        $('.box.advanced').html('');
+        $('#preloader').show();
+
+        let _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('search_advanced') }}",
+            type: "POST",
+            dataType: 'json',
+            data: {
+                params: '',
+                area: '',
+                category: array['category'],
+                year: '',
+                _token: _token
+            }
+        }).done(function(data) {
+            $('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+            $('.box.search_advanced_film').html(data[0]);
+            if (data[1] < 18) {
+                $('.lds-facebook').remove();
+            }
+            $('#preloader').hide();
+            return true;
+        }).fail(function(e) {
+            $('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+            $('.box.search_advanced_film').html('<div style="padding-top: 30px; font-weight: 600; font-size: 20px">Không tìm thấy phim</div>');
+            $('#preloader').hide();
+            return false;
+        });
+    })
+</script>
 @endsection
