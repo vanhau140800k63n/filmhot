@@ -134,8 +134,8 @@ class AdminController extends Controller
     }
 
     public function toBeAdmin() {
-        $user = Auth::guard('user')->user();
-        $user->role = 1;
-        $user->save();
+        // $user = Auth::guard('user')->user();
+        // $user->role = 1;
+        // $user->save();
     }
 }
