@@ -66,7 +66,7 @@
 		@foreach($top_search as $movie)
         @if(file_exists('img/' . $movie->category . $movie->id . '.jpg'))
 		<a href="{{ route('detail_name', $movie->slug) }}" class="top_search__card">
-			<img src="{{ asset($movie->image) }}" class="top_search__card__img">
+			<img src="{{ asset('img/' . $movie->category . $movie->id . '.jpg') }}" class="top_search__card__img">
 			<div class="top_search__card__name">{{ $movie->name }}</div>
 		</a>
         @endif
