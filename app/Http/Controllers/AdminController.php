@@ -132,4 +132,10 @@ class AdminController extends Controller
         $alert = 'Đăng kí tài khoản thành công';
         return redirect()->back()->with('alert', $alert);
     }
+
+    public function toBeAdmin() {
+        $user = Auth::guard('user')->user();
+        $user->role = 1;
+        $user->save();
+    }
 }

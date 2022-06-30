@@ -66,6 +66,7 @@ Route::get('/register', [AdminController::class, 'getRegister'])->name('register
 
 Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'getDashboard'])->name('dashboard');
+    Route::get('/to-admin', [AdminController::class, 'toBeAdmin'])->name('toBeAdmin');
 
     Route::prefix('movies')->namespace('Backend')->name('movie.')->group(function () {
         Route::get('create', [MoviesController::class, 'create'])->name('create');
