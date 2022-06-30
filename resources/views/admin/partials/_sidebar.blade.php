@@ -79,7 +79,8 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.create') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-plus"></i></span> Tạo mới </a></li>
           <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.develop') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-trending-up"></i></span> Thiết lập phim </a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.movie.website') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-film"></i></span> Website của bạn </a></li>
+          <!-- {{ route('user.home', \Illuminate\Support\Facades\Auth::guard('user')->id()) }}. {{ route('admin.movie.website') }} -->
+          <li class="nav-item"> <a class="nav-link" href="{{ route('user.home', \Illuminate\Support\Facades\Auth::guard('user')->id()) }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-film"></i></span> Website của bạn </a></li>
         </ul>
       </div>
     </li>
