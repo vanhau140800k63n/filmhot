@@ -123,7 +123,7 @@
 <script>
 	$(document).ready(function() {
 		// alert( {{ str_contains('adf','b') }});
-		@if(!is_null($user))
+		@if(isset($user) && !is_null($user))
 		check_time_view = 0;
 		check_view = setInterval(function() {
 			check_time_view++;
