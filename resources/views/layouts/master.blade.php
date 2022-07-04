@@ -40,7 +40,7 @@
         $('.image').css('max-height', $('.card__film').width() * 1.4);
         getImage();
         getMovieData();
-        // updateSlugMovie();
+        updateSlugMovie();
         // getDataMovie();
 
         $.ajaxSetup({

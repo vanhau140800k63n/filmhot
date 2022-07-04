@@ -40,6 +40,28 @@ class MoviesController extends Controller
         return response()->json($output);
     }
 
+    public function searchDevelopMovie(Request $request)
+    {
+        $movies = Movie::where('name', 'like', '%' . $request->data . '%')->take(4)->get();
+
+        $output = '';
+        foreach ($movies as $movie) {
+            $output .= '<li>
+                            <div class="form-check form-check-primary">
+                                <label class="form-check-label" style="display:flex">
+                                    <img style="width: 30px; height: 42px; margin-right: 20px" src=' . asset('img/' . $movie->category . $movie->id . '.jpg') . '>
+                                    <input class="radio" type="radio" name="develop_movue" value="' . $movie->id_movie . '">' . $movie->name . '
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+                            <i class="remove mdi mdi-close-box"></i>
+                        </li>';
+        }
+
+        return response()->json($output);
+    }
+
+
     public function viewMovie(Request $request)
     {
         $movies = Movie::whereIn('id_movie', $request->data)->get();
@@ -100,7 +122,8 @@ class MoviesController extends Controller
     }
 
     public function develop() {
-        return view('admin.pages.movies.develop');
+        $user = Auth::guard('user')->user();
+        return view('admin.pages.movies.develop', compact('user'));
     }
 
     public function website() {
