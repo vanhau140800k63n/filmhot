@@ -168,6 +168,15 @@ class MoviesController extends Controller
             // dd($last_pos_img_tag);
             $img_tag = substr($description, $first_pos_img_tag, $last_pos_img_tag - $first_pos_img_tag + 1);
 
+            $image_style = '';
+
+            $first_pos_img_style = strpos($img_tag, 'style="', 0);
+            if ($first_pos_img_style) {
+                $last_pos_img_style = strpos($img_tag, '" ', $first_pos_img_style + 7);
+                $image_style = substr($img_tag, $first_pos_img_style, $last_pos_img_style - $first_pos_img_style + 1);
+            }
+
+            // dd($image_style);
             $first_pos_img_src = strpos($img_tag, 'src="', 0);
             $last_pos_img_src = strpos($img_tag, '" ', $first_pos_img_src + 5);
             $img_src = substr($img_tag, $first_pos_img_src + 5, $last_pos_img_src - $first_pos_img_src - 5);
@@ -195,25 +204,25 @@ class MoviesController extends Controller
 
                 $imgFile->save($img_src);
 
-                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name .'">';
-                
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" '. $image_style .'>';
+
                 $image_file = new ImageFile();
                 $image_file->src = $img_src;
                 $image_file->id_movie = $id_movie;
-                $image_file->save();  
+                $image_file->save();
                 // dd($img_src);
             } else {
                 $img_src = str_replace('../', '', $img_src);
-                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name .'">';
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" '. $image_style .'>';
             }
-            
+
             $description = str_replace($img_tag, $img_tag_replace, $description);
             array_push($src_imgs, $img_src);
             $first_pos_img_tag = strpos($description, '<img', $first_pos_img_tag + 1);
         }
         // dd($src_imgs);
         $image_files = ImageFile::where('id_movie', $id_movie)->whereNotIn('src', $src_imgs)->get();
-        foreach($image_files as $item) {
+        foreach ($image_files as $item) {
             File::delete($item->src);
             $item->delete();
         }
