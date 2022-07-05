@@ -50,7 +50,7 @@ class MoviesController extends Controller
                             <div class="form-check form-check-primary">
                                 <label class="form-check-label" style="display:flex">
                                     <img style="width: 30px; height: 42px; margin-right: 20px" src=' . asset('img/' . $movie->category . $movie->id . '.jpg') . '>
-                                    <input class="radio" type="radio" name="develop_movue" value="' . $movie->id_movie . '">' . $movie->name . '
+                                    <input class="radio" type="radio" name="develop_movie" value="' . $movie->id_movie . '">' . $movie->name . '
                                     <i class="input-helper"></i>
                                 </label>
                             </div>
@@ -128,5 +128,15 @@ class MoviesController extends Controller
 
     public function website() {
         return view('admin.pages.movies.website');
+    }
+
+    public function getUrlEdit(Request $request) {
+        $url = route('admin.movie.develop_by_id', $request->data);
+        return response()->json($url);
+    }
+
+    public function developById($id) {
+        $movie = Movie::where('id_movie', $id)->first();
+        return view('admin.pages.movies.edit', compact('movie'));
     }
 }

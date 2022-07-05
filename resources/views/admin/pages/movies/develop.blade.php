@@ -14,13 +14,13 @@
         </div>
         @endif
         <div class="row add_movie_content">
-            <div class="col-md-12 col-xl-6 grid-margin stretch-card" style="height: 450px; overflow: hidden;">
+            <div class="col-md-12 grid-margin stretch-card" style="height: 450px; overflow: hidden;">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Tìm kiếm phim</h4>
                         <div class="add-items d-flex">
                             <input type="text" class="form-control add_movie_search" placeholder="Nhập tên phim" style="color: #fff">
-                            <button class="add btn btn-primary add_movie_push_btn">Thêm</button>
+                            <button class="add btn btn-primary add_movie_push_btn" style="width:200px">Chỉnh sửa</button>
                         </div>
                         <div class="list-wrapper">
                             <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom add_movie_list">
@@ -28,9 +28,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-xl-6 grid-margin stretch-card">
-                
             </div>
         </div>
         <div class="recommend__item">
@@ -107,22 +104,19 @@
     })
 
     $('.add_movie_push_btn').click(function() {
-        $("input[name='add_movie[]']:checked").each(function() {
-            if (list_movie.indexOf($(this).val()) === -1) {
-                list_movie.push($(this).val());
-            }
-        })
+        // alert($("input[name='develop_movie']:checked").val());
         let _token = $('input[name="_token"]').val();
         $.ajax({
-            url: "{{ route('admin.movie.view_movie') }}",
+            url: "{{ route('admin.movie.get_url_edit') }}",
             type: "POST",
             dataType: 'json',
             data: {
-                data: list_movie,
+                data: $('input[name="develop_movie"]:checked').val(),
                 _token: _token
             }
         }).done(function(data) {
-            $('.preview-list').html(data);
+            // alert(data);
+            window.location.href = data;
             return true;
         }).fail(function(e) {
 
