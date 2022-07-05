@@ -45,7 +45,7 @@
 			<div class="movie__tag">
 
 			</div>
-			<div class="movie__intro">{{$movie_detail->description}}</div>
+			<div class="movie__intro">{!! $movie_detail->description !!}</div>
 
 			<div class="recommend__items__title">
 				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">

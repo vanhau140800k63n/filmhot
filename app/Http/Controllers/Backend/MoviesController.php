@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ImageFile;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Image;
 
 class MoviesController extends Controller
 {
@@ -121,22 +123,104 @@ class MoviesController extends Controller
         return redirect()->back()->with('alert', $alert);
     }
 
-    public function develop() {
+    public function develop()
+    {
         $user = Auth::guard('user')->user();
         return view('admin.pages.movies.develop', compact('user'));
     }
 
-    public function website() {
+    public function website()
+    {
         return view('admin.pages.movies.website');
     }
 
-    public function getUrlEdit(Request $request) {
+    public function getUrlEdit(Request $request)
+    {
         $url = route('admin.movie.develop_by_id', $request->data);
         return response()->json($url);
     }
 
-    public function developById($id) {
+    public function developById($id)
+    {
         $movie = Movie::where('id_movie', $id)->first();
         return view('admin.pages.movies.edit', compact('movie'));
+    }
+
+    public function update(Request $request, $id_movie)
+    {
+        // dd($request->all());
+        $alert = 'Cập nhật thành công';
+        $movie = Movie::where('id_movie', $id_movie)->first();
+        if (is_null($movie)) {
+            $alert = 'Không tìm thấy phim';
+            return redirect()->back()->with('alert', $alert);
+        }
+        $movie->name = $request->name;
+        $movie->slug = $request->slug;
+
+        $description = $request->all()['description'];
+        $first_pos_img_tag = strpos($description, '<img', 0);
+
+        $src_imgs = [];
+
+        while ($first_pos_img_tag) {
+            $last_pos_img_tag = strpos($description, '>', $first_pos_img_tag);
+            // dd($last_pos_img_tag);
+            $img_tag = substr($description, $first_pos_img_tag, $last_pos_img_tag - $first_pos_img_tag + 1);
+
+            $first_pos_img_src = strpos($img_tag, 'src="', 0);
+            $last_pos_img_src = strpos($img_tag, '" ', $first_pos_img_src + 5);
+            $img_src = substr($img_tag, $first_pos_img_src + 5, $last_pos_img_src - $first_pos_img_src - 5);
+            if (!str_contains($img_src, '../')) {
+                // dd($img_src);
+                $first_pos_img_width = strpos($img_tag, 'width="', 0);
+                $last_pos_img_width = strpos($img_tag, '" ', $first_pos_img_width + 7);
+                $img_width = intval(substr($img_tag, $first_pos_img_width + 7, $last_pos_img_width - $first_pos_img_width - 7));
+
+                // dd($img_width);
+
+                $url = file_get_contents(str_replace(' ', '%20', $img_src));
+
+                $imgFile = Image::make($url);
+                $imgFile->resize($img_width, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $img_src = 'img/image_movie_detail/' . $movie->slug . '.jpg';
+
+                if (file_exists($img_src)) {
+                    $img_src = 'img/image_movie_detail/' . $movie->slug . Str::random(2) . '.jpg';
+                }
+
+
+                $imgFile->save($img_src);
+
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name .'">';
+                
+                $image_file = new ImageFile();
+                $image_file->src = $img_src;
+                $image_file->id_movie = $id_movie;
+                $image_file->save();  
+                // dd($img_src);
+            } else {
+                $img_src = str_replace('../', '', $img_src);
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name .'">';
+            }
+            
+            $description = str_replace($img_tag, $img_tag_replace, $description);
+            array_push($src_imgs, $img_src);
+            $first_pos_img_tag = strpos($description, '<img', $first_pos_img_tag + 1);
+        }
+        // dd($src_imgs);
+        $image_files = ImageFile::where('id_movie', $id_movie)->whereNotIn('src', $src_imgs)->get();
+        foreach($image_files as $item) {
+            File::delete($item->src);
+            $item->delete();
+        }
+
+        $movie->description = $description;
+        $movie->save();
+
+        return redirect()->back()->with('alert', $alert);
     }
 }

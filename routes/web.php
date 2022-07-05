@@ -73,6 +73,7 @@ Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(func
         Route::get('develop', [MoviesController::class, 'develop'])->name('develop');
         Route::get('website', [MoviesController::class, 'website'])->name('website');
         Route::get('develop/{id}', [MoviesController::class, 'developById'])->name('develop_by_id');
+        Route::post('update/{id_movie}', [MoviesController::class, 'update'])->name('update');
         Route::post('search_add_movie', [MoviesController::class, 'searchAddMovie'])->name('search_add_movie');
         Route::post('search_develop_movie', [MoviesController::class, 'searchDevelopMovie'])->name('search_develop_movie');
         Route::post('get_url_edit', [MoviesController::class, 'getUrlEdit'])->name('get_url_edit');

@@ -3,6 +3,19 @@
 <title> Phát triển phim | Topfilm </title>
 <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
 <link rel="stylesheet" href="{{ asset('css/assets/css/create_movie.css') }}">
+<style>
+    .tox .tox-statusbar {
+        display: none !important;
+    }
+
+    .tox .tox-edit-area__iframe {
+        background: #020d18 !important;
+    }
+
+    .tox-tinymce {
+        border: 0 !important;
+    }
+</style>
 @endsection
 @section('content')
 <section class="create_movie_section">
@@ -17,143 +30,71 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">ID_MOVIE: {{ $movie->id_movie }}, <span style="color: #ed29ec"> ID: {{ $movie->id }} </span>, <span style="color: #29ceed"> CATEGORY: {{ $movie->category }} </span></h4>
-                    <form class="form-sample">
+                    <form class="form-sample" action="{{route('admin.movie.update', $movie->id_movie)}}" enctype="multipart/form-data" method="post">
+                        @csrf
                         <p class="card-description"> Personal info </p>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">First Name</label>
+                                    <label class="col-sm-3 col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Last Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" name="name" value="{{ $movie->name }}" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Gender</label>
+                                    <label class="col-sm-3 col-form-label">Slug</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Date of Birth</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" placeholder="dd/mm/yyyy" />
+                                        <input type="text" class="form-control" name="slug" value="{{ $movie->slug }}" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Category</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option>Category1</option>
-                                            <option>Category2</option>
-                                            <option>Category3</option>
-                                            <option>Category4</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Membership</label>
-                                    <div class="col-sm-4">
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked> Free </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2"> Professional </label>
-                                        </div>
+                                    <label class="col-sm-3 col-form-label" style="margin-bottom: 20px;">Description</label>
+                                    <div class="col-sm-12">
+                                        <textarea id="myeditorinstance" name="description">{{ $movie->description }}</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p class="card-description"> Address </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Address 1</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">State</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Address 2</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Postcode</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">City</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Country</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option>America</option>
-                                            <option>Italy</option>
-                                            <option>Russia</option>
-                                            <option>Britain</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <input id="my-file" type="file" name="my-file" style="display: none;" onchange="" />
+                        <button type="submit" class="btn btn-primary me-2">Ghi nhận</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#myeditorinstance', // Replace this CSS selector to match the placeholder element for TinyMCE
+        plugins: 'code table lists image',
+        toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | forecolor backcolor | image',
+        images_file_types: 'jpg,svg,webp',
+        // file_picker_types: 'file image media',
+        // file_picker_callback: (callback, value, meta) => {
+        //     if (meta.filetype == 'image') {
+        //         var input = document.getElementById('my-file');
+        //         input.click();
+        //         input.onchange = function() {
+        //             var file = input.files[0];
+        //             var reader = new FileReader();
+        //             reader.onload = function(e) {
+        //                 callback(e.target.result, {
+        //                     alt: file.name
+        //                 });
+        //             };
+        //             reader.readAsDataURL(file);
+        //         };
+        //     }
+        // }
+    });
+</script>
 @endsection
