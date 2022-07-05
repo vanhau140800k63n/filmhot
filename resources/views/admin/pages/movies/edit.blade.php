@@ -23,7 +23,7 @@
         @if(Session::has('alert'))
         <div class="alert alert-success" style="display: flex; justify-content: space-between;">
             <div>{{Session::get('alert')}} </div>
-            <a type="button" href="{{ route('user.home', \Illuminate\Support\Facades\Auth::guard('user')->id()) }}" target="_blank" class="btn btn-success btn-fw">Xem website</a>
+            <a type="button" href="{{ route('movie.detail', ['category' => $movie->category, 'id' => $movie->id, 'name' => $movie->name]) }}" target="_blank" class="btn btn-success btn-fw">Xem website</a>
         </div>
         @endif
         <div class="col-12 grid-margin">
