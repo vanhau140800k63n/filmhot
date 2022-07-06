@@ -78,23 +78,6 @@
         plugins: 'code table lists image',
         toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | forecolor backcolor | image',
         images_file_types: 'jpg,svg,webp',
-        // file_picker_types: 'file image media',
-        // file_picker_callback: (callback, value, meta) => {
-        //     if (meta.filetype == 'image') {
-        //         var input = document.getElementById('my-file');
-        //         input.click();
-        //         input.onchange = function() {
-        //             var file = input.files[0];
-        //             var reader = new FileReader();
-        //             reader.onload = function(e) {
-        //                 callback(e.target.result, {
-        //                     alt: file.name
-        //                 });
-        //             };
-        //             reader.readAsDataURL(file);
-        //         };
-        //     }
-        // }
     });
 </script>
 @endsection

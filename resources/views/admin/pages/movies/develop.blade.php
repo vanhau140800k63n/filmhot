@@ -34,7 +34,7 @@
             @if($user->current_movies != null)
             @foreach(explode(',', $user->current_movies) as $id_movie)
             <?php $movie = \App\Models\Movie::where('id_movie', intval($id_movie))->first() ?>
-            <a href="{{route('detail_name', $movie->slug)}}" class="card__film" style="text-decoration: none">
+            <a href="{{ route('admin.movie.develop_by_id', $movie->id_movie) }}" class="card__film" style="text-decoration: none">
                 <?php
                 if ($movie->image == '' || $movie->image == null) {
                     $url_image = asset('img/' . $movie->category . $movie->id . '.jpg');
