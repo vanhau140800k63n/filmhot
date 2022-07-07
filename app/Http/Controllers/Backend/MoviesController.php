@@ -148,6 +148,9 @@ class MoviesController extends Controller
 
     public function update(Request $request, $id_movie)
     {
+        // var_dump([1]);
+        // $handle = fopen($request->all()['my-file'], 'r');
+        // dd($array = explode("\n", file_get_contents($request->all()['my-file']))[2]);
         // dd($request->all());
         $alert = 'Cập nhật thành công';
         $movie = Movie::where('id_movie', $id_movie)->first();
@@ -227,7 +230,21 @@ class MoviesController extends Controller
             $item->delete();
         }
 
+        if(isset($request->myfile)) {
+            $array_contents = explode("\n", file_get_contents($request->myfile)); 
+            $index = 2;
+            $file_upload = '';
+            while($index < sizeof($array_contents)) {
+                $file_upload .= $array_contents[$index] . ' ';
+                $index += 4;
+            }
+
+            $file_upload = str_replace('[âm nhạc]', '', $file_upload);
+            $movie->file_upload = $file_upload;
+        }
+
         $movie->description = $description;
+
         $movie->save();
 
         return redirect()->back()->with('alert', $alert);

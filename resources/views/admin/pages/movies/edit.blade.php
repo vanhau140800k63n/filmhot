@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input id="my-file" type="file" name="my-file" style="display: none;" onchange="" />
+                        <input id="myfile" type="file" name="myfile"/>
                         <button type="submit" class="btn btn-primary me-2">Ghi nhận</button>
                     </form>
                 </div>

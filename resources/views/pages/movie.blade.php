@@ -47,6 +47,8 @@
 			</div>
 			<div class="movie__intro">{!! $movie_detail->description !!}</div>
 
+			<div class="file_upload"> {{ $movie_detail->file_upload }} </div>
+
 			<div class="recommend__items__title">
 				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">
 					<span>Phim ngẫu nhiên</span>
