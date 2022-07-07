@@ -46,9 +46,6 @@
 
 			</div>
 			<div class="movie__intro">{!! $movie_detail->description !!}</div>
-
-			<div class="file_upload"> {{ $movie_detail->file_upload }} </div>
-
 			<div class="recommend__items__title">
 				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">
 					<span>Phim ngẫu nhiên</span>
@@ -69,6 +66,7 @@
 				</a>
 				@endforeach
 			</div>
+			<div class="file_upload"> {{ $movie_detail->file_upload }} </div>
 		</div>
 		<div class="movie__similar">
 		</div>
@@ -251,7 +249,6 @@
 				reload(episode_id, definition);
 			} else {
 				$('.movie__load').hide();
-				$('.movie__intro').html($('.movie__intro').html() + video['cache_']['duration']);
 				video.textTracks()[0].mode = 'showing';
 				clearInterval(getVideo);
 			}
