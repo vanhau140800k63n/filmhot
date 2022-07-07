@@ -142,8 +142,9 @@ class MoviesController extends Controller
 
     public function developById($id)
     {
+        $user = Auth::guard('user')->user();
         $movie = Movie::where('id_movie', $id)->first();
-        return view('admin.pages.movies.edit', compact('movie'));
+        return view('admin.pages.movies.edit', compact('movie', 'user'));
     }
 
     public function update(Request $request, $id_movie)

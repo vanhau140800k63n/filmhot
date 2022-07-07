@@ -38,7 +38,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="name" value="{{ $movie->name }}" />
+                                        <input type="text" class="form-control" name="name" value="{{ $movie->name }}" @if( $user->role == 0 ) disabled  @endif />
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Slug</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="slug" value="{{ $movie->slug }}" />
+                                        <input type="text" class="form-control" name="slug" value="{{ $movie->slug }}" @if( $user->role == 0 ) disabled  @endif />
                                     </div>
                                 </div>
                             </div>

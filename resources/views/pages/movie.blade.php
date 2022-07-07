@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="Xem phim {{$movie_detail->name}} FullHD Vietsub, {{$movie_detail->name}} tập 1, {{$movie_detail->name}} tập cuối - Xem phim ngay tại TopFilm.">
-<meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, hen ho chon cong so, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne, {{$movie_detail->meta}}">
+<meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne, phimmoi, phimhay, {{$movie_detail->meta}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -34,7 +34,7 @@
 					<div id="loading_movie"></div>
 				</div>
 			</div>
-			<h1 class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail->name}}</h1>
+			<h1 class="movie__name" id="{{$movie_detail['name']}}">{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</h1>
 			<div class="movie__episodes">
 
 			</div>
