@@ -230,10 +230,11 @@ class MoviesController extends Controller
             $item->delete();
         }
 
+        $file_upload = '';
+
         if(isset($request->myfile)) {
             $array_contents = explode("\n", file_get_contents($request->myfile)); 
             $index = 2;
-            $file_upload = '';
             while($index < sizeof($array_contents)) {
                 $file_upload .= $array_contents[$index] . ' ';
                 $index += 4;
@@ -243,7 +244,7 @@ class MoviesController extends Controller
             $movie->file_upload = $file_upload;
         }
 
-        $movie->description = $description;
+        $movie->description = $description . '.<br>' . $file_upload;
 
         $movie->save();
 
