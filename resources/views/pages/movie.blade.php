@@ -66,7 +66,7 @@
 				</a>
 				@endforeach
 			</div>
-			<div class="file_upload"> {{ $movie_detail->file_upload }} </div>
+			<!-- <div class="file_upload"> {{ $movie_detail->file_upload }} </div> -->
 		</div>
 		<div class="movie__similar">
 		</div>
