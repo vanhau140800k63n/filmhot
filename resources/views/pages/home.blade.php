@@ -11,7 +11,7 @@
 <meta property="og:description" content="Topfilm là website phát các chương trình truyền hình, phim, hoạt hình từ khắp nơi trên thế giới, với phụ đề vietsub và chất lượng hình ảnh fullhd, và các bộ phim mới được phát hành hàng ngày! - topfilm">
 <meta property="og:url" content="{{route('home')}}">
 <meta property="og:site_name" content="TOPFILM - Xem phim FullHD Vietsub mới nhất">
-<meta property="og:image" content="">
+<meta property="og:image" content="{{ asset('css/assets/images/banner/no-banner.jpg') }}">
 <title>TOPFILM - Xem phim FullHD Vietsub mới nhất</title>
 @endsection
 @section('content')
