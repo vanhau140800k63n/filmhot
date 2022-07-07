@@ -21,21 +21,6 @@ use App\Http\Controllers\User\MoviesController as UserMoviesController;
 |
 */
 
-Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
-Route::get('/test', [HomeController::class, 'getTest'])->name('home1');
-Route::get('/page={page}.{id}', [HomeController::class, 'searchMoreMovie'])->name('moremovie');
-Route::get('/search={key}', [HomeController::class, 'searchMovie'])->name('search');
-Route::get('/category/{id}', [HomeController::class, 'searchMovieCategory'])->name('category');
-Route::post('/search_advanced', [HomeController::class, 'searchMovieAdvanced'])->name('search_advanced');
-Route::post('/search_advanced_more', [HomeController::class, 'searchMovieAdvancedMore'])->name('search_advanced_more');
-Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
-Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
-Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
-Route::get('/phim-{name}/edit', [MovieController::class, 'getMovieEdit'])->name('edit');
-Route::post('/phim-{name}/update', [MovieController::class, 'postMovieUpdate'])->name('update');
-Route::get('/phim-{name}/update', [MovieController::class, 'getMovieUpdate'])->name('update');
-Route::get('/phim-{name}/tap-{episode_id}', [MovieController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
-
 Route::prefix('movies')->name('movie.')->group(function () {
     Route::get('/category={category}&id={id}&episode={episode}', [MovieController::class, 'getMovieEpisode'])->name('episode');
     Route::get('/category={category}&id={id}andname={name}', [MovieController::class, 'getMovie'])->name('detail');
@@ -93,4 +78,18 @@ Route::prefix('user')->namespace('User')->name('user.')->group(function () {
     Route::get('/phim-{name}/tap-{episode_id}/{id}', [UserMoviesController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
 });
 
-// movie user
+
+Route::get('/', [HomeController::class, 'getHomePage'])->name('home');
+Route::get('/test', [HomeController::class, 'getTest'])->name('home1');
+Route::get('/page={page}.{id}', [HomeController::class, 'searchMoreMovie'])->name('moremovie');
+Route::get('/search={key}', [HomeController::class, 'searchMovie'])->name('search');
+Route::get('/category/{id}', [HomeController::class, 'searchMovieCategory'])->name('category');
+Route::post('/search_advanced', [HomeController::class, 'searchMovieAdvanced'])->name('search_advanced');
+Route::post('/search_advanced_more', [HomeController::class, 'searchMovieAdvancedMore'])->name('search_advanced_more');
+Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
+Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
+Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
+Route::get('/phim-{name}/edit', [MovieController::class, 'getMovieEdit'])->name('edit');
+Route::post('/phim-{name}/update', [MovieController::class, 'postMovieUpdate'])->name('update');
+Route::get('/phim-{name}/update', [MovieController::class, 'getMovieUpdate'])->name('update');
+Route::get('/phim-{name}/tap-{episode_id}', [MovieController::class, 'getMovieByNameEposode'])->name('detail_name_episode');
