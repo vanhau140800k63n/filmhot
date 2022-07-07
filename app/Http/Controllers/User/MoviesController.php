@@ -91,7 +91,7 @@ class MoviesController extends Controller
             $user->save();
         }
 
-        return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'sub_en', 'random_movies', 'user'));
+        // return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'sub_en', 'random_movies', 'user'));
     }
 
     public function updateView(Request $request)
