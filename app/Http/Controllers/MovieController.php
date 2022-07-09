@@ -17,7 +17,7 @@ class MovieController extends Controller
         if ($movie == null) {
             throw new PageException();
         }
-        return view('pages.edit', compact('movie'));
+        // return view('pages.edit', compact('movie'));
     }
 
     public function getMovieUpdate(Request $req, $name)
@@ -200,7 +200,7 @@ class MovieController extends Controller
             throw new PageException();
         }
 
-        $name = $movie_detail->slug;
+        // $name = $movie_detail->slug;
 
         $episode_id = 0;
         $url = route('detail_name', $name);
@@ -241,7 +241,7 @@ class MovieController extends Controller
             throw new PageException();
         }
 
-        $name = $movie_detail->slug;
+        // $name = $movie_detail->slug;
         $url = route('detail_name', $name);
 
         $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2;

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="description" content="Xem phim {{$movie_detail->name}} FullHD Vietsub, {{$movie_detail->name}} tập 1, {{$movie_detail->name}} tập cuối - Xem phim ngay tại TopFilm.">
-<meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne, phimmoi, phimhay, {{$movie_detail->meta}}">
+<meta name="keywords" content="{{$movie_detail->meta}}">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -42,9 +42,7 @@
 				<div class="movie__score"> <i class="fa-solid fa-star"></i> {{$movie_detail->rate}}</div>
 				<div class="movie__year"> <i class="fa-solid fa-calendar"></i> {{$movie_detail->year}}</div>
 			</div>
-			<div class="movie__tag">
-
-			</div>
+			<div class="movie__tag"></div>
 			<div class="movie__intro">{!! $movie_detail->description !!}</div>
 			<div class="recommend__items__title">
 				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">
