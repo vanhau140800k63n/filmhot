@@ -58,11 +58,8 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	background-color: #000;
-	display: none;
+	z-index: 10;
 }
 
 .movie__screen {
@@ -75,6 +72,7 @@
 	font-size: 40px;
 	font-weight: 700;
 	margin-top: 30px;
+	margin-bottom: 20px;
 }
 
 .movie__episodes {
@@ -83,7 +81,7 @@
 }
 
 .episode {
-	border-radius: 5px;
+	border-radius: 2px;
 	background-color: #27282e;
 	width: 50px;
 	height: 50px;
@@ -95,17 +93,35 @@
 	font-weight: 600;
 }
 
+.comment_title {
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.fb-comments {
+	background: #fff;
+}
+
+.episode:hover {
+	background-color: #266fd0;
+}
+
+.episode.active {
+	background-color: #266fd0;
+}
+
 .movie__info {
 	display: flex;
 	font-size: 20px;
 }
 
 .movie__score {
-
+    color: #fff;
 }
 
 .movie__year {
 	margin-left: 30px;
+	color: #fff;
 }
 
 .movie__tag {
@@ -119,6 +135,11 @@
 	background-color: #27282e;
 	margin-right: 20px;
 	margin-top: 20px;
+	cursor: pointer;
+}
+
+.tag__name:hover {
+	background-color: #3d3e42;
 }
 
 .movie__similar {
@@ -128,7 +149,7 @@
 .similar__container {
 	display: flex;
 	transition: 0.2s;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 .similar__container:hover {
@@ -236,7 +257,7 @@
 		width: 22%;
 	}
 	.similar__container img {
-		border-radius: 5px;
+		border-radius: 2px;
 	}
 	.similar__name {
 		margin-left: 10px;
@@ -280,7 +301,6 @@
 	}
 	.similar__container {
 		display: block;
-		background-color: #27282d;
 	}
 	.similar__container img {
 		width: 100%;
@@ -338,7 +358,6 @@
 	}
 	.similar__container {
 		display: block;
-		background-color: #27282d;
 	}
 	.similar__container img {
 		width: 100%;
@@ -406,12 +425,11 @@
 	}
 	.similar__container {
 		display: block;
-		background-color: #27282d;
 	}
 	.similar__container img {
 		width: 100%;
 		margin-bottom: 10px;
-		border-radius: 5px;
+		border-radius: 2px;
 	}
 	.similar__name {
 		width: 100%;

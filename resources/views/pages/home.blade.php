@@ -1,98 +1,73 @@
 @extends('layouts.master')
 @section('meta')
-<title>TOPFILM</title>
+<meta name="description" content="Topfilm là website phát các chương trình truyền hình, phim, hoạt hình từ khắp nơi trên thế giới, với phụ đề vietsub và chất lượng hình ảnh fullhd, và các bộ phim mới được phát hành hàng ngày! - topfilm">
+<meta name="keywords" content="topfilm, topphim, top film, top phim, phim vietsub, fullhd, full hd, phim moi nhat, phim hot, hen ho chon cong so, phim hay, top, film, hot phim, hot film, chieu rap, phim tam ly, devsne">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TOPFILM - Xem phim FullHD Vietsub mới nhất">
+<meta property="og:description" content="Topfilm là website phát các chương trình truyền hình, phim, hoạt hình từ khắp nơi trên thế giới, với phụ đề vietsub và chất lượng hình ảnh fullhd, và các bộ phim mới được phát hành hàng ngày! - topfilm">
+<meta property="og:url" content="{{route('home')}}">
+<meta property="og:site_name" content="TOPFILM - Xem phim FullHD Vietsub mới nhất">
+<meta property="og:image" content="{{ asset('css/assets/images/banner/no-banner.jpg') }}">
+<title>TOPFILM - Xem phim FullHD Vietsub mới nhất</title>
 @endsection
 @section('content')
-<div class="box homepage" id="1"> 
-	<div class="listfilm">
-		@foreach($movie_home['recommendItems'] as $keyRecommendItems => $recommendItems)
-		@if($recommendItems['homeSectionType'] == 'BANNER' && sizeof($recommendItems['recommendContentVOList']) > 1)
-		<div class="listfilm__top">
-			<div class="categorys">
-				<a href="{{route('searchcategory', 1)}}" class="home__category">Phim hành động</a>
-				<a href="{{route('searchcategory', 19)}}" class="home__category">Khoa học viễn tưởng</a>
-				<a href="{{route('searchcategory', 3)}}" class="home__category">Hoạt hình</a>
-				<a href="{{route('searchcategory', 13)}}" class="home__category">Kinh dị</a>
-				<a href="{{route('searchcategory', 5)}}" class="home__category">Hài kịch</a>
-				<a href="{{route('searchcategory', 64)}}" class="home__category">Thảm khốc</a>
-				<a href="{{route('searchcategory', 24)}}" class="home__category">Chiến tranh</a>
-			</div>
-			<div class="swiper__slider">
-				<div class="swiper mySwiper">
-					<div class="swiper-wrapper">
-						@foreach($recommendItems['recommendContentVOList'] as $key => $banner)
-						<div class="swiper-slide rounded-xl">
-							<img class="object-cover w-full"
-							src="{{ $banner['imageUrl']}}"  alt="image" />
-						</div>
-						@endforeach
-					</div>
-					<div class="swiper-button-next"></div>
-					<div class="swiper-button-prev"></div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		</div>
-		@endif
-		@if($recommendItems['homeSectionType'] == 'SINGLE_ALBUM')
-		<div class="recommend__items">
-			<div class="recommend__items__title">
-				<div class="recommend__items__name">
-					<span>{{$recommendItems['homeSectionName']}}</span>
-				</div>
-
-				<a href="page=0.{{$keyRecommendItems}}" class="recommend__items__btn">	
-					<h1> Xem thêm </h1>
-					<svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-					</svg>
-				</a>
-			</div>
-			<div class="recommend__item">
-				<?php $image = Session('image')?Session::get('image'):[]; ?>
-				@foreach($recommendItems['recommendContentVOList'] as $key => $movie)
-				@if($key < 6)
-				<a href="movies/category={{$movie['category']}}&id={{$movie['id']}}" class="card__film"> 
-					<?php 
-					$urlImage = 'img/'.$movie['category'].$movie['id'].'.jpg';
-					if(!file_exists($urlImage)) {
-						$urlImage = $movie['imageUrl'];
-						$image[$movie['category'].$movie['id']] = $movie['imageUrl'];
-					}
-					?>
-					<img class="image" src="{{$urlImage}}" alt="image" />
-					<p class="film__name">{{$movie['title']}}</p>
-				</a>
-				@endif
-				@endforeach
-				<?php Session()->put('image', $image); ?>
-			</div>
-		</div>
-		@endif	
-		@endforeach
-		<div class="text-center">
-			<div class="lds-facebook"><div></div><div></div><div></div></div>
-		</div>
-	</div>
-	<div class="top_search">
-		<div class="top_search__title">Top tìm kiếm</div>
-		<?php $image = Session('image')?Session::get('image'):[]; ?>
-		@foreach($top_search['list'] as $movie)
-		<a href="movies/category={{$movie['domainType']}}&id={{$movie['id']}}" class="top_search__card">
-			<?php 
-			$urlImage = 'img/'.$movie['domainType'].$movie['id'].'top_search.jpg';
-			if(!file_exists($urlImage)) {
-				$urlImage = $movie['cover'];
-				$image[$movie['domainType'].$movie['id'].'top_search'] = $movie['cover'];	
-			} 
-			?>
-			<img src="{{$urlImage}}" class="top_search__card__img">
-			<div class="top_search__card__name">{{$movie['title']}}</div>
-		</a>
-		@endforeach
-		<?php Session()->put('image', $image); ?>
+<div class="box homepage advanced" id="2">
+	<div class="loader_home">
+		<div class="inner one"></div>
+		<div class="inner two"></div>
+		<div class="inner three"></div>
 	</div>
 </div>
+<script>
+	$.ajax({
+		url: "{{ route('load_first_home_ajax') }}",
+		type: "GET",
+		dataType: 'json',
+	}).done(function(data) {
+		$('.homepage.advanced').html(data);
 
-<script src="{{asset('js/home.js')}}"></script>
+		$('.loader_home').remove();
+
+		$('.home__category').click(function() {
+			array['category'] = $(this).attr('data');
+
+			$('.box.advanced').html('');
+			$('#preloader').show();
+
+			let _token = $('input[name="_token"]').val();
+			$.ajax({
+				url: "{{ route('search_advanced') }}",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					params: '',
+					area: '',
+					category: array['category'],
+					year: '',
+					_token: _token
+				}
+			}).done(function(data) {
+				$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+				$('.box.search_advanced_film').html(data[0]);
+				if (data[1] < 18) {
+					$('.lds-facebook').remove();
+				}
+				$('#preloader').hide();
+				return true;
+			}).fail(function(e) {
+				$('.box.advanced').removeClass('homepage').addClass('search_advanced_film');
+				$('.box.search_advanced_film').html('<div style="padding-top: 30px; font-weight: 600; font-size: 20px">Không tìm thấy phim</div>');
+				$('#preloader').hide();
+				return false;
+			});
+		})
+		return true;
+	}).fail(function(e) {
+		return false;
+	});
+</script>
 @endsection
