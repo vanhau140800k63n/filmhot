@@ -17,7 +17,6 @@
     h1 {
         font-size: 25px !important;
         margin-top: 30px !important;
-        color: aqua;
         text-transform: uppercase;
         font-weight: 500 !important;
     }
