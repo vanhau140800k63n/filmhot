@@ -69,10 +69,9 @@
 		<div class="movie__similar">
 		</div>
 	</div>
-
-	<!-- <div class="box comments_hidden" style="display: none; margin-bottom: 20px">
+	<div class="box comments_hidden" style="display: none; margin-bottom: 20px">
 		<div data-width="100%" class="fb-comments" data-href="{{$url}}" data-width="" data-numposts="5"></div>
-	</div> -->
+	</div>
 </section>
 <section class="home__products">
 	<div class="box">
@@ -142,7 +141,6 @@
 					clearInterval(check_view);
 					return true;
 				}).fail(function(e) {
-
 					return false;
 				});
 			}

@@ -35,27 +35,6 @@
             </div>
           </a>
           <div class="dropdown-divider"></div>
-          <!-- <a href="#" class="dropdown-item preview-item">
-            <div class="preview-thumbnail">
-              <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-onepassword  text-info"></i>
-              </div>
-            </div>
-            <div class="preview-item-content">
-              <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-            </div>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item preview-item">
-            <div class="preview-thumbnail">
-              <div class="preview-icon bg-dark rounded-circle">
-                <i class="mdi mdi-calendar-today text-success"></i>
-              </div>
-            </div>
-            <div class="preview-item-content">
-              <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-            </div>
-          </a> -->
         </div>
       </div>
     </li>
@@ -84,6 +63,20 @@
         </ul>
       </div>
     </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-news" aria-expanded="false" aria-controls="ui-news">
+        <span class="menu-icon">
+          <i class="mdi mdi-newspaper"></i>
+        </span>
+        <span class="menu-title">Tin tức</span>
+        <i class="menu-arrow" style="color: #fff;"></i>
+      </a>
+      <div class="collapse" id="ui-news">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{ route('admin.news.list') }}"><span class="menu-icon"><i style="color: #4ad1d5" class="mdi mdi-format-list-bulleted"></i></span> Danh sách </a></li>
+        </ul>
+      </div>
+    </li>
     @if(\Illuminate\Support\Facades\Auth::guard('user')->user()->role)
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ route('admin.user.index') }}">
@@ -94,55 +87,5 @@
       </a>
     </li>
     @endif
-    <!-- <li class="nav-item menu-items">
-      <a class="nav-link" href="pages/tables/basic-table.html">
-        <span class="menu-icon">
-          <i class="mdi mdi-table-large"></i>
-        </span>
-        <span class="menu-title">Tables</span>
-      </a>
-    </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" href="pages/charts/chartjs.html">
-        <span class="menu-icon">
-          <i class="mdi mdi-chart-bar"></i>
-        </span>
-        <span class="menu-title">Charts</span>
-      </a>
-    </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" href="pages/icons/mdi.html">
-        <span class="menu-icon">
-          <i class="mdi mdi-contacts"></i>
-        </span>
-        <span class="menu-title">Icons</span>
-      </a>
-    </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-        <span class="menu-icon">
-          <i class="mdi mdi-security"></i>
-        </span>
-        <span class="menu-title">User Pages</span>
-        <i class="menu-arrow"></i>
-      </a>
-      <div class="collapse" id="auth">
-        <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" href="documentation">
-        <span class="menu-icon">
-          <i class="mdi mdi-file-document-box"></i>
-        </span>
-        <span class="menu-title">Documentation</span>
-      </a>
-    </li> -->
   </ul>
 </nav>

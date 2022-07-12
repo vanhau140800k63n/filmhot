@@ -7,6 +7,7 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\MoviesController;
+use App\Http\Controllers\Backend\NewsController as BackendNewsController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\User\MoviesController as UserMoviesController;
 
@@ -28,7 +29,7 @@ Route::prefix('movies')->name('movie.')->group(function () {
     Route::post('/get-view-movie-ajax', [MovieController::class, 'getViewMovieAjax'])->name('get-view-movie-ajax');
 });
 
-Route::get('/tin-tuc-{name}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
+Route::get('/tin-tuc-{id}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
 
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
@@ -68,6 +69,15 @@ Route::prefix('admin')->middleware(['checked_user'])->name('admin.')->group(func
 
     Route::prefix('users')->namespace('Backend')->name('user.')->group(function () {
         Route::get('index', [UsersController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('news')->namespace('Backend')->name('news.')->group(function () {
+        Route::get('list', [BackendNewsController::class, 'list'])->name('list');
+        Route::get('create-news', [BackendNewsController::class, 'createNews'])->name('create_news');
+        Route::get('edit-news/{id}', [BackendNewsController::class, 'editNews'])->name('edit_news');
+        Route::post('store', [BackendNewsController::class, 'store'])->name('store');
+        Route::post('update/{id}', [BackendNewsController::class, 'update'])->name('update');
+        Route::get('destroy/{id}', [BackendNewsController::class, 'destroy'])->name('destroy');
     });
 });
 

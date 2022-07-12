@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Image;
 
+use function PHPUnit\Framework\isEmpty;
+
 class MoviesController extends Controller
 {
     public function create()
@@ -208,7 +210,7 @@ class MoviesController extends Controller
 
                 $imgFile->save($img_src);
 
-                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" '. $image_style .'>';
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" ' . $image_style . '>';
 
                 $image_file = new ImageFile();
                 $image_file->src = $img_src;
@@ -217,7 +219,7 @@ class MoviesController extends Controller
                 // dd($img_src);
             } else {
                 $img_src = str_replace('../', '', $img_src);
-                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" '. $image_style .'>';
+                $img_tag_replace = '<img src="' . asset($img_src) . '" alt="' . $movie->name . '" ' . $image_style . '>';
             }
 
             $description = str_replace($img_tag, $img_tag_replace, $description);
@@ -233,10 +235,10 @@ class MoviesController extends Controller
 
         $file_upload = '';
 
-        if(isset($request->myfile)) {
-            $array_contents = explode("\n", file_get_contents($request->myfile)); 
+        if (isset($request->myfile)) {
+            $array_contents = explode("\n", file_get_contents($request->myfile));
             $index = 2;
-            while($index < sizeof($array_contents)) {
+            while ($index < sizeof($array_contents)) {
                 $file_upload .= $array_contents[$index] . ' ';
                 $index += 4;
             }
@@ -245,7 +247,11 @@ class MoviesController extends Controller
             $movie->file_upload = $file_upload;
         }
 
-        $movie->description = $description . '.<br>' . $file_upload;
+        if (!empty($file_upload)) {
+            $movie->description = $description . '.<br>' . $file_upload;
+        } else {
+            $movie->description = $description;
+        }
 
         $movie->save();
 
