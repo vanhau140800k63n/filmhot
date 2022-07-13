@@ -9,10 +9,10 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ $news_detail->title }}">
 <meta property="og:description" content="{{ $news_detail->seo_description }}">
-<meta property="og:url" content="{{ route('news_detail', $news_detail->id) }}">
+<meta property="og:url" content="{{ route('news_detail', ['slug' => $news_detail->slug, 'id' => $news_detail->id]) }}">
 <meta property="og:site_name" content="{{ $news_detail->title }}">
 <meta property="og:image" content="{{ $news_detail->image }}">
-<title>Tin tức</title>
+<title>{{ $news_detail->title }}</title>
 <style>
     h1 {
         font-size: 25px !important;
@@ -26,7 +26,7 @@
 <section class="news">
     <div class="box advanced">
         <h1> {{ $news_detail->title }} </h1>
-        <div>
+        <div style="margin-top: 20px;">
             {!! $news_detail->content !!} 
         </div>
     </div>

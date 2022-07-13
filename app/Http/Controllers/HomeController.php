@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\MovieService;
 use App\Models\Movie;
+use App\Models\News;
 use Session;
 
 class HomeController extends Controller
@@ -136,10 +137,14 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        $movieService = new MovieService();
-        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . '16394' . '&category=' .'0';
-        $movie_detail = $movieService->getData($url);
-        dd($movie_detail);
+        $news = News::all();
+        
+        foreach($news as $item) {
+            if(!$item->slug) {
+                $item->slug = 'old';
+                $item->save();
+            }
+        }
     }
 
     public function searchMovie($key)

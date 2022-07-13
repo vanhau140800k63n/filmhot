@@ -33,7 +33,7 @@
         @if(Session::has('alert'))
         <div class="alert alert-success" style="display: flex; justify-content: space-between;">
             <div>{{Session::get('alert')}} </div>
-            <a type="button" href="{{ route('news_detail', $news_detail->id) }}" target="_blank" class="btn btn-success btn-fw">Xem website</a>
+            <a type="button" href="{{ route('news_detail', ['slug' => $news_detail->slug, 'id' => $news_detail->id]) }}" target="_blank" class="btn btn-success btn-fw">Xem website</a>
         </div>
         @endif
         @endif
