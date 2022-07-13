@@ -533,5 +533,7 @@ class MovieController extends Controller
             $pos = strpos($movie->slug, '.html');
             $movie->update(['is_change_slug' => 1, 'slug' => substr($movie->slug, 0, $pos) . '-'. $movie->category . $movie->id . substr($movie->slug, $pos)]);
         }
+
+        return response()->json(true);
     }
 }
