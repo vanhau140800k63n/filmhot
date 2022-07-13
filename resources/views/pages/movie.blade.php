@@ -13,6 +13,8 @@
 <meta property="og:site_name" content="{{$movie_detail->name}}">
 <meta property="og:image" content="{{$movie_detail->image}}">
 <title>{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</title>
+<link href="{{ asset('css/video-js.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{asset('css/videojs-seek-buttons.css')}}" />
 <style>
 	.vjs-menu-item-text {
 		text-transform: none;
@@ -117,6 +119,9 @@
 		</div>
 	</div>
 </section>
+<script src="{{ asset('js/video.min.js') }}"></script>
+<script src="{{ asset('js/videojs-seek-buttons.js') }}"></script>
+<script src="{{ asset('js/videojs-seek-buttons.min.js') }}"></script>
 <script>
 	$(document).ready(function() {
 		// alert( {{ str_contains('adf','b') }});
