@@ -29,7 +29,7 @@ Route::prefix('movies')->name('movie.')->group(function () {
     Route::post('/get-view-movie-ajax', [MovieController::class, 'getViewMovieAjax'])->name('get-view-movie-ajax');
 });
 
-Route::get('/tin-tuc-{slug}-{id}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
+Route::get('/tin-tuc-{slug}-p{id}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
 
 Route::get('/storage-ajax', [StorageController::class, 'saveImage'])->name('storage-ajax');
 Route::get('/storage-movie-ajax', [StorageController::class, 'saveMovie'])->name('storage-movie-ajax');
