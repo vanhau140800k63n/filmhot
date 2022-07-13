@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UsersController extends Controller
 {
     public function index() {
-        $users = User::all();
+        $users = User::orderBy('updated_at', 'desc')->get();
         return view('admin.pages.user_pages.index', compact('users'));
     }
 }
