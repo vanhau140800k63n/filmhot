@@ -65,8 +65,6 @@ class NewsController extends Controller
             $str = substr($str, 0, strlen($str) - 1);
         }
 
-        $news->slug = $str;
-
         if(isset($request->seo_keywords)) {
             $news->seo_keywords = $request->seo_keywords;
         }
@@ -79,6 +77,8 @@ class NewsController extends Controller
         $news->status = 1;
 
         $news->save();
+
+        $news->slug = $str . 'p' . $news->id;
 
         $description = $request->all()['content'];
         $first_pos_img_tag = strpos($description, '<img', 0);
@@ -208,7 +208,7 @@ class NewsController extends Controller
             $str = substr($str, 0, strlen($str) - 1);
         }
 
-        $news->slug = $str;
+        $news->slug = $str . 'p' . $news->id;
 
         if(isset($request->seo_keywords)) {
             $news->seo_keywords = $request->seo_keywords;

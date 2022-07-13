@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ $news_detail->title }}">
 <meta property="og:description" content="{{ $news_detail->seo_description }}">
-<meta property="og:url" content="{{ route('news_detail', ['slug' => $news_detail->slug, 'id' => $news_detail->id]) }}">
+<meta property="og:url" content="{{ route('news_detail', $news_detail->slug) }}">
 <meta property="og:site_name" content="{{ $news_detail->title }}">
 <meta property="og:image" content="{{ $news_detail->image }}">
 <title>{{ $news_detail->title }}</title>

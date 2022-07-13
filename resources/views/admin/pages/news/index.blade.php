@@ -52,7 +52,7 @@
                                         <td> {{ $created_by }} </td>
                                         <td style="text-align: center; cursor:pointer">
                                             <a href="{{ route('admin.news.edit_news', $item->id) }}"> <i style="color: #4ad1d5" class="mdi mdi-shape-square-plus"></i> </a>
-                                            <a href="{{ route('news_detail', ['slug' => $item->slug, 'id' => $item->id]) }}" target="_blank"> <i style="color: #4ad1d5; margin-left: 15px" class="mdi mdi-open-in-new"></i> </a>
+                                            <a href="{{ route('news_detail', $item->slug) }}" target="_blank"> <i style="color: #4ad1d5; margin-left: 15px" class="mdi mdi-open-in-new"></i> </a>
                                             <a href="{{ route('admin.news.destroy', $item->id) }}"> <i style="color: #4ad1d5; margin-left: 15px" class="mdi mdi-delete"></i> </a>
                                         </td>
                                     </tr>
