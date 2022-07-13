@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('head')
 <title> Danh sách tin tức | Topfilm </title>
+<link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
 <style>
     th {
         text-align: center !important;
@@ -9,9 +10,10 @@
     a {
         text-decoration: none !important;
     }
+
 </style>
 @endsection
-@section('content')
+@section('content')   
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
@@ -20,6 +22,8 @@
                 <div>{{Session::get('alert')}} </div>
             </div>
             @endif
+
+            {!! $news->render('admin.partials.pagination') !!}
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
