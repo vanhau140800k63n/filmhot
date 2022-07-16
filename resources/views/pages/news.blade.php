@@ -53,7 +53,7 @@
                 <p class="text-[20px] font-medium text-[#a58aff] mb-[20px]"> Tin tức khác </p>
                 @foreach($news_rand as $item)
                 <div class="mb-[30px]">
-                    <a href="">
+                    <a href="{{ route('news_detail', $item->slug) }}">
                         <img src="{{ $item->image }}">
                         <p class="text-center rand_news_title text-[#a58aff] text-[14px] mt-[5px] mb-[15px]"> {{ $item->title }} </p>
                     </a>
