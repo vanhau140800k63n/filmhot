@@ -55,7 +55,7 @@
                 <div class="mb-[20px]">
                     <a href="">
                         <img src="{{ $item->image }}">
-                        <p class="text-center rand_news_title text-[#a58aff] text-[14px] my-[10px]"> {{ $item->title }} </p>
+                        <p class="text-center rand_news_title text-[#a58aff] text-[14px] mt-[5px] mb-[15px]"> {{ $item->title }} </p>
                     </a>
                 </div>
                 @endforeach
