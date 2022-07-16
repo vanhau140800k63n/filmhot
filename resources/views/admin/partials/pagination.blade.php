@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
 <!-- Pagination -->
-<div class="pull-right pagination">
+<div class="pull-right pagination" style="float: right">
     <ul class="pagination">
         @if (!$paginator->onFirstPage())
             <li>

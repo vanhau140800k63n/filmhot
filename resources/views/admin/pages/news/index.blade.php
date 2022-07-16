@@ -10,10 +10,9 @@
     a {
         text-decoration: none !important;
     }
-
 </style>
 @endsection
-@section('content')   
+@section('content')
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
@@ -22,11 +21,10 @@
                 <div>{{Session::get('alert')}} </div>
             </div>
             @endif
-
-            {!! $news->render('admin.partials.pagination') !!}
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        {!! $news->render('admin.partials.pagination') !!}
                         <h4 class="card-title">Danh sách tin tức</h4>
                         <a class="btn btn-primary btn-fw" style="margin-bottom: 20px;" href="{{ route('admin.news.create_news') }}"> Thêm mới </a>
                         <div class="table-responsive">
