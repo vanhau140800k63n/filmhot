@@ -208,6 +208,10 @@ class NewsController extends Controller
             $str = substr($str, 0, strlen($str) - 1);
         }
 
+        if (substr($str, 0, 1) == '-') {
+            $str = substr($str, 1, strlen($str));
+        }
+
         $news->slug = $str . 'p' . $news->id;
 
         if(isset($request->seo_keywords)) {

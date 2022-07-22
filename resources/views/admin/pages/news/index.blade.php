@@ -47,7 +47,7 @@
                                         $user = \App\Models\User::find($item->created_by);
                                         $created_by = is_null($user) ? 'Null' : $user->full_name;
                                         ?>
-                                        <td> {{ $created_by }} </td>
+                                        <td> Ẩn danh </td>
                                         <td style="text-align: center; cursor:pointer">
                                             <a href="{{ route('admin.news.edit_news', $item->id) }}"> <i style="color: #4ad1d5" class="mdi mdi-shape-square-plus"></i> </a>
                                             <a href="{{ route('news_detail', $item->slug) }}" target="_blank"> <i style="color: #4ad1d5; margin-left: 15px" class="mdi mdi-open-in-new"></i> </a>
