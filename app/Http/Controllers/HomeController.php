@@ -567,7 +567,8 @@ class HomeController extends Controller
 
     public function getTraffic() {
         $movies = Movie::where('traffic', '>', 0)->get();
+        $total_traffic = Movie::where('traffic', '>', 0)->sum('traffic');
 
-        return view('pages.traffic', compact('movies'));
+        return view('pages.traffic', compact('movies', 'total_traffic'));
     }
 }
