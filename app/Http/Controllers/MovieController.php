@@ -47,7 +47,7 @@ class MovieController extends Controller
                         $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
                     }
                 }
-                if(!$checksub_vi) {
+                if (!$checksub_vi) {
                     $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
             } else {
@@ -62,7 +62,7 @@ class MovieController extends Controller
                         $sub_en .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
                     }
                 }
-                if(!$checksub_en) {
+                if (!$checksub_en) {
                     $sub_en .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
             } else {
@@ -74,7 +74,7 @@ class MovieController extends Controller
         $movie->sub = $sub;
         $movie->sub_en = $sub_en;
 
-        if(isset($req->description)) {
+        if (isset($req->description)) {
             $movie->description = $req->description;
         }
 
@@ -110,7 +110,7 @@ class MovieController extends Controller
                         $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
                     }
                 }
-                if(!$checksub_vi) {
+                if (!$checksub_vi) {
                     $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
             } else {
@@ -125,7 +125,7 @@ class MovieController extends Controller
                         $sub_en .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
                     }
                 }
-                if(!$checksub_en) {
+                if (!$checksub_en) {
                     $sub_en .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                 }
             } else {
@@ -137,7 +137,7 @@ class MovieController extends Controller
         $movie->sub = $sub;
         $movie->sub_en = $sub_en;
 
-        if(isset($req->description)) {
+        if (isset($req->description)) {
             $movie->description = $req->description;
         }
 
@@ -226,6 +226,12 @@ class MovieController extends Controller
 
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
 
+        foreach ($random_movies as $key => $movie) {
+            if (!file_exists('img/' . $movie->category . $movie->id . '.jpg') || empty($movie->name)) {
+                $random_movies->forget($key);
+            }
+        }
+
         $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
 
         return view('pages.movie', compact('episode_id', 'movie_detail', 'name', 'url', 'productAll', 'sub', 'sub_en', 'random_movies'));
@@ -262,6 +268,12 @@ class MovieController extends Controller
 
         $productAll = Product::where('image', 'like', '%' . 'http' . '%')->inRandomOrder()->take(0)->orderBy('point', 'asc')->get();
         $random_movies =  Movie::inRandomOrder()->take(30)->get();
+
+        foreach ($random_movies as $key => $movie) {
+            if (!file_exists('img/' . $movie->category . $movie->id . '.jpg') || empty($movie->name)) {
+                $random_movies->forget($key);
+            }
+        }
 
         $movie_detail->traffic += 1;
         $movie_detail->save();
@@ -391,7 +403,7 @@ class MovieController extends Controller
                             $sub .= '-' . $key_episodeVo . '-https://srt-to-vtt.vercel.app/?url=' . $subtitle['subtitlingUrl'] . '+' . $key_episodeVo . '+';
                         }
                     }
-                    if(!$checksub_vi) {
+                    if (!$checksub_vi) {
                         $sub .= '-' . $key_episodeVo . '-' . '+' . $key_episodeVo . '+';
                     }
                 } else {
@@ -523,15 +535,16 @@ class MovieController extends Controller
         return response()->json($data);
     }
 
-    public function updateSlugMovie() {
+    public function updateSlugMovie()
+    {
         $movies = Movie::where('is_change_slug', 0)->get();
 
         $i = 0;
-        foreach($movies as $movie) {
-            if($i == 1500) return response()->json(1);
+        foreach ($movies as $movie) {
+            if ($i == 1500) return response()->json(1);
             ++$i;
             $pos = strpos($movie->slug, '.html');
-            $movie->update(['is_change_slug' => 1, 'slug' => substr($movie->slug, 0, $pos) . '-'. $movie->category . $movie->id . substr($movie->slug, $pos)]);
+            $movie->update(['is_change_slug' => 1, 'slug' => substr($movie->slug, 0, $pos) . '-' . $movie->category . $movie->id . substr($movie->slug, $pos)]);
         }
 
         return response()->json(true);
