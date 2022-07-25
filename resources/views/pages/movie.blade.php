@@ -12,6 +12,7 @@
 <meta property="og:url" content="{{$url}}">
 <meta property="og:site_name" content="{{$movie_detail->name}}">
 <meta property="og:image" content="{{$movie_detail->image}}">
+<link rel = "canonical" href = "{{ route('detail_name', $movie_detail->slug) }}/" />
 <title>{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</title>
 <link href="{{ asset('css/video-js.css') }}" rel="stylesheet" />
 <link rel="stylesheet" href="{{asset('css/videojs-seek-buttons.css')}}" />
