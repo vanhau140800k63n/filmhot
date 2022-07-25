@@ -27,6 +27,7 @@ Route::prefix('movies')->name('movie.')->group(function () {
     Route::get('/category={category}&id={id}andname={name}', [MovieController::class, 'getMovie'])->name('detail');
     Route::post('/episode-ajax', [MovieController::class, 'getEpisodeAjax'])->name('episode-ajax');
     Route::post('/get-view-movie-ajax', [MovieController::class, 'getViewMovieAjax'])->name('get-view-movie-ajax');
+    Route::post('/preview', [MovieController::class, 'getPreview'])->name('preview');
 });
 
 Route::get('/tin-tuc-{slug}', [NewsController::class, 'getNewsDetail'])->name('news_detail');
@@ -98,6 +99,7 @@ Route::post('/search_advanced', [HomeController::class, 'searchMovieAdvanced'])-
 Route::post('/search_advanced_more', [HomeController::class, 'searchMovieAdvancedMore'])->name('search_advanced_more');
 Route::post('/key-search', [HomeController::class, 'searchKey'])->name('key-search');
 Route::post('/home-ajax', [HomeController::class, 'getHomeAjax'])->name('home-ajax');
+Route::get('/xem-phim-{name}', [MovieController::class, 'getIntroName'])->name('intro_movie');
 Route::get('/phim-{name}', [MovieController::class, 'getMovieByName'])->name('detail_name');
 Route::get('/phim-{name}/edit', [MovieController::class, 'getMovieEdit'])->name('edit');
 Route::post('/phim-{name}/update', [MovieController::class, 'postMovieUpdate'])->name('update');

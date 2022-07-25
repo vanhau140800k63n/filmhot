@@ -190,6 +190,17 @@ class MovieController extends Controller
         return redirect()->route('detail_name', $movie->slug);
     }
 
+    public function getIntroName($name)
+    {
+        $movie_detail = Movie::where('slug', $name)->first();
+
+        if ($movie_detail == null) {
+            throw new PageException();
+        }
+
+        return view('pages.intro', compact('movie_detail'));
+    }
+
     public function getMovieByName($name)
     {
         // $pos = strpos($name, '.html');
@@ -302,7 +313,7 @@ class MovieController extends Controller
         while ($movie_detail == null) {
             $movie_detail = $movieService->getData($url);
         }
-        $media = [];
+        // $media = [];
         if (!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$req->episode_id]['definitionList'];
             if ($req->definition == null) {
@@ -312,8 +323,25 @@ class MovieController extends Controller
             }
         }
 
-        array_push($media);
-        return $media;
+        return response()->json($media);
+    }
+
+    public function getPreview(Request $req) {
+        $movieService = new MovieService();
+        $url = 'https://ga-mobile-api.loklok.tv/cms/app/movieDrama/get?id=' . $req->id . '&category=' . $req->category;
+        $movie_detail = $movieService->getData($url);
+        while ($movie_detail == null) {
+            $movie_detail = $movieService->getData($url);
+        }
+
+        if (!empty($movie_detail['episodeVo'])) {
+            $definitionList = $movie_detail['episodeVo'][0]['definitionList'];
+            $media = $movieService->getPreview($req->id, $req->category, $movie_detail['episodeVo'][0]['id'], $definitionList[0]['code']);
+        }
+
+
+
+        return response()->json($media);
     }
 
     public function getViewMovieAjax(Request $req)
