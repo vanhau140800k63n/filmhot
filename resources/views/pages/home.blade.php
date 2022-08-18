@@ -15,6 +15,7 @@
 <title>TOPFILM - Xem phim FullHD Vietsub mới nhất</title>
 @endsection
 @section('content')
+<button class="btn btn-primary"></button>
 <div class="box homepage advanced" id="2">
 	<div class="loader_home">
 		<div class="inner one"></div>
@@ -29,6 +30,13 @@
 		dataType: 'json',
 	}).done(function(data) {
 		$('.homepage.advanced').html(data);
+
+		let swiper__slider_img_width = $('.swiper__slider img').width();
+		let swiper__slider_img_height = $('.swiper__slider img').height();
+
+		let position = (swiper__slider_img_width - swiper__slider_img_height/2.5) / 2;
+
+		$('.swiper__slider img').css('object-position', '0px -' + position + 'px');
 
 		$('.loader_home').remove();
 

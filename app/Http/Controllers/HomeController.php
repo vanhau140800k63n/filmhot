@@ -137,14 +137,41 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        $news = News::all();
-        
-        foreach($news as $item) {
-            if(!$item->slug) {
-                $item->slug = 'old';
-                $item->save();
+        try {
+            try {
+                throw new \Exception('1', 100);
+            } catch (\Exception $e) {
+                throw new \Exception('2', 100);
             }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=10',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'lang: en',
+                'versioncode: 11',
+                'clienttype: ios_jike_default'
+            ),
+        ));
+
+
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $convert = json_decode($response, true);
+
+        dd($convert);
     }
 
     public function searchMovie($key)
@@ -357,8 +384,8 @@ class HomeController extends Controller
                             $output .=     '<a href="' . $route . '" class="card__film"> 
                             <img class="image" src="' . asset($urlImage) . '" />
                             <p class="film__name">' . $movie['title'];
-                            if(isset($movie_check->year) && $movie_check->year != '') {
-                                $output  .= " (" .$movie_check->year.")";
+                            if (isset($movie_check->year) && $movie_check->year != '') {
+                                $output  .= " (" . $movie_check->year . ")";
                             }
                             $output .= '</p>
                             </a>';
@@ -504,14 +531,14 @@ class HomeController extends Controller
                         if ($movie_check == null) {
                             $movie_list[$movie['category'] . $movie['id']] = ['id' => $movie['id'], 'category' => $movie['category'], 'name' => $movie['title']];
                         } else {
-                            if(isset($movie_check->year) && $movie_check->year != '') {
+                            if (isset($movie_check->year) && $movie_check->year != '') {
                                 $year = $movie_check->year;
                             }
                         }
                         $output .= '<img class="image" src="' . asset($urlImage) . '" alt="image" />
 					            <p class="film__name">' . $movie['title'];
-                        if(isset($movie_check->year) && $movie_check->year != '') {
-                            $output  .= " (" .$movie_check->year.")";
+                        if (isset($movie_check->year) && $movie_check->year != '') {
+                            $output  .= " (" . $movie_check->year . ")";
                         }
                         $output .= '</p>
 					            </a>';
@@ -565,7 +592,8 @@ class HomeController extends Controller
         return response()->json($output);
     }
 
-    public function getTraffic() {
+    public function getTraffic()
+    {
         $movies = Movie::where('traffic', '>', 0)->get();
         $total_traffic = Movie::where('traffic', '>', 0)->sum('traffic');
 

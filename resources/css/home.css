@@ -31,7 +31,7 @@
 }
 
 .home__category:hover {
-    background-color: #09192a;
+    background-color: #09131d;
 }
 
 .lds-facebook {
@@ -93,10 +93,11 @@
 }
 
 .top_search__title {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 600;
     margin-bottom: 10px;
     text-transform: uppercase;
+    color: #8ba1fb;
 }
 
 .listfilm__top {
@@ -110,7 +111,7 @@
     justify-content: space-between;
     flex-direction: column;
     border-radius: 3px;
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .4), inset 0 1px 0 0 hsla(0, 0%, 100%, .1);
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .4), inset 1px 0 0 0 hsla(0, 0%, 100%, .1);
 }
 
 .swiper__slider {
@@ -135,8 +136,9 @@
 }
 
 .recommend__items__name {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
+    text-transform: uppercase;
 }
 
 .recommend__items__btn {
@@ -184,6 +186,10 @@
     transition: 0.2s;
 }
 
+.top_search__card:hover .top_search__card__name {
+    color: #8ba1fb;
+}
+
 .top_search__card__img {
     width: 50%;
     border-radius: 3px;
@@ -210,7 +216,7 @@
     }
 
     .swiper__slider img {
-        height: 320px;
+        height: 310px;
     }
 
     .top_search__title {
@@ -230,7 +236,7 @@
     }
 
     .recommend__items__name {
-        font-size: 20px;
+        font-size: 16px;
     }
 }
 
@@ -245,7 +251,7 @@
 
     .home__category {
         font-size: 10px;
-        padding: 11px 25px;
+        padding: 10px 25px;
     }
 
     .top_search__card__name {
@@ -291,7 +297,7 @@
     }
 
     .recommend__items__name {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .card__film {
@@ -328,6 +334,19 @@
         height: 230px;
     }
 
+    .homepage {
+        margin-top: 0;
+    }
+
+    .as_name {
+        padding: 6px 20px;
+    }
+
+    .advanced_search {
+        height: 40px;
+        margin-top: 20px;
+    }
+
     .listfilm {
         width: 100%;
     }
@@ -342,7 +361,7 @@
     }
 
     .recommend__items__name {
-        font-size: 20px;
+        font-size: 15px;
     }
 
     .card__film {
@@ -371,6 +390,10 @@
         height: 200px;
     }
 
+    .homepage {
+        margin-top: 0;
+    }
+
     .listfilm {
         width: 100%;
     }
@@ -385,7 +408,7 @@
     }
 
     .recommend__items__name {
-        font-size: 18px;
+        font-size: 14px;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;

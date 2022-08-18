@@ -13,7 +13,7 @@ header .logo {
 }
 
 header .search {
-	width: 70%;
+    width: 70%;
     display: flex;
     justify-content: flex-end;
 }
@@ -98,7 +98,7 @@ header .search {
     font-weight: 500;
     padding: 5px 10px;
     color: #313c46;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 .as_items_name {
@@ -106,25 +106,28 @@ header .search {
     padding: 5px 10px;
 }
 
-.as_item:hover, .as_item.active {
+.as_item:hover,
+.as_item.active {
     color: #ed5829;
     font-weight: 700;
     transform: scale(1.1);
 }
 
-@media only screen and (min-width: 1400px) {
-}
+@media only screen and (min-width: 1400px) {}
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
     header .logo {
         font-size: 55px;
     }
+
     .search {
         font-size: 13px;
     }
+
     .search__input {
         height: 37px;
     }
+
     .search__btn {
         padding: 5px 10px;
     }
@@ -134,12 +137,15 @@ header .search {
     header .logo {
         font-size: 45px;
     }
+
     .search {
         font-size: 13px;
     }
+
     .search__input {
         height: 35px;
     }
+
     .search__btn {
         padding: 4px 8px;
     }
@@ -149,16 +155,20 @@ header .search {
     header .box {
         padding: 20px 15px;
     }
+
     header .logo {
         font-size: 40px;
     }
+
     .search {
         font-size: 14px;
     }
+
     .search__input {
         height: 37px;
         width: 80%;
     }
+
     .search__btn {
         padding: 4px 8px;
     }
@@ -168,16 +178,20 @@ header .search {
     header .box {
         padding: 20px 15px;
     }
+
     header .logo {
         font-size: 35px;
     }
+
     .search {
         font-size: 13px;
     }
+
     .search__input {
         height: 37px;
         width: 80%;
     }
+
     .search__btn {
         padding: 5px 6px;
     }
@@ -187,35 +201,53 @@ header .search {
     header .box {
         padding: 10px 15px;
     }
+
     header .logo {
         font-size: 35px;
     }
+
     .search {
         font-size: 13px;
     }
+
     .search__input {
         height: 35px;
         width: 100%;
     }
+
     .search__btn {
         padding: 5px 8px;
         top: 3px;
         right: 3px;
     }
+
     header .search {
         width: 100%;
         margin-top: 10px;
     }
+
     .search form {
         width: 100%;
     }
+
     .as_container {
         padding: 10px;
     }
+
     .as_items_name {
         padding: 2px 8px;
     }
+
     .as_item {
         padding: 2px 8px;
+    }
+
+    .as_name {
+        padding: 6px 20px;
+    }
+
+    .advanced_search {
+        margin-top: 15px;
+        height: 40px;
     }
 }
