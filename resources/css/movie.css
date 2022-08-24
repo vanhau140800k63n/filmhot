@@ -398,6 +398,7 @@
 	.movie__name {
 		font-size: 22px;
 		margin-top: 15px;
+		margin-bottom: 0;
 	}
 	.movie__play {
 		font-size: 30px;

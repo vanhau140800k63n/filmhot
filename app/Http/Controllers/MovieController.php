@@ -216,7 +216,7 @@ class MovieController extends Controller
         $episode_id = 0;
         $url = route('detail_name', $name);
 
-        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2 + 35;
         $end_pos = strpos($movie_detail->sub, '+' . $episode_id . '+');
 
         $sub = '';
@@ -224,7 +224,7 @@ class MovieController extends Controller
             $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
         }
 
-        $start_pos_en = strpos($movie_detail->sub_en, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $start_pos_en = strpos($movie_detail->sub_en, '-' . $episode_id . '-') + strlen($episode_id) + 2 + 35;
         $end_pos_en = strpos($movie_detail->sub_en, '+' . $episode_id . '+');
 
         $sub_en = '';
@@ -261,7 +261,7 @@ class MovieController extends Controller
         // $name = $movie_detail->slug;
         $url = route('detail_name', $name);
 
-        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $start_pos = strpos($movie_detail->sub, '-' . $episode_id . '-') + strlen($episode_id) + 2 + 35;
         $end_pos = strpos($movie_detail->sub, '+' . $episode_id . '+');
 
         $sub = '';
@@ -269,7 +269,7 @@ class MovieController extends Controller
             $sub = substr($movie_detail->sub, $start_pos, $end_pos - $start_pos);
         }
 
-        $start_pos_en = strpos($movie_detail->sub_en, '-' . $episode_id . '-') + strlen($episode_id) + 2;
+        $start_pos_en = strpos($movie_detail->sub_en, '-' . $episode_id . '-') + strlen($episode_id) + 2 + 35;
         $end_pos_en = strpos($movie_detail->sub_en, '+' . $episode_id . '+');
 
         $sub_en = '';

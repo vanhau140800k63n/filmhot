@@ -12,7 +12,7 @@
 <meta property="og:url" content="{{$url}}">
 <meta property="og:site_name" content="{{$movie_detail->name}}">
 <meta property="og:image" content="{{$movie_detail->image}}">
-<link rel = "canonical" href = "{{ route('detail_name', $movie_detail->slug) }}/" />
+<link rel="canonical" href="{{ route('detail_name', $movie_detail->slug) }}/" />
 <title>{{$movie_detail->name}} - FullHD Vietsub + Thuyết Minh</title>
 <link href="{{ asset('css/video-js.css') }}" rel="stylesheet" />
 <link rel="stylesheet" href="{{asset('css/videojs-seek-buttons.css')}}" />
@@ -30,8 +30,8 @@
 				<input id="media" id_media="{{$movie_detail->id}}" category="{{$movie_detail->category}}" id_episode="{{$episode_id}}" class="hidden">
 				<video class="movie__screen video-js" id="video_media" preload="auto" data-setup="{}" controls autoplay>
 					<source src="movie" type="application/x-mpegURL">
-					<track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="{{$sub}}">
-					<track id="subtitles" kind="subtitles" label="Tiếng Anh" srclang="en" src="{{$sub_en}}">
+					<!-- <track id="subtitles" kind="subtitles" label="Tiếng Việt" srclang="vi" src="{{$sub}}">
+					<track id="subtitles" kind="subtitles" label="Tiếng Anh" srclang="en" src="{{$sub_en}}"> -->
 				</video>
 				<div class="movie__load">
 					<div id="loading_movie"></div>
@@ -48,7 +48,7 @@
 			<div class="movie__tag"></div>
 			<div class="movie__intro">{!! $movie_detail->description !!}</div>
 			<div class="recommend__items__title">
-				<div class="recommend__items__name" style="max-width: 100%; margin-top: 20px">
+				<div class="recommend__items__name" style="max-width: 100%">
 					<span>Phim ngẫu nhiên</span>
 				</div>
 			</div>
@@ -158,6 +158,48 @@
 
 		video = videojs('video_media');
 		getVideo = setInterval(restart, 1000);
+
+		fetch("{{$sub}}").then((r) => {
+			r.text().then((d) => {
+				let srtText1 = d
+				var srtRegex1 = /(.*\n)?(\d\d:\d\d:\d\d),(\d\d\d --> \d\d:\d\d:\d\d),(\d\d\d)/g;
+				var vttText1 = 'WEBVTT\n\n' + srtText1.replace(srtRegex1, '$1$2.$3.$4');
+				var vttBlob1 = new Blob([vttText1], {
+					type: 'text/vtt'
+				});
+				var blobURL1 = URL.createObjectURL(vttBlob1);
+
+				let captionOption = {
+					kind: 'captions',
+					srclang: 'vi',
+					label: 'Tiếng Việt',
+					src: blobURL1
+				};
+
+				video.addRemoteTextTrack(captionOption);
+			})
+		})
+
+		fetch("{{$sub_en}}").then((r) => {
+			r.text().then((d) => {
+				let srtText = d
+				var srtRegex = /(.*\n)?(\d\d:\d\d:\d\d),(\d\d\d --> \d\d:\d\d:\d\d),(\d\d\d)/g;
+				var vttText = 'WEBVTT\n\n' + srtText.replace(srtRegex, '$1$2.$3.$4');
+				var vttBlob = new Blob([vttText], {
+					type: 'text/vtt'
+				});
+				var blobURL = URL.createObjectURL(vttBlob);
+
+				let captionOption = {
+					kind: 'captions',
+					srclang: 'vi',
+					label: 'Tiếng Anh',
+					src: blobURL
+				};
+
+				video.addRemoteTextTrack(captionOption);
+			})
+		})
 
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
