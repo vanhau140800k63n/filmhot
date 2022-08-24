@@ -161,19 +161,19 @@
 
 		fetch("{{$sub}}").then((r) => {
 			r.text().then((d) => {
-				let srtText1 = d
-				var srtRegex1 = /(.*\n)?(\d\d:\d\d:\d\d),(\d\d\d --> \d\d:\d\d:\d\d),(\d\d\d)/g;
-				var vttText1 = 'WEBVTT\n\n' + srtText1.replace(srtRegex1, '$1$2.$3.$4');
-				var vttBlob1 = new Blob([vttText1], {
+				let srtText = d
+				var srtRegex = /(.*\n)?(\d\d:\d\d:\d\d),(\d\d\d --> \d\d:\d\d:\d\d),(\d\d\d)/g;
+				var vttText = 'WEBVTT\n\n' + srtText.replace(srtRegex, '$1$2.$3.$4');
+				var vttBlob = new Blob([vttText], {
 					type: 'text/vtt'
 				});
-				var blobURL1 = URL.createObjectURL(vttBlob1);
+				var blobURL = URL.createObjectURL(vttBlob);
 
 				let captionOption = {
 					kind: 'captions',
 					srclang: 'vi',
 					label: 'Tiếng Việt',
-					src: blobURL1
+					src: blobURL
 				};
 
 				video.addRemoteTextTrack(captionOption);
@@ -192,7 +192,7 @@
 
 				let captionOption = {
 					kind: 'captions',
-					srclang: 'vi',
+					srclang: 'en',
 					label: 'Tiếng Anh',
 					src: blobURL
 				};
