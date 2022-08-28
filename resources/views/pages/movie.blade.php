@@ -153,6 +153,7 @@
 		video = videojs('video_media');
 		getVideo = setInterval(restart, 1000);
 
+		@if($sub != '')
 		fetch("{{$sub}}").then((r) => {
 			r.text().then((d) => {
 				let srtText = d
@@ -171,7 +172,9 @@
 				video.addRemoteTextTrack(captionOption);
 			})
 		})
+		@endif
 
+		@if($sub_en != '')
 		fetch("{{$sub_en}}").then((r) => {
 			r.text().then((d) => {
 				let srtText = d
@@ -190,6 +193,7 @@
 				video.addRemoteTextTrack(captionOption);
 			})
 		})
+		@endif
 
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
@@ -283,7 +287,9 @@
 				reload(episode_id, definition);
 			} else {
 				$('.movie__load').hide();
-				video.textTracks()[0].mode = 'showing';
+				if (video.textTracks()['tracks_'].length > 1) {
+					video.textTracks()[0].mode = 'showing';
+				}
 				clearInterval(getVideo);
 			}
 		}

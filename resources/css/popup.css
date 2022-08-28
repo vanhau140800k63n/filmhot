@@ -58,64 +58,76 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.popup_url:hover {
+   background-color: #24bff3;
+}
+
 .popup_list {
-    padding: 10px 30px;
+    padding: 10px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
 .popup_list p {
     padding: 10px 20px;
     background-color: #05abe0;
     border-radius: 5px;
     text-align: center;
+    font-weight: 500;
+    cursor: pointer;
 }
 
-@media only screen and (min-width: 1400px) {
-	
+.popup_list p:hover {
+    background-color: #24bff3;
 }
+
+@media only screen and (min-width: 1400px) {}
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-	.popup_list {
-        padding: 10px 15px;
-    }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-	.overlay-content {
+    .overlay-content {
         left: 45%;
+    }
+    .popup_img {
+        width: 300px;
     }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-	
-}
+@media only screen and (min-width: 768px) and (max-width: 991px) {}
 
-@media only screen and (min-width: 577px) and (max-width: 767px) {
-	
-}
+@media only screen and (min-width: 577px) and (max-width: 767px) {}
 
 @media only screen and (max-width: 576px) {
-	.overlay-content {
+    .overlay-content {
         width: 95%;
         left: 23%;
-        height: 380px;
+        height: 330px;
         top: 20%;
-    }   
+    }
+
     .popup_img {
         width: 60%;
     }
+
     .popup_list {
-        padding: 5px 10px;
+        padding: 5px 0;
     }
+
     .popup_list p {
         font-size: 12px;
         padding: 5px 10px;
     }
+
     .popup_title {
         font-size: 16px;
     }
+
     .popup_url {
         padding: 5px;
+        font-size: 13px;
     }
 }
