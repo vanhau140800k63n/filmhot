@@ -25,6 +25,21 @@
 </head>
 
 <body>
+    <div class="overlay-bg">
+    </div>
+    <div class="overlay-content">
+        <div class="popup_title"> Trở thành thành viên của topfilm</div>
+        <div class="popup_container">
+            <img class="popup_img" src="{{ asset('image/popup/decor.png') }}">
+            <div class="popup_list">
+                <p> Duyệt phim </p>
+                <p> Viết content </p>
+                <p> Viết tin tức </p>
+                <p> Viết phụ đề </p>
+            </div>
+        </div>
+        <a class="popup_url" href="{{ route('register') }}">Đăng ký ngay</a>
+    </div>
     @include('partial.header')
     @yield('content')
     @include('partial.footer')
@@ -175,6 +190,9 @@
                     });
                 }
             }
+        });
+        $('.overlay-bg').click(function() {
+            $('.overlay-bg, .overlay-content').hide();
         });
     </script>
 </body>

@@ -203,15 +203,11 @@ class MovieController extends Controller
 
     public function getMovieByName($name)
     {
-        // $pos = strpos($name, '.html');
-        // $name_check = substr($name, 0, $pos);
         $movie_detail = Movie::where('slug', $name)->first();
 
         if ($movie_detail == null) {
             throw new PageException();
         }
-
-        // $name = $movie_detail->slug;
 
         $episode_id = 0;
         $url = route('detail_name', $name);
@@ -313,7 +309,6 @@ class MovieController extends Controller
         while ($movie_detail == null) {
             $movie_detail = $movieService->getData($url);
         }
-        // $media = [];
         if (!empty($movie_detail['episodeVo'])) {
             $definitionList = $movie_detail['episodeVo'][$req->episode_id]['definitionList'];
             if ($req->definition == null) {

@@ -24,6 +24,8 @@
 	</div>
 </div>
 <script>
+	$('.overlay-bg').show();
+	$('.overlay-content').css('display', 'flex');
 	$.ajax({
 		url: "{{ route('load_first_home_ajax') }}",
 		type: "GET",
@@ -34,7 +36,7 @@
 		let swiper__slider_img_width = $('.swiper__slider img').width();
 		let swiper__slider_img_height = $('.swiper__slider img').height();
 
-		let position = (swiper__slider_img_width - swiper__slider_img_height/2.5) / 2;
+		let position = (swiper__slider_img_width - swiper__slider_img_height / 2.5) / 2;
 
 		$('.swiper__slider img').css('object-position', '0px -' + position + 'px');
 

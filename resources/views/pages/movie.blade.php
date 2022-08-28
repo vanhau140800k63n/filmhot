@@ -112,9 +112,6 @@
 					</div>
 				</div>
 				<?php $type = substr($key->categorie, 0, 5) ?>
-				<div class="home__product__search">
-					<a href="">Sản phẩm tương tự</a>
-				</div>
 			</div>
 			@endforeach
 		</div>
@@ -125,13 +122,11 @@
 <script src="{{ asset('js/videojs-seek-buttons.min.js') }}"></script>
 <script>
 	$(document).ready(function() {
-		// alert( {{ str_contains('adf','b') }});
 		@if(isset($user) && !is_null($user))
 		check_time_view = 0;
 		check_view = setInterval(function() {
 			check_time_view++;
 			if (check_time_view == 60) {
-				// alert(1);
 				let _token = $('input[name="_token"]').val();
 				$.ajax({
 					url: "{{ route('user.update_view') }}",
@@ -143,7 +138,6 @@
 						_token: _token
 					}
 				}).done(function(data) {
-					// alert(data);
 					clearInterval(check_view);
 					return true;
 				}).fail(function(e) {
@@ -168,14 +162,12 @@
 					type: 'text/vtt'
 				});
 				var blobURL = URL.createObjectURL(vttBlob);
-
 				let captionOption = {
 					kind: 'captions',
 					srclang: 'vi',
 					label: 'Tiếng Việt',
 					src: blobURL
 				};
-
 				video.addRemoteTextTrack(captionOption);
 			})
 		})
@@ -189,14 +181,12 @@
 					type: 'text/vtt'
 				});
 				var blobURL = URL.createObjectURL(vttBlob);
-
 				let captionOption = {
 					kind: 'captions',
 					srclang: 'en',
 					label: 'Tiếng Anh',
 					src: blobURL
 				};
-
 				video.addRemoteTextTrack(captionOption);
 			})
 		})
