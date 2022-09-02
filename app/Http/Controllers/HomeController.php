@@ -137,7 +137,6 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        return 1;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -159,7 +158,6 @@ class HomeController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
 
         dd($response);
     }
