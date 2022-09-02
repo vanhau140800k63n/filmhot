@@ -137,21 +137,25 @@ class HomeController extends Controller
 
     public function getTest()
     {
+
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0',
+            CURLOPT_URL => 'https://da870ad2-437e-418a-9adc-b91e0ccc781c.mock.pstmn.io/login_api',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "login_id": 2,
+    "password": "abc"
+}',
             CURLOPT_HTTPHEADER => array(
-                'lang: en',
-                'versioncode: 11',
-                'clienttype: ios_jike_default'
+                'Content-Type: application/json'
             ),
         ));
 
