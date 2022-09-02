@@ -137,6 +137,7 @@ class HomeController extends Controller
 
     public function getTest()
     {
+        return 1;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
