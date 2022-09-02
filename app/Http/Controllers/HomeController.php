@@ -137,30 +137,24 @@ class HomeController extends Controller
 
     public function getTest()
     {
-
-
         $curl = curl_init();
-
+ 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://da870ad2-437e-418a-9adc-b91e0ccc781c.mock.pstmn.io/login_api',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "login_id": 2,
-    "password": "abc"
-}',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
+          CURLOPT_URL => 'https://app.orbit.love/api/v1/ut%20laborum%20exercitation/activities?activity_tags=%3Cstring%3E&affiliation=%3Cstring%3E&member_tags=%3Cstring%3E&orbit_level=%3Cstring%3E&activity_type=%3Cstring%3E&weight=%3Cstring%3E&identity=%3Cstring%3E&location=%3Cstring%3E&company=%3Cstring%3E&start_date=%3Cstring%3E&end_date=%3Cstring%3E&page=%3Cstring%3E&direction=%3Cstring%3E&items=%3Cstring%3E&sort=%3Cstring%3E&type=%3Cstring%3E',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: <API Key>'
+          ),
         ));
-
+         
         $response = curl_exec($curl);
-
+         
         curl_close($curl);
 
         dd($response);
