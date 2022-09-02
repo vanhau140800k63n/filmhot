@@ -153,6 +153,7 @@ class HomeController extends Controller
           ),
         ));
          
+        
         $response = curl_exec($curl);
          
         curl_close($curl);
