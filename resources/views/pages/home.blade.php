@@ -24,8 +24,8 @@
 	</div>
 </div>
 <script>
-	$('.overlay-bg').show();
-	$('.overlay-content').css('display', 'flex');
+	// $('.overlay-bg').show();
+	// $('.overlay-content').css('display', 'flex');
 	$.ajax({
 		url: "{{ route('load_first_home_ajax') }}",
 		type: "GET",
