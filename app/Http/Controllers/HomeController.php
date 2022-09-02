@@ -137,7 +137,30 @@ class HomeController extends Controller
 
     public function getTest()
     {
-        var_dump(file_get_contents('https://subtitles.netpop.app/subtitles/20220818/1660809192762_vi_1660809071296_She-Hulk-Attorney-at-Law-S01E01-1080p-WEB-h264-KOGi_track3_-eng--srt'));
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=0',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'lang: en',
+                'versioncode: 11',
+                'clienttype: ios_jike_default'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        dd($response);
     }
 
     public function searchMovie($key)
